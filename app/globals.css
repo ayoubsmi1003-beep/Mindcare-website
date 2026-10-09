@@ -1,0 +1,132 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Inter:wght@400;500;600;700&display=swap');
+
+@layer base {
+  :root {
+    --sage-50:  #F2F8F6;
+    --sage-100: #E3F0EC;
+    --sage-200: #C7E1DA;
+    --sage-300: #A5CEC4;
+    --sage-400: #7FB5AB;
+    --sage-500: #649C92;
+    --sage-600: #4E7F77;
+    --sage-700: #3D655F;
+    --sage-800: #2E4B47;
+    --navy-900: #10201F;
+    --navy-700: #1D3634;
+    --navy-500: #4A605E;
+    --navy-400: #718684;
+    --ivory:    #FCFAF6;
+    --cream:    #F7F2E9;
+    --sand:     #EFE7DA;
+    --accent:   #C8A46B;
+
+    --font-fraunces: 'Fraunces', serif;
+    --font-inter: 'Inter', sans-serif;
+    --font-cairo: 'Cairo', sans-serif;
+  }
+
+  body {
+    background-color: var(--ivory);
+    color: var(--navy-700);
+    font-family: var(--font-inter);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.4s ease, color 0.4s ease;
+  }
+
+  html[lang="ar"] body {
+    font-family: var(--font-cairo), system-ui, sans-serif;
+  }
+
+  /* Dark mode overrides for root variables */
+  html.dark {
+    --sage-50:  #12201E;
+    --sage-100: #182B28;
+    --sage-200: #223B37;
+    --sage-300: #2E4E49;
+    --sage-400: #4B7871;
+    --sage-500: #649C92;
+    --sage-600: #7FB5AB;
+    --sage-700: #A5CEC4;
+    --sage-800: #C7E1DA;
+    --navy-900: #F2F8F6;
+    --navy-700: #E3F0EC;
+    --navy-500: #B3CFC8;
+    --navy-400: #88ABA4;
+    --ivory:    #0A1312;
+    --cream:    #111E1C;
+    --sand:     #1C2E2B;
+    --accent:   #E2C08A;
+  }
+
+  html.dark body {
+    background-color: #0A1312;
+    color: #E3F0EC;
+  }
+}
+
+/* RTL Helpers */
+[dir="rtl"] .font-serif-display {
+  font-family: var(--font-cairo), serif;
+  font-weight: 700;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--ivory);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--sage-200);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--sage-400);
+}
+
+/* Focus styles */
+*:focus-visible {
+  outline: 2px solid var(--sage-400);
+  outline-offset: 2px;
+}
+
+/* Keyframes for ambient subtle animations */
+@keyframes orb-float {
+  0%, 100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  50% {
+    transform: translate(30px, -25px) scale(1.08);
+  }
+}
+
+@keyframes pulse-halo {
+  0% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(1.15);
+    opacity: 0;
+  }
+}
+
+.animate-orb {
+  animation: orb-float 24s ease-in-out infinite;
+}
+
+.animate-halo {
+  animation: pulse-halo 3.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* Touch targets */
+@media (max-width: 640px) {
+  button, a {
+    min-height: 44px;
+  }
+}

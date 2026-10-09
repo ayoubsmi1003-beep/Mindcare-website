@@ -1,0 +1,172 @@
+"use client";
+
+import React from "react";
+import { WordReveal } from "../primitives/WordReveal";
+import { Reveal } from "../primitives/Reveal";
+import { Marquee } from "../primitives/Marquee";
+import { Ear, Clock, HeartHandshake, Users, Eye } from "lucide-react";
+import { useAppContext } from "@/lib/app-context";
+
+const ICON_MAP: Record<string, React.ReactNode> = {
+  0: <Ear className="w-6 h-6 text-[#3D655F] dark:text-[#7FB5AB]" />,
+  1: <Clock className="w-6 h-6 text-[#3D655F] dark:text-[#7FB5AB]" />,
+  2: <HeartHandshake className="w-6 h-6 text-[#3D655F] dark:text-[#7FB5AB]" />,
+  3: <Users className="w-6 h-6 text-[#3D655F] dark:text-[#7FB5AB]" />,
+  4: <Eye className="w-6 h-6 text-[#3D655F] dark:text-[#7FB5AB]" />,
+};
+
+export function WhyUs() {
+  const { language, t } = useAppContext();
+
+  const philosophyTag = language === "ar" ? "فلسفتنا" : language === "en" ? "Our Philosophy" : "Notre Philosophie";
+
+  const headline = language === "ar"
+    ? "«هنا.. لا نعالج مجرد عرض، بل ننصت ونعتني بك كإنسان.»"
+    : language === "en"
+    ? "“Here, we don't just treat a symptom. We care for you as a whole person.”"
+    : "« Ici, on ne soigne pas un trouble. On prend soin de vous. »";
+
+  const highlightWord = language === "ar" ? "كإنسان.»" : language === "en" ? "person.”" : "vous. »";
+
+  const introText = language === "ar"
+    ? "بعيداً عن الاستشارات السريعة والمستعجلة، بنينا عيادتنا لتكون مساحة يُحترم فيها صمتك، وتُسمع فيها كلمتك، وتُصان فيها كرامتك قبل كل شيء."
+    : language === "en"
+    ? "Far from rushed appointments, we built a serene environment where every word matters, every silence is respected, and you are valued."
+    : "Loin des rendez-vous expédiés et des étiquettes posées à la hâte, nous avons construit un espace où chaque parole compte, chaque silence est respecté, et chaque personne est vue avant son diagnostic.";
+
+  const marqueeRows = language === "ar"
+    ? [
+        [
+          "هل سينصت إليّ أحدٌ حقاً دون أن يقاطعني؟",
+          "هل من حقي ألا أكون بخير اليوم؟",
+          "هل سيصدرون أحكاماً إذا أخبرتهم بكل شيء؟",
+        ],
+        [
+          "هل أنا مجرد حالة أو تشخيص إضافي بالنسبة لهم؟",
+          "من سيكون بجانبي إذا احتجت إلى الدعم بين الجلسات؟",
+          "هل لديهم وقت كافٍ لاستيعاب قصتي؟",
+        ],
+        [
+          "هل يجب عليّ كتمان لحظات ضعفي وصمتي؟",
+          "هل ستُحترم معاناتي ويُؤخذ ألمي بجدية؟",
+          "هل يمكنني أن أكون نفسي بصدق دون قناع؟",
+        ],
+      ]
+    : language === "en"
+    ? [
+        [
+          "Will someone truly listen to me without interruption?",
+          "Do I have the right to not be okay today?",
+          "Will they judge me if I share everything?",
+        ],
+        [
+          "Am I just another diagnosis to them?",
+          "Who will be there for me between appointments?",
+          "Do they really have time for my story?",
+        ],
+        [
+          "Will my suffering be taken seriously?",
+          "Can I be completely myself without a mask?",
+          "Is there a safe space where I'm not reduced to my disorder?",
+        ],
+      ]
+    : [
+        [
+          "Est-ce que quelqu'un va enfin m'écouter sans me couper la parole ?",
+          "Ai-je le droit de ne pas aller bien ?",
+          "Vont-ils me juger si je leur dis tout ?",
+        ],
+        [
+          "Suis-je juste un diagnostic de plus pour eux ?",
+          "Qui sera là si je craque entre deux séances ?",
+          "Ont-ils vraiment le temps pour mon histoire ?",
+        ],
+        [
+          "Ma souffrance sera-t-elle prise au sérieux ?",
+          "Puis-je être moi-même, sans masque ?",
+          "Y a-t-il un endroit où je ne serai pas réduit(e) à mon trouble ?",
+        ],
+      ];
+
+  const pillarsList = t.whyUs.pillars;
+
+  return (
+    <section className="w-full py-28 sm:py-36 bg-gradient-to-b from-[#F2F8F6] via-[#F7F2E9] to-[#EBF4F1] dark:from-[#111E1C] dark:via-[#0E1A18] dark:to-[#12201E] border-y border-[#EFE7DA] dark:border-[#243B37] overflow-hidden relative transition-colors">
+      <div className="max-w-6xl mx-auto px-4 sm:px-8 space-y-16 relative z-10">
+        {/* Header */}
+        <div className="max-w-3xl space-y-5">
+          <Reveal>
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-[#E3F0EC] via-[#D5EADF] to-[#E3F0EC] dark:from-[#172927] dark:to-[#1F3834] border border-[#A5CEC4]/60 dark:border-[#2A423D] text-[11px] font-semibold tracking-[0.22em] text-[#3D655F] dark:text-[#A5CEC4] uppercase shadow-xs">
+              {philosophyTag}
+            </span>
+          </Reveal>
+
+          <WordReveal
+            as="h2"
+            text={headline}
+            highlightWord={highlightWord}
+            className="font-serif-display text-3xl sm:text-4xl lg:text-5xl text-[#10201F] dark:text-white font-normal leading-tight"
+          />
+
+          <Reveal delay={0.15}>
+            <p className="font-sans-body text-base sm:text-lg text-[#3D5250] dark:text-[#B3CFC8] leading-relaxed font-normal">
+              {introText}
+            </p>
+          </Reveal>
+        </div>
+
+        {/* 3 Marquee Rows */}
+        <div className="space-y-3 py-4">
+          <Marquee items={marqueeRows[0]} direction={language === "ar" ? "left" : "right"} speed={42} />
+          <Marquee items={marqueeRows[1]} direction={language === "ar" ? "right" : "left"} speed={55} />
+          <Marquee items={marqueeRows[2]} direction={language === "ar" ? "left" : "right"} speed={48} />
+        </div>
+
+        {/* 5 Pillars Grid */}
+        <div className="pt-8 space-y-8">
+          {/* Row 1: 3 Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {pillarsList.slice(0, 3).map((pillar, idx) => (
+              <Reveal key={idx} delay={idx * 0.1}>
+                <div className="group h-full p-8 rounded-3xl bg-gradient-to-br from-[#FFFFFF] via-[#FCFAF6] to-[#F7F2E9] dark:from-[#12201E] dark:via-[#162825] dark:to-[#12201E] border border-[#A5CEC4]/40 dark:border-[#243B37] hover:border-[#7FB5AB] shadow-sm hover:shadow-[0_16px_40px_rgba(46,75,71,0.12)] transition-all duration-300 transform hover:-translate-y-1.5">
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#E3F0EC] via-[#D5EADF] to-[#C7E1DA] dark:from-[#1A2D2A] dark:to-[#223B37] border border-[#A5CEC4]/60 dark:border-[#2A423D] group-hover:scale-110 flex items-center justify-center transition-all duration-300 shadow-inner mb-6">
+                    {ICON_MAP[idx]}
+                  </div>
+
+                  <h3 className="font-serif-display text-xl text-[#10201F] dark:text-white font-medium mb-3 group-hover:text-[#3D655F] dark:group-hover:text-[#7FB5AB] transition-colors">
+                    {pillar.title}
+                  </h3>
+
+                  <p className="font-sans-body text-sm text-[#4A605E] dark:text-[#B3CFC8] leading-relaxed">
+                    {pillar.description}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+
+          {/* Row 2: 2 Cards Centered */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            {pillarsList.slice(3, 5).map((pillar, idx) => (
+              <Reveal key={idx + 3} delay={0.3 + idx * 0.1}>
+                <div className="group h-full p-8 rounded-3xl bg-gradient-to-br from-[#FFFFFF] via-[#FCFAF6] to-[#F7F2E9] dark:from-[#12201E] dark:via-[#162825] dark:to-[#12201E] border border-[#A5CEC4]/40 dark:border-[#243B37] hover:border-[#7FB5AB] shadow-sm hover:shadow-[0_16px_40px_rgba(46,75,71,0.12)] transition-all duration-300 transform hover:-translate-y-1.5">
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#E3F0EC] via-[#D5EADF] to-[#C7E1DA] dark:from-[#1A2D2A] dark:to-[#223B37] border border-[#A5CEC4]/60 dark:border-[#2A423D] group-hover:scale-110 flex items-center justify-center transition-all duration-300 shadow-inner mb-6">
+                    {ICON_MAP[idx + 3]}
+                  </div>
+
+                  <h3 className="font-serif-display text-xl text-[#10201F] dark:text-white font-medium mb-3 group-hover:text-[#3D655F] dark:group-hover:text-[#7FB5AB] transition-colors">
+                    {pillar.title}
+                  </h3>
+
+                  <p className="font-sans-body text-sm text-[#4A605E] dark:text-[#B3CFC8] leading-relaxed">
+                    {pillar.description}
+                  </p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

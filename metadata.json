@@ -1,0 +1,6 @@
+{
+  "name": "MindCare Center — Dr. Larbi Nassiba",
+  "description": "Centre de psychiatrie et psychothérapie à Mahelma, Alger. Dr. Larbi Nassiba, médecin spécialiste en psychiatrie.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
