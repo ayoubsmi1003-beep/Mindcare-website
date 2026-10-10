@@ -24,7 +24,7 @@ export function Journey() {
           number: "01",
           icon: <Calendar className="w-5 h-5 text-[#3D655F] dark:text-[#7FB5AB]" />,
           title: "حجز موعدك الأول",
-          text: "عبر الإنترنت في أقل من دقيقة، أو عبر الهاتف إن فضّلت التحدث مباشرة إلى فريقنا.",
+          text: "أرسل طلبًا عبر الإنترنت. تتصل بك العيادة لمراجعته وتأكيد الموعد. يمكنك أيضًا الاتصال مباشرة.",
         },
         {
           number: "02",
@@ -51,7 +51,7 @@ export function Journey() {
           number: "01",
           icon: <Calendar className="w-5 h-5 text-[#3D655F] dark:text-[#7FB5AB]" />,
           title: "Schedule Your Appointment",
-          text: "Online in under a minute, or by phone if you prefer speaking directly with us.",
+          text: "Send an online request. The clinic calls to review and confirm your appointment. You can also call directly.",
         },
         {
           number: "02",
@@ -77,7 +77,7 @@ export function Journey() {
           number: "01",
           icon: <Calendar className="w-5 h-5 text-[#3D655F] dark:text-[#7FB5AB]" />,
           title: "Vous prenez rendez-vous",
-          text: "En ligne en moins d'une minute, ou par téléphone si vous préférez entendre une voix.",
+          text: "Envoyez une demande en ligne. Le cabinet vous appelle pour la vérifier et confirmer le rendez-vous. Vous pouvez aussi téléphoner directement.",
         },
         {
           number: "02",

@@ -1,208 +1,71 @@
 "use client";
-
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
-import { BookingFormState, BookingConfirmation, ForWhom } from "@/lib/types";
-import { StepMotif } from "./StepMotif";
-import { StepFor } from "./StepFor";
-import { StepFirstTime } from "./StepFirstTime";
-import { StepSlot } from "./StepSlot";
-import { StepContact } from "./StepContact";
-import { BookingSuccess } from "./BookingSuccess";
-import { X, ArrowLeft } from "lucide-react";
-import { useAppContext } from "@/lib/app-context";
-
-interface BookingFlowProps {
-  isOpen: boolean;
-  onClose: () => void;
-  initialMotif?: string;
-}
-
-export function BookingFlow({ isOpen, onClose, initialMotif = "" }: BookingFlowProps) {
-  const { language, t } = useAppContext();
-  const [step, setStep] = useState<number>(1);
-  const [formState, setFormState] = useState<BookingFormState>({
-    motif: initialMotif,
-    forWhom: "moi",
-    firstTime: true,
-    selectedDate: "",
-    selectedTime: "",
-    patientName: "",
-    patientPhone: "",
-    notes: "",
-    consent: false,
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [confirmation, setConfirmation] = useState<BookingConfirmation | null>(null);
-
-  if (!isOpen) return null;
-
-  const updateForm = (fields: Partial<BookingFormState>) => {
-    setFormState((prev) => ({ ...prev, ...fields }));
-  };
-
-  const handleNext = () => {
-    setStep((prev) => Math.min(prev + 1, 5));
-  };
-
-  const handleBack = () => {
-    setStep((prev) => Math.max(prev - 1, 1));
-  };
-
-  const handleConfirmBooking = async () => {
-    setIsSubmitting(true);
-    try {
-      const refId = `MC-${Math.floor(10000 + Math.random() * 90000)}`;
-      const conf: BookingConfirmation = {
-        referenceId: refId,
-        patientName: formState.patientName,
-        patientPhone: formState.patientPhone,
-        motif: formState.motif || (language === "ar" ? "استشارة عامة" : "Consultation générale"),
-        date: formState.selectedDate || (language === "ar" ? "غداً" : "Demain"),
-        time: formState.selectedTime || "10:00",
-      };
-
-      await new Promise((res) => setTimeout(res, 800));
-      setConfirmation(conf);
-      setStep(6);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const stepLabels = language === "ar"
-    ? ["السبب", "المستفيد", "نوع الاستشارة", "الموعد", "المعلومات"]
-    : language === "en"
-    ? ["Reason", "Beneficiary", "Type", "Slot", "Details"]
-    : ["Motif", "Bénéficiaire", "Type", "Créneau", "Coordonnées"];
-
-  return (
-    <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 sm:p-6 bg-[#10201F]/70 backdrop-blur-md animate-fade-in">
-      <div className="relative w-full max-w-xl bg-[#FCFAF6] dark:bg-[#12201E] rounded-3xl border border-[#EFE7DA] dark:border-[#243B37] shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
-        {/* Header Bar */}
-        <div className="p-5 px-6 border-b border-[#EFE7DA] dark:border-[#243B37] flex items-center justify-between bg-[#F7F2E9] dark:bg-[#172927]">
-          <div className="flex items-center gap-3">
-            {step > 1 && step < 6 && (
-              <button
-                onClick={handleBack}
-                className="p-1.5 rounded-full hover:bg-[#E3F0EC] dark:hover:bg-[#223B37] text-[#4E7F77] dark:text-[#7FB5AB] transition-colors"
-                aria-label="Étape précédente"
-              >
-                <ArrowLeft className="w-5 h-5" />
-              </button>
-            )}
-            <div>
-              <span className="text-xs uppercase tracking-[0.2em] font-medium text-[#4E7F77] dark:text-[#7FB5AB]">
-                MindCare Center
-              </span>
-              <h2 className="font-serif-display text-lg font-medium text-[#10201F] dark:text-white">
-                {step === 6
-                  ? (language === "ar" ? "تأكيد الحجز" : "Confirmation")
-                  : t.hero.bookBtn}
-              </h2>
-            </div>
-          </div>
-
-          <button
-            onClick={onClose}
-            className="p-2 rounded-full hover:bg-[#E3F0EC] dark:hover:bg-[#223B37] text-[#4A605E] dark:text-[#B3CFC8] transition-colors"
-            aria-label="Fermer"
-          >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
-
-        {/* 5-Step Progress Indicator Bar */}
-        {step < 6 && (
-          <div className="px-6 pt-4 pb-2 bg-[#FCFAF6] dark:bg-[#12201E]">
-            <div className="flex items-center justify-between mb-1.5 text-[11px] font-medium text-[#718684] dark:text-[#B3CFC8]">
-              <span>
-                {language === "ar" ? `الخطوة ${step} من 5` : language === "en" ? `Step ${step} of 5` : `Étape ${step} sur 5`}
-              </span>
-              <span>{stepLabels[step - 1]}</span>
-            </div>
-            <div className="flex items-center gap-1.5 h-1.5">
-              {[1, 2, 3, 4, 5].map((s) => (
-                <div
-                  key={s}
-                  className={`flex-1 h-full rounded-full transition-all duration-300 ${
-                    s <= step ? "bg-[#4E7F77] dark:bg-[#7FB5AB]" : "bg-[#EFE7DA] dark:bg-[#243B37]"
-                  }`}
-                />
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Dynamic Body Content */}
-        <div className="p-6 sm:p-8 overflow-y-auto flex-1 scrollbar-none">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={step}
-              initial={{ opacity: 0, x: 15 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -15 }}
-              transition={{ duration: 0.25, ease: "easeOut" }}
-            >
-              {step === 1 && (
-                <StepMotif
-                  selectedMotif={formState.motif}
-                  onSelect={(motif) => {
-                    updateForm({ motif });
-                    handleNext();
-                  }}
-                />
-              )}
-
-              {step === 2 && (
-                <StepFor
-                  selectedFor={formState.forWhom}
-                  onSelect={(forWhom: ForWhom) => {
-                    updateForm({ forWhom });
-                    handleNext();
-                  }}
-                />
-              )}
-
-              {step === 3 && (
-                <StepFirstTime
-                  firstTime={formState.firstTime}
-                  onSelect={(firstTime) => {
-                    updateForm({ firstTime });
-                    handleNext();
-                  }}
-                />
-              )}
-
-              {step === 4 && (
-                <StepSlot
-                  selectedDate={formState.selectedDate}
-                  selectedTime={formState.selectedTime}
-                  onSelectSlot={(date, time) => {
-                    updateForm({ selectedDate: date, selectedTime: time });
-                    handleNext();
-                  }}
-                />
-              )}
-
-              {step === 5 && (
-                <StepContact
-                  formState={formState}
-                  onChange={updateForm}
-                  onSubmit={handleConfirmBooking}
-                  isSubmitting={isSubmitting}
-                />
-              )}
-
-              {step === 6 && confirmation && (
-                <BookingSuccess confirmation={confirmation} onClose={onClose} />
-              )}
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </div>
-    </div>
-  );
+import {useCallback,useEffect,useRef,useState,type FormEvent} from 'react';
+import {useAppContext} from '@/lib/app-context';
+import {publicBookingApi,newReceipt,clinicDate,slotLabel} from '@/lib/booking-client';
+import {bookingText} from '@/lib/i18n/booking';
+import {availabilitySchema,statusSchema,publicBookingInput,type Availability,type BookingStatus,type PublicBookingInput} from '@/lib/booking-protocol';
+const key='mindcare-booking-receipt-v1';
+const button='rounded-xl border px-4 py-3 hover:bg-emerald-100 dark:hover:bg-emerald-950 disabled:opacity-50';
+const field='w-full rounded-xl border p-3 bg-transparent';
+export function BookingFlow({isOpen,onClose}:{isOpen:boolean;onClose:()=>void;initialMotif?:string}){
+ const {language}=useAppContext(),t=bookingText[language];
+ const [date,setDate]=useState(clinicDate),[slots,setSlots]=useState<Availability|null>(null),[selected,setSelected]=useState(''),[status,setStatus]=useState<BookingStatus|null>(null);
+ const [receipt,setReceipt]=useState<ReturnType<typeof newReceipt>|null>(null),[busy,setBusy]=useState(false),[error,setError]=useState('');
+ const [payload,setPayload]=useState<PublicBookingInput|null>(null),[canRestart,setCanRestart]=useState(false);const dialog=useRef<HTMLDivElement>(null),notFoundSince=useRef(0),generation=useRef(0),checking=useRef(false);
+ const check=useCallback(async(token:string)=>{
+  if(checking.current)return;checking.current=true;
+  const observedGeneration=generation.current;
+  try{const data=statusSchema.parse(await publicBookingApi({op:'status',token}));if(observedGeneration!==generation.current)return;setStatus(data);setError('');setCanRestart(false);notFoundSince.current=0;}
+  catch(error){
+   if(observedGeneration!==generation.current)return;
+   if(error instanceof Error&&error.message==='NOT_FOUND'){
+    if(!notFoundSince.current)notFoundSince.current=Date.now();
+    // Wait beyond the server's maximum ingress deadline, then verify absence again.
+    if(Date.now()-notFoundSince.current>=60000){setCanRestart(true);setError(t.notFound);return;}
+   }
+   setError(t.unknown);
+  }finally{checking.current=false;}
+ },[t]);
+ useEffect(()=>{
+  if(!isOpen)return;
+  const previous=document.activeElement as HTMLElement|null;dialog.current?.focus();let stopped=false;
+  void Promise.resolve().then(()=>{if(stopped)return;try{const saved=sessionStorage.getItem(key);if(saved){const r=JSON.parse(saved);if(/^[a-f0-9]{64}$/.test(r.token)&&typeof r.submissionId==='string'){setReceipt(r);void check(r.token);}}}catch{/* storage unavailable; capability remains in memory */}});
+  const keyboard=(e:KeyboardEvent)=>{if(e.key==='Escape')onClose();if(e.key==='Tab'){const items=dialog.current?.querySelectorAll<HTMLElement>('button:not(:disabled),input:not(:disabled),a[href]');if(items?.length){const first=items[0]!,last=items[items.length-1]!;if(e.shiftKey&&(document.activeElement===first||document.activeElement===dialog.current)){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}}};
+  document.addEventListener('keydown',keyboard);return()=>{stopped=true;document.removeEventListener('keydown',keyboard);previous?.focus();};
+ },[isOpen,onClose,check]);
+ useEffect(()=>{if(!isOpen||!receipt)return;const timer=setInterval(()=>void check(receipt.token),15000);return()=>clearInterval(timer);},[isOpen,receipt,check]);
+ async function availability(){setBusy(true);setError('');setSelected('');try{setSlots(availabilitySchema.parse(await publicBookingApi({op:'availability',date})));}catch{setSlots(null);setError(t.unavailable);}finally{setBusy(false);}}
+ async function send(input:PublicBookingInput){generation.current++;setCanRestart(false);notFoundSince.current=0;setBusy(true);setError('');try{setStatus(statusSchema.parse(await publicBookingApi(input)));}catch{setError(t.unknown);if(input.op==='submit')void check(input.token);}finally{setBusy(false);}}
+ async function submit(e:FormEvent<HTMLFormElement>){e.preventDefault();if(!slots||new Date(slots.expiresAt).getTime()<=Date.now()){setError(t.unavailable);setSlots(null);return;}
+  const values=new FormData(e.currentTarget),r=newReceipt();
+  const input:PublicBookingInput={op:'submit',...r,slotToken:selected,firstName:String(values.get('firstName')),lastName:String(values.get('lastName')),phone:String(values.get('phone')),consent:true,locale:language};
+  const parsed=publicBookingInput.safeParse(input);if(!parsed.success){setError(t.first+' / '+t.last+' / '+t.phone);return;}
+  setPayload(parsed.data);setReceipt(r);try{sessionStorage.setItem(key,JSON.stringify(r));}catch{}await send(parsed.data);
+ }
+ if(!isOpen)return null;
+ return <div className="fixed inset-0 z-[110] bg-black/60 flex items-center justify-center p-4">
+  <div ref={dialog} role="dialog" aria-modal="true" aria-label={t.title} tabIndex={-1} dir={language==='ar'?'rtl':'ltr'} className="w-full max-w-xl max-h-[90vh] overflow-y-auto rounded-3xl bg-[#FCFAF6] dark:bg-[#12201E] text-[#10201F] dark:text-white p-6 space-y-5">
+   <div className="flex items-center justify-between gap-4"><h2 className="text-2xl">{t.title}</h2><button className={button} onClick={onClose}>{t.close}</button></div>
+   <p>{t.privacy}</p>
+   {error&&<p role="alert">{error}</p>}
+   {receipt?<section aria-live="polite" className="space-y-4">
+    {status?<><p data-testid="booking-state" className="text-lg font-semibold">{t[status.state]}</p><p>{t.reference}: {status.reference}</p>{status.startsAt&&<p>{slotLabel(status.startsAt,language)}</p>}{status.proposedStartsAt&&<p>{t.proposal}: {slotLabel(status.proposedStartsAt,language)}</p>}{status.cancellationRequested&&<p>{t.cancelRequested}</p>}</>:<p>{t.unknown}</p>}
+    <button className={button} disabled={busy} onClick={()=>void check(receipt.token)}>{t.check}</button>
+    {!status&&payload&&<button className={button} disabled={busy} onClick={()=>void send(payload)}>{t.retry}</button>}
+    {status&&['PENDING','CONFIRMED'].includes(status.state)&&<button className={button} disabled={busy||status.cancellationRequested} onClick={()=>void send({op:'cancel',token:receipt.token})}>{t.cancel}</button>}
+    {(canRestart||status&&['REJECTED','CANCELLED','EXPIRED'].includes(status.state))&&<button className={button} disabled={busy} onClick={()=>{generation.current++;try{sessionStorage.removeItem(key);}catch{}setReceipt(null);setStatus(null);setPayload(null);setSlots(null);setSelected('');setCanRestart(false);notFoundSince.current=0;setError('');}}>{t.new}</button>}
+   </section>:<>
+    <label className="block">{t.date}<input className={field} type="date" value={date} min={clinicDate()} onChange={e=>{setDate(e.target.value);setSlots(null);setSelected('');}}/></label>
+    <button className={button} disabled={busy||!date} onClick={()=>void availability()}>{busy?t.busy:t.load}</button>
+    {slots&&<div className="space-y-4"><p>{slots.slots.length?t.date:t.empty}</p><div className="flex flex-wrap gap-2">{slots.slots.map(s=><button key={s.token} className={button} aria-pressed={selected===s.token} onClick={()=>setSelected(s.token)}>{slotLabel(s.startsAt,language)}</button>)}</div></div>}
+    {selected&&<form onSubmit={submit} className="space-y-4">
+     <label className="block">{t.first}<input className={field} name="firstName" autoComplete="given-name" maxLength={80} required/></label>
+     <label className="block">{t.last}<input className={field} name="lastName" autoComplete="family-name" maxLength={80} required/></label>
+     <label className="block">{t.phone}<input className={field} name="phone" type="tel" autoComplete="tel" maxLength={24} required/></label>
+     <label className="flex gap-3"><input name="consent" type="checkbox" required/>{t.consent}</label>
+     <button className={button} type="submit" disabled={busy}>{busy?t.busy:t.submit}</button>
+    </form>}
+   </>}
+  </div>
+ </div>;
 }

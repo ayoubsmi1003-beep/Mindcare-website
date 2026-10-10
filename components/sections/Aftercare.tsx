@@ -25,7 +25,7 @@ export function Aftercare() {
         {
           number: "03",
           title: "مساعدة ذكية فورية",
-          text: "مساعدتنا الذكية متوفرة على مدار الساعة لتقديم توجيهات أولية وتذكيرك بتمارين الاسترخاء والتنفس.",
+          text: "يساعدك مساعد الحجز على معرفة المواعيد المتاحة عندما تكون العيادة متصلة. لا يستقبل معلومات طبية.",
         },
         {
           number: "04",
@@ -48,7 +48,7 @@ export function Aftercare() {
         {
           number: "03",
           title: "Intelligent AI Guidance",
-          text: "Our AI assistant is accessible 24/7 for preliminary guidance and calming mindfulness exercises.",
+          text: "Our booking assistant shows current availability while the clinic is connected. It does not collect medical information.",
         },
         {
           number: "04",
@@ -70,7 +70,7 @@ export function Aftercare() {
         {
           number: "03",
           title: "Assistance IA attentive",
-          text: "Accès 24/7 à notre assistante virtuelle pour vous orienter et vous rappeler les exercices d'apaisement.",
+          text: "Notre assistante de réservation affiche les disponibilités lorsque le cabinet est connecté. Elle ne recueille pas d’informations médicales.",
         },
         {
           number: "04",
