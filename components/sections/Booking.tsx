@@ -24,10 +24,10 @@ export function BookingSection({ onOpenBooking, onOpenChat }: BookingSectionProp
     : "« Un espace de parole et d'écoute vous attend à Mahelma. »";
 
   const subtitleText = language === "ar"
-    ? "احجز موعدك بسهولة في أقل من دقيقة، أو تحدث مع مساعدتنا للوصول إلى الموعد الأنسب لك."
+    ? "أرسل طلب موعد أو اطّلع على المواعيد المتاحة مع مساعد الحجز. تؤكد العيادة الموعد بعد الاتصال بك."
     : language === "en"
-    ? "Book your appointment online in under a minute or talk to our AI assistant."
-    : "Prenez rendez-vous en ligne en moins d'une minute ou échangez avec notre assistante pour trouver le bon moment.";
+    ? "Send an appointment request or check current availability with our booking assistant. The clinic confirms after calling you."
+    : "Envoyez une demande ou consultez les disponibilités avec notre assistante de réservation. Le cabinet confirme après vous avoir appelé.";
 
   return (
     <section className="w-full py-28 sm:py-36 px-4 sm:px-8 bg-gradient-to-b from-[#F2F8F6] via-[#E3F0EC] to-[#F7F2E9] dark:from-[#111E1C] dark:via-[#0E1A18] dark:to-[#12201E] border-t border-[#A5CEC4]/50 dark:border-[#243B37] overflow-hidden relative transition-colors">

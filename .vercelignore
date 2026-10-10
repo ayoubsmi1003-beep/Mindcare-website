@@ -1,0 +1,13 @@
+.env*
+node_modules
+.next
+.git
+*.log
+*.pem
+*.key
+tls-evidence.json
+tsconfig.tsbuildinfo
+BOOKING_DEPLOYMENT.md
+scripts
+artifacts
+coverage
