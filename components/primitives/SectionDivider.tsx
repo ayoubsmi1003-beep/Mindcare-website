@@ -46,11 +46,11 @@ export function SectionDivider({
     );
   }
 
-  // Default: rule with sage diamond
+  // Default: clean architectural hairline with subtle dot
   return (
     <div className={`relative my-10 sm:my-14 w-full flex items-center justify-center ${className}`} aria-hidden="true">
-      <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-[#C7E1DA] to-transparent" />
-      <div className="absolute w-3.5 h-3.5 rotate-45 bg-gradient-to-br from-[#7FB5AB] to-[#4E7F77] border-2 border-white shadow-md rounded-[2px]" />
+      <div className="w-full h-px bg-gradient-to-r from-transparent via-[#C7E1DA]/70 dark:via-[#24423E] to-transparent" />
+      <div className="absolute w-2 h-2 rounded-full bg-[#4E7F77] dark:bg-[#7FB5AB] ring-4 ring-[#FCFAF6] dark:ring-[#07100F]" />
     </div>
   );
 }

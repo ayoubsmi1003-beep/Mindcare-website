@@ -51,45 +51,41 @@ export function Testimonials() {
   return (
     <section id="temoignages" className="w-full py-28 sm:py-36 px-4 sm:px-8 bg-gradient-to-b from-[#F7F2E9] via-[#FCFAF6] to-[#EBF4F1] dark:from-[#111E1C] dark:via-[#0E1A18] dark:to-[#12201E] overflow-hidden transition-colors">
       <div className="max-w-6xl mx-auto space-y-16">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div className="max-w-2xl space-y-4">
-            <Reveal>
-              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-[#E3F0EC] via-[#D5EADF] to-[#E3F0EC] dark:from-[#172927] dark:to-[#1F3834] border border-[#A5CEC4]/60 dark:border-[#2A423D] text-[11px] font-semibold tracking-[0.22em] text-[#3D655F] dark:text-[#A5CEC4] uppercase shadow-xs">
-                {tagText}
-              </span>
-            </Reveal>
+        {/* Header - Centered */}
+        <div className="text-center space-y-4 max-w-3xl mx-auto">
+          <Reveal>
+            <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#10201F]/[0.04] dark:bg-white/[0.04] border border-[#10201F]/[0.08] dark:border-white/[0.08] text-[11px] font-medium tracking-[0.2em] text-[#3D655F] dark:text-[#A5CEC4] uppercase">
+              {tagText}
+            </span>
+          </Reveal>
 
-            <WordReveal
-              as="h2"
-              text={headlineText}
-              highlightWord={language === "ar" ? "القلب.»" : language === "en" ? "cared" : "patients"}
-              className="font-serif-display text-3xl sm:text-4xl lg:text-5xl text-[#10201F] dark:text-white font-normal leading-tight"
-            />
+          <WordReveal
+            as="h2"
+            text={headlineText}
+            highlightWord={language === "ar" ? "القلب.»" : language === "en" ? "cared" : "patients"}
+            className="font-serif-display text-3xl sm:text-4xl lg:text-5xl text-[#10201F] dark:text-white font-normal leading-tight text-center"
+          />
 
-            <Reveal delay={0.15}>
-              <p className="font-serif-display italic text-lg sm:text-xl text-[#3D655F] dark:text-[#B3CFC8] font-medium">
-                {subtitleText}
-              </p>
-            </Reveal>
-          </div>
+          <Reveal delay={0.15}>
+            <p className="font-serif-display italic text-lg sm:text-xl text-[#3D655F] dark:text-[#B3CFC8] font-medium text-center">
+              {subtitleText}
+            </p>
+          </Reveal>
 
-          {/* Verified Google Badge */}
-          <Reveal delay={0.2} className="shrink-0">
-            <div className="inline-flex items-center gap-3.5 p-4 px-6 rounded-2xl bg-gradient-to-r from-[#FFFFFF] to-[#FCFAF6] dark:from-[#12201E] dark:to-[#162825] border border-[#A5CEC4]/60 dark:border-[#2A423D] shadow-md">
-              <div className="flex items-center gap-1 text-[#C8A46B]">
+          {/* Verified Google Badge Centered */}
+          <Reveal delay={0.2} className="pt-2 flex justify-center">
+            <div className="inline-flex items-center gap-3 p-2 px-5 rounded-full bg-[#FCFAF6] dark:bg-[#0E1A18] border border-[#EFE7DA] dark:border-[#1E3530] shadow-xs">
+              <div className="flex items-center gap-0.5 text-[#C8A46B]">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 fill-current" />
+                  <Star key={i} className="w-3.5 h-3.5 fill-current" />
                 ))}
               </div>
-              <div className="flex flex-col">
-                <span className="text-sm font-bold text-[#10201F] dark:text-white">
-                  4,9 {language === "ar" ? "من 5" : "sur 5"}
-                </span>
-                <span className="text-[11px] font-medium text-[#4A605E] dark:text-[#B3CFC8]">
-                  {googleText}
-                </span>
-              </div>
+              <span className="text-xs font-semibold text-[#10201F] dark:text-white">
+                4.9 / 5
+              </span>
+              <span className="text-[11px] text-[#4A605E] dark:text-[#9FB8B2]">
+                • {googleText}
+              </span>
             </div>
           </Reveal>
         </div>

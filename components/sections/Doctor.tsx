@@ -31,7 +31,7 @@ export function Doctor() {
       ];
 
   const tagText = language === "ar" ? "طبيبتكم المعالجة" : language === "en" ? "Your Physician" : "Votre Médecin";
-  const doctorTitle = language === "ar" ? "الدكتورة العربي نصيبة" : "Dr. Larbi Nassiba";
+  const doctorTitle = language === "ar" ? "الدكتورة العربي نسيبة" : "Dr. Larbi Nassiba";
 
   return (
     <section id="doctor" className="w-full py-28 sm:py-36 px-4 sm:px-8 bg-gradient-to-b from-[#EBF4F1] via-[#FCFAF6] to-[#F7F2E9] dark:from-[#12201E] dark:via-[#0E1A18] dark:to-[#111E1C] overflow-hidden relative transition-colors">
@@ -58,7 +58,7 @@ export function Doctor() {
           {/* Right Column: Bio */}
           <div className="lg:col-span-7 space-y-6">
             <Reveal>
-              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-[#E3F0EC] via-[#D5EADF] to-[#E3F0EC] dark:from-[#172927] dark:to-[#1F3834] border border-[#A5CEC4]/60 dark:border-[#2A423D] text-[11px] font-semibold tracking-[0.22em] text-[#3D655F] dark:text-[#A5CEC4] uppercase shadow-xs">
+              <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#10201F]/[0.04] dark:bg-white/[0.04] border border-[#10201F]/[0.08] dark:border-white/[0.08] text-[11px] font-medium tracking-[0.2em] text-[#3D655F] dark:text-[#A5CEC4] uppercase">
                 {tagText}
               </span>
             </Reveal>
@@ -66,7 +66,7 @@ export function Doctor() {
             <WordReveal
               as="h2"
               text={doctorTitle}
-              highlightWord={language === "ar" ? "نصيبة" : "Nassiba"}
+              highlightWord={language === "ar" ? "نسيبة" : "Nassiba"}
               className="font-serif-display text-3xl sm:text-4xl lg:text-5xl text-[#10201F] dark:text-white font-normal"
             />
 
@@ -118,12 +118,12 @@ export function Doctor() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative">
             {timelineNodes.map((node, idx) => (
               <Reveal key={idx} delay={idx * 0.12}>
-                <div className="relative p-6 rounded-2xl bg-gradient-to-br from-[#FFFFFF] via-[#FCFAF6] to-[#F7F2E9] dark:from-[#12201E] dark:via-[#162825] dark:to-[#12201E] border border-[#EFE7DA] dark:border-[#243B37] hover:border-[#7FB5AB] shadow-xs hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 space-y-3">
+                <div className="relative p-6 rounded-2xl bg-[#FCFAF6] dark:bg-[#0E1A18] border border-[#EFE7DA] dark:border-[#1E3530] hover:border-[#7FB5AB] shadow-xs hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 space-y-3">
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-bold text-[#C8A46B] uppercase tracking-wider">
                       {node.year}
                     </span>
-                    <div className="p-1.5 rounded-lg bg-[#E3F0EC]/80 dark:bg-[#1F3834]">
+                    <div className="p-1.5 rounded-lg bg-[#F2F8F6] dark:bg-[#142523] text-[#4E7F77] dark:text-[#7FB5AB]">
                       {node.icon}
                     </div>
                   </div>

@@ -121,7 +121,13 @@ export function Footer() {
               </div>
               <div className="flex items-start gap-2.5 pt-1 text-xs text-[#718684]">
                 <Clock className="w-4 h-4 text-[#7FB5AB] shrink-0 mt-0.5" />
-                <span>{language === "ar" ? "السبت – الخميس: 8:00 ص – 5:00 م" : clinic.hours.label}</span>
+                <span>
+                  {language === "ar"
+                    ? "السبت – الخميس (ما عدا الإثنين والجمعة): 8:30 ص – 4:00 م"
+                    : language === "en"
+                    ? "Sat–Thu (except Mon & Fri): 8:30 AM – 4:00 PM (last slot 3:30 PM)"
+                    : clinic.hours.label}
+                </span>
               </div>
             </div>
           </div>

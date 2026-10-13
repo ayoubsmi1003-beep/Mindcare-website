@@ -48,6 +48,8 @@ export function WordReveal({
     }
   };
 
+  const isCentered = className.includes("text-center");
+
   return (
     <Component className={className}>
       <motion.span
@@ -55,7 +57,7 @@ export function WordReveal({
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-10% 0px" }}
-        className="inline-flex flex-wrap gap-x-[0.28em] gap-y-1"
+        className={`inline-flex flex-wrap ${isCentered ? "justify-center" : ""} gap-x-[0.28em] gap-y-1`}
       >
         {words.map((word, i) => {
           const cleanWord = word.replace(/[.,/#!$%^&*;:{}=\-_`~()«»]/g, "").toLowerCase();

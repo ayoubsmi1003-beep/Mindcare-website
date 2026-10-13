@@ -23,26 +23,26 @@ export function Journey() {
         {
           number: "01",
           icon: <Calendar className="w-5 h-5 text-[#3D655F] dark:text-[#7FB5AB]" />,
-          title: "حجز موعدك الأول",
-          text: "عبر الإنترنت في أقل من دقيقة، أو عبر الهاتف إن فضّلت التحدث مباشرة إلى فريقنا.",
+          title: "حجز موعدك بكل يسر",
+          text: "في أقل من دقيقة عبر الموقع، أو عبر مكالمة هاتفية إن فضلت التحدث مباشرة إلى العيادة.",
         },
         {
           number: "02",
           icon: <Heart className="w-5 h-5 text-[#3D655F] dark:text-[#7FB5AB]" />,
-          title: "استقبال دافئ وهادئ",
-          text: "عيادة هادئة، ترحيب إنساني، وجميع الوقت اللازم للحديث دون أي استعجال.",
+          title: "استقبال دافئ يحفظ كرامتك",
+          text: "مساحة هادئة تبتعد عن صخب العيادات الباردة، مع متسع كامل من الوقت للحديث براحة ودون أي استعجال.",
         },
         {
           number: "03",
           icon: <MessageSquare className="w-5 h-5 text-[#3D655F] dark:text-[#7FB5AB]" />,
-          title: "أنصات طبي عميق",
-          text: "جلسة أولى لفهم قصتك وظروفك، وليس لإلقاء أحكام وتسميات سريعة.",
+          title: "إنصاتٌ خالص يفهم ما وراء الكلمات",
+          text: "جلسة كاملة مع الدكتورة العربي نسيبة لفهم قصتك وظروفك، بعيداً عن الأحكام أو التصنيفات الجاهزة.",
         },
         {
           number: "04",
           icon: <Compass className="w-5 h-5 text-[#3D655F] dark:text-[#7FB5AB]" />,
           title: "مرافقة وعناية مستمرة",
-          text: "مسار علاجي مصمم خصيصاً لك، مع دعم طبي ومتابعة متواصلة بين الجلسات.",
+          text: "مسار علاجي مصمم بعناية ليناسب وتيرتك وراحتك، مع سند طبي ومتابعة مستمرة بين الجلسات.",
         },
       ]
     : language === "en"
@@ -112,10 +112,10 @@ export function Journey() {
   return (
     <section ref={containerRef} className="w-full py-28 sm:py-36 px-4 sm:px-8 bg-gradient-to-b from-[#FCFAF6] via-[#EBF4F1] to-[#F7F2E9] dark:from-[#0A1312] dark:via-[#0E1A18] dark:to-[#111E1C] overflow-hidden relative transition-colors">
       <div className="max-w-6xl mx-auto space-y-16 relative z-10">
-        {/* Header */}
-        <div className="max-w-3xl space-y-4">
+        {/* Header - Centered */}
+        <div className="text-center space-y-4 max-w-3xl mx-auto">
           <Reveal>
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-[#E3F0EC] via-[#D5EADF] to-[#E3F0EC] dark:from-[#172927] dark:to-[#1F3834] border border-[#A5CEC4]/60 dark:border-[#2A423D] text-[11px] font-semibold tracking-[0.22em] text-[#3D655F] dark:text-[#A5CEC4] uppercase shadow-xs">
+            <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#10201F]/[0.04] dark:bg-white/[0.04] border border-[#10201F]/[0.08] dark:border-white/[0.08] text-[11px] font-medium tracking-[0.2em] text-[#3D655F] dark:text-[#A5CEC4] uppercase">
               {tagText}
             </span>
           </Reveal>
@@ -124,30 +124,30 @@ export function Journey() {
             as="h2"
             text={headlineText}
             highlightWord={highlightWord}
-            className="font-serif-display text-3xl sm:text-4xl lg:text-5xl text-[#10201F] dark:text-white font-normal leading-tight"
+            className="font-serif-display text-3xl sm:text-4xl lg:text-5xl text-[#10201F] dark:text-white font-normal leading-tight text-center"
           />
         </div>
 
         {/* 4 Steps Grid with Self-Drawing Connecting Line */}
         <div className="relative pt-6">
           {/* Connecting Line for Desktop */}
-          <div className="hidden lg:block absolute top-28 left-12 right-12 h-[3px] bg-[#EFE7DA] dark:bg-[#243B37] pointer-events-none z-0">
+          <div className="hidden lg:block absolute top-28 left-12 right-12 h-[2px] bg-[#EFE7DA] dark:bg-[#1E3530] pointer-events-none z-0">
             <motion.div
               style={{ scaleX: pathLength }}
               className="h-full bg-gradient-to-r from-[#7FB5AB] via-[#4E7F77] to-[#C8A46B] origin-left shadow-xs"
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative z-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
             {steps.map((step, idx) => (
               <Reveal key={idx} delay={idx * 0.12}>
-                <div className="relative p-8 rounded-3xl bg-gradient-to-br from-[#FFFFFF] via-[#FCFAF6] to-[#F7F2E9] dark:from-[#12201E] dark:via-[#162825] dark:to-[#12201E] border border-[#A5CEC4]/40 dark:border-[#243B37] hover:border-[#7FB5AB] shadow-sm hover:shadow-[0_16px_40px_rgba(46,75,71,0.12)] transition-all duration-300 transform hover:-translate-y-1.5 group">
+                <div className="relative p-7 rounded-2xl bg-[#FCFAF6] dark:bg-[#0E1A18] border border-[#EFE7DA] dark:border-[#1E3530] hover:border-[#7FB5AB] shadow-xs hover:shadow-md transition-all duration-300 group">
                   {/* Huge Numeral in Background */}
-                  <span className="absolute top-4 right-6 font-serif-display text-6xl font-light text-[#A5CEC4]/30 dark:text-[#2A423D] select-none group-hover:text-[#7FB5AB]/50 transition-colors">
+                  <span className="absolute top-4 right-6 font-serif-display text-5xl font-light text-[#A5CEC4]/25 dark:text-[#2A423D]/50 select-none group-hover:text-[#7FB5AB]/50 transition-colors">
                     {step.number}
                   </span>
 
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#E3F0EC] via-[#D5EADF] to-[#C7E1DA] dark:from-[#1C2D2A] dark:to-[#223B37] border border-[#A5CEC4]/60 dark:border-[#2A423D] group-hover:scale-110 flex items-center justify-center transition-all duration-300 shadow-inner mb-6 relative z-10">
+                  <div className="w-11 h-11 rounded-xl bg-[#F2F8F6] dark:bg-[#142523] border border-[#10201F]/5 dark:border-white/5 flex items-center justify-center mb-5 text-[#3D655F] dark:text-[#7FB5AB] group-hover:bg-[#E3F0EC] dark:group-hover:bg-[#1C3330] transition-colors relative z-10">
                     {step.icon}
                   </div>
 

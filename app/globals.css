@@ -1,6 +1,6 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=El+Messiri:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400..700;1,9..144,400..700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
 @layer base {
   :root {
@@ -23,67 +23,73 @@
     --accent:   #C8A46B;
 
     --font-fraunces: 'Fraunces', serif;
-    --font-inter: 'Inter', sans-serif;
-    --font-cairo: 'Cairo', sans-serif;
+    --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+    --font-el-messiri: 'El Messiri', system-ui, sans-serif;
   }
 
   body {
     background-color: var(--ivory);
     color: var(--navy-700);
-    font-family: var(--font-inter);
+    font-family: var(--font-sans);
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     transition: background-color 0.4s ease, color 0.4s ease;
   }
 
-  html[lang="ar"] body {
-    font-family: var(--font-cairo), system-ui, sans-serif;
+  /* Arabic typography with Google Font El Messiri */
+  html[lang="ar"] body,
+  [dir="rtl"] body {
+    font-family: var(--font-el-messiri), system-ui, sans-serif;
   }
 
-  /* Dark mode overrides for root variables */
+  [dir="rtl"] .font-serif-display,
+  html[lang="ar"] .font-serif-display,
+  [dir="rtl"] h1,
+  [dir="rtl"] h2,
+  [dir="rtl"] h3 {
+    font-family: var(--font-el-messiri), serif;
+    font-weight: 600;
+    letter-spacing: normal;
+  }
+
+  /* Deep, luxurious Dark Mode palette */
   html.dark {
-    --sage-50:  #12201E;
-    --sage-100: #182B28;
-    --sage-200: #223B37;
-    --sage-300: #2E4E49;
-    --sage-400: #4B7871;
-    --sage-500: #649C92;
+    --sage-50:  #0C1615;
+    --sage-100: #12211F;
+    --sage-200: #1A302D;
+    --sage-300: #24423E;
+    --sage-400: #3D6660;
+    --sage-500: #588C83;
     --sage-600: #7FB5AB;
     --sage-700: #A5CEC4;
     --sage-800: #C7E1DA;
-    --navy-900: #F2F8F6;
-    --navy-700: #E3F0EC;
-    --navy-500: #B3CFC8;
-    --navy-400: #88ABA4;
-    --ivory:    #0A1312;
-    --cream:    #111E1C;
-    --sand:     #1C2E2B;
+    --navy-900: #F5FAF8;
+    --navy-700: #E6F2EF;
+    --navy-500: #A8C4BE;
+    --navy-400: #7E9E98;
+    --ivory:    #07100F;
+    --cream:    #0D1817;
+    --sand:     #162624;
     --accent:   #E2C08A;
   }
 
   html.dark body {
-    background-color: #0A1312;
-    color: #E3F0EC;
+    background-color: #07100F;
+    color: #E6F2EF;
   }
-}
-
-/* RTL Helpers */
-[dir="rtl"] .font-serif-display {
-  font-family: var(--font-cairo), serif;
-  font-weight: 700;
 }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 7px;
 }
 ::-webkit-scrollbar-track {
   background: var(--ivory);
 }
 ::-webkit-scrollbar-thumb {
   background: var(--sage-200);
-  border-radius: 4px;
+  border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--sage-400);
@@ -95,7 +101,7 @@
   outline-offset: 2px;
 }
 
-/* Keyframes for ambient subtle animations */
+/* Keyframes for subtle ambient animations */
 @keyframes orb-float {
   0%, 100% {
     transform: translate(0px, 0px) scale(1);
@@ -122,6 +128,14 @@
 
 .animate-halo {
   animation: pulse-halo 3.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+/* Subtle architectural divider line */
+.section-hairline {
+  border-bottom: 1px solid rgba(16, 32, 31, 0.06);
+}
+.dark .section-hairline {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 /* Touch targets */

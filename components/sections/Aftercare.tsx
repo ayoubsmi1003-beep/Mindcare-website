@@ -14,23 +14,23 @@ export function Aftercare() {
     ? [
         {
           number: "01",
-          title: "دعم دائم متواصل",
-          text: "الرعاية والمتابعة لا تنتهي بمجرد خروجك من باب العيادة. نحن متواجدون للإجابة عن تساؤلاتك ومرافقتك.",
+          title: "سندٌ دائم لا ينقطع",
+          text: "لأن أصعب اللحظات قد تأتيك وأنت في بيتك بين الموعد والآخر.. نحن متواجدون للإجابة على تساؤلاتك ومساندتك.",
         },
         {
           number: "02",
-          title: "تتبع منتظم للتقدم",
-          text: "ملاحظة وتوثيق التحسن التدريجي بين الجلسات لتعديل الخطة العلاجية بما يناسب راحتك واستقرارك.",
+          title: "متابعة التطور برفق",
+          text: "ملاحظة التحسن التدريجي وتعديل الخطة العلاجية بما يلائم وتيرة حياتك وراحتك، دون أي ضغط أو تسرع.",
         },
         {
           number: "03",
-          title: "مساعدة ذكية فورية",
-          text: "مساعدتنا الذكية متوفرة على مدار الساعة لتقديم توجيهات أولية وتذكيرك بتمارين الاسترخاء والتنفس.",
+          title: "مساعدة ذكية في أي وقت",
+          text: "مساعدتنا الافتراضية متاحة على مدار الساعة لمساندتك بتمارين التنفس والاسترخاء والإجابة عن الأسئلة الأولية بكل سرية.",
         },
         {
           number: "04",
-          title: "استقلالية واستقرار طويل الأمد",
-          text: "تمكينك من أدوات علاجية واضحة ومجربة تساعدك على استعادة التوازن والثقة بنفسك بشكل مستدام.",
+          title: "استعادة ثقتك واستقلالك",
+          text: "تزويدك بمهارات نفسية مثبتة لتكون قادراً على مواجهة تقلبات الحياة والاعتماد على نفسك بثقة وأمان مستدامين.",
         },
       ]
     : language === "en"
@@ -80,13 +80,13 @@ export function Aftercare() {
       ];
 
   const privacyNote = language === "ar"
-    ? "جميع البيانات والملاحظات الطبية محمية ومحاطة بالسرية التامة"
+    ? "محادثاتك وسجلاتك الطبية تخضع لأعلى معايير السرية والأمانة المهنية"
     : language === "en"
     ? "All medical records and communications are strictly confidential"
     : "Toutes vos données et échanges restent strictement confidentiels";
 
   const headlineText = language === "ar"
-    ? "«العناية بالصحة النفسية لا تنتهي عند مغادرة باب العيادة.»"
+    ? "«رعايتنا لك لا تنتهي عند إغلاق باب العيادة.»"
     : language === "en"
     ? "“Care does not stop at the door of the clinic.”"
     : "« Le soin ne s'arrête pas à la porte du cabinet. »";
@@ -116,13 +116,13 @@ export function Aftercare() {
       <div className="pointer-events-none absolute w-[500px] h-[500px] rounded-full bg-[radial-gradient(circle,rgba(200,164,107,0.12)_0%,transparent_70%)] bottom-1/4 right-1/4 filter blur-[100px]" aria-hidden="true" />
 
       <div className="max-w-6xl mx-auto space-y-16 relative z-10">
-        {/* Section Header */}
-        <div className="max-w-3xl space-y-4">
-          <span className="text-[11px] font-medium tracking-[0.22em] text-[#7FB5AB] uppercase">
+        {/* Section Header - Centered */}
+        <div className="text-center space-y-4 max-w-3xl mx-auto">
+          <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.06] border border-white/10 text-[11px] font-medium tracking-[0.2em] text-[#7FB5AB] uppercase">
             MindCare Aftercare
           </span>
 
-          <h2 className="font-serif-display text-3xl sm:text-4xl lg:text-5xl text-white font-normal leading-tight">
+          <h2 className="font-serif-display text-3xl sm:text-4xl lg:text-5xl text-white font-normal leading-tight text-center">
             {headlineText}
           </h2>
         </div>

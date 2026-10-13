@@ -23,7 +23,7 @@ interface ChatDrawerProps {
 
 function getWelcomeMessageByLang(lang: string) {
   if (lang === "ar") {
-    return "مرحباً بكم. أنا المساعد الافتراضي لعيادة MindCare Center (الدكتورة العربي نصيبة). كيف يمكنني مساعدتكم اليوم؟";
+    return "مرحباً بكم بكل دفء. أنا المساعد الافتراضي لعيادة MindCare Center (الدكتورة العربي نسيبة). كيف يمكنني مساندتكم أو الإجابة على تساؤلاتكم اليوم؟";
   }
   if (lang === "en") {
     return "Hello and welcome. I am the virtual assistant for MindCare Center (Dr. Larbi Nassiba). How may I assist you today?";

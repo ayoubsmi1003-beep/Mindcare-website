@@ -32,7 +32,7 @@ function MainApp() {
   };
 
   return (
-    <div className="min-h-[100dvh] w-full bg-[#FCFAF6] dark:bg-[#0A1312] text-[#10201F] dark:text-[#F2F8F6] font-sans-body relative selection:bg-[#E3F0EC] selection:text-[#10201F] transition-colors duration-300">
+    <div className="min-h-[100dvh] w-full bg-[#FCFAF6] dark:bg-[#07100F] text-[#10201F] dark:text-[#F2F8F6] font-sans-body relative selection:bg-[#E3F0EC] selection:text-[#10201F] transition-colors duration-300">
       {/* SVG Micro-Noise Grain Overlay */}
       <GrainOverlay opacity={0.035} />
 
@@ -51,23 +51,43 @@ function MainApp() {
 
         <Reassurance />
 
+        <div className="w-full h-px bg-gradient-to-r from-transparent via-[#10201F]/[0.08] dark:via-white/[0.08] to-transparent" aria-hidden="true" />
+
         <Familiar />
+
+        <div className="w-full h-px bg-gradient-to-r from-transparent via-[#10201F]/[0.08] dark:via-white/[0.08] to-transparent" aria-hidden="true" />
 
         <WhyUs />
 
+        <div className="w-full h-px bg-gradient-to-r from-transparent via-[#10201F]/[0.08] dark:via-white/[0.08] to-transparent" aria-hidden="true" />
+
         <Doctor />
+
+        <div className="w-full h-px bg-gradient-to-r from-transparent via-[#10201F]/[0.08] dark:via-white/[0.08] to-transparent" aria-hidden="true" />
 
         <Services />
 
+        <div className="w-full h-px bg-gradient-to-r from-transparent via-[#10201F]/[0.08] dark:via-white/[0.08] to-transparent" aria-hidden="true" />
+
         <Journey />
+
+        <div className="w-full h-px bg-gradient-to-r from-transparent via-[#10201F]/[0.08] dark:via-white/[0.08] to-transparent" aria-hidden="true" />
 
         <Aftercare />
 
+        <div className="w-full h-px bg-gradient-to-r from-transparent via-[#10201F]/[0.08] dark:via-white/[0.08] to-transparent" aria-hidden="true" />
+
         <Testimonials />
+
+        <div className="w-full h-px bg-gradient-to-r from-transparent via-[#10201F]/[0.08] dark:via-white/[0.08] to-transparent" aria-hidden="true" />
 
         <Faq />
 
+        <div className="w-full h-px bg-gradient-to-r from-transparent via-[#10201F]/[0.08] dark:via-white/[0.08] to-transparent" aria-hidden="true" />
+
         <Location />
+
+        <div className="w-full h-px bg-gradient-to-r from-transparent via-[#10201F]/[0.08] dark:via-white/[0.08] to-transparent" aria-hidden="true" />
 
         <BookingSection
           onOpenBooking={() => handleOpenBooking()}

@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { motion, useScroll, useSpring } from "motion/react";
 import { LogoMark } from "./LogoMark";
-import { Calendar, Heart, Phone, Sparkles, Sun, Moon, Globe } from "lucide-react";
+import { Calendar, Heart, Phone, Sparkles, Sun, Moon, Globe, Stethoscope } from "lucide-react";
 import { clinic } from "@/content/clinic";
 import { Magnetic } from "../primitives/Magnetic";
 import { useAppContext } from "@/lib/app-context";
@@ -234,37 +234,64 @@ export function Nav({ onOpenBooking, onOpenChat }: NavProps) {
         </div>
       </header>
 
-      {/* Mobile Bottom Anchored Nav Pill */}
-      <nav aria-label="Navigation mobile" className="fixed bottom-4 left-4 right-4 z-[90] md:hidden pointer-events-none">
-        <div className="pointer-events-auto mx-auto max-w-sm bg-[#FCFAF6]/95 dark:bg-[#12201E]/95 backdrop-blur-xl border border-[#EFE7DA] dark:border-[#2A423D] rounded-full p-2 shadow-[0_12px_36px_rgba(0,0,0,0.25)] flex items-center justify-between gap-1">
-          <a
-            href="#familiar"
-            className="flex-1 flex flex-col items-center justify-center py-1.5 text-[10px] font-medium text-[#4A605E] dark:text-[#B3CFC8] hover:text-[#10201F]"
+      {/* Mobile Bottom Anchored 4-Item Nav Pill */}
+      <nav aria-label="Navigation mobile" className="fixed bottom-3.5 left-3 right-3 z-[90] md:hidden pointer-events-none">
+        <div className="pointer-events-auto mx-auto max-w-sm bg-[#FCFAF6]/95 dark:bg-[#0E1A18]/95 backdrop-blur-xl border border-[#EFE7DA] dark:border-[#1E3530] rounded-2xl p-1.5 shadow-[0_12px_36px_rgba(0,0,0,0.18)] dark:shadow-[0_16px_40px_rgba(0,0,0,0.55)] grid grid-cols-4 gap-1 items-center">
+          {/* 1. Assistant */}
+          <button
+            onClick={onOpenChat}
+            className="flex flex-col items-center justify-center py-2 px-1 rounded-xl text-[10px] font-medium text-[#3D655F] dark:text-[#A5CEC4] hover:bg-[#E3F0EC]/60 dark:hover:bg-[#162825] active:scale-95 transition-all"
+            aria-label="Assistant IA"
           >
-            <Heart className="w-4 h-4 mb-0.5 text-[#4E7F77]" />
-            {t.nav.mobileHome}
-          </a>
-          <a
-            href="#services"
-            className="flex-1 flex flex-col items-center justify-center py-1.5 text-[10px] font-medium text-[#4A605E] dark:text-[#B3CFC8] hover:text-[#10201F]"
-          >
-            <Sparkles className="w-4 h-4 mb-0.5 text-[#4E7F77]" />
-            {t.nav.mobileCare}
-          </a>
+            <div className="p-1 rounded-lg bg-[#E3F0EC] dark:bg-[#1A2D2A] text-[#3D655F] dark:text-[#A5CEC4] mb-0.5">
+              <Sparkles className="w-4 h-4" />
+            </div>
+            <span className="truncate max-w-full">
+              {language === "ar" ? "المساعد" : "Assistant"}
+            </span>
+          </button>
+
+          {/* 2. Call */}
           <a
             href={clinic.phoneHref}
-            className="flex-1 flex flex-col items-center justify-center py-1.5 text-[10px] font-medium text-[#4A605E] dark:text-[#B3CFC8] hover:text-[#10201F]"
+            className="flex flex-col items-center justify-center py-2 px-1 rounded-xl text-[10px] font-medium text-[#3D655F] dark:text-[#A5CEC4] hover:bg-[#E3F0EC]/60 dark:hover:bg-[#162825] active:scale-95 transition-all"
+            aria-label="Appeler la clinique"
           >
-            <Phone className="w-4 h-4 mb-0.5 text-[#4E7F77]" />
-            {t.nav.mobileCall}
+            <div className="p-1 rounded-lg bg-[#E3F0EC] dark:bg-[#1A2D2A] text-[#3D655F] dark:text-[#A5CEC4] mb-0.5">
+              <Phone className="w-4 h-4" />
+            </div>
+            <span className="truncate max-w-full">
+              {language === "ar" ? "اتصل" : language === "en" ? "Call" : "Appeler"}
+            </span>
           </a>
+
+          {/* 3. Rendez-vous */}
           <button
             onClick={onOpenBooking}
-            className="flex-1 py-2.5 px-3 rounded-full bg-gradient-to-r from-[#4E7F77] to-[#3D655F] text-xs font-semibold text-white shadow-sm flex items-center justify-center gap-1.5 shrink-0"
+            className="flex flex-col items-center justify-center py-2 px-1 rounded-xl text-[10px] font-semibold text-white bg-gradient-to-b from-[#4E7F77] to-[#365A54] shadow-xs active:scale-95 transition-all"
+            aria-label="Prendre rendez-vous"
           >
-            <Calendar className="w-3.5 h-3.5" />
-            {t.nav.ctaBook}
+            <div className="p-1 text-white mb-0.5">
+              <Calendar className="w-4 h-4" />
+            </div>
+            <span className="truncate max-w-full">
+              {language === "ar" ? "موعد" : language === "en" ? "Booking" : "Rendez-vous"}
+            </span>
           </button>
+
+          {/* 4. Dr Larbi N */}
+          <a
+            href="#doctor"
+            className="flex flex-col items-center justify-center py-2 px-1 rounded-xl text-[10px] font-medium text-[#3D655F] dark:text-[#A5CEC4] hover:bg-[#E3F0EC]/60 dark:hover:bg-[#162825] active:scale-95 transition-all"
+            aria-label="Dr. Larbi Nassiba"
+          >
+            <div className="p-1 rounded-lg bg-[#E3F0EC] dark:bg-[#1A2D2A] text-[#3D655F] dark:text-[#A5CEC4] mb-0.5">
+              <Stethoscope className="w-4 h-4" />
+            </div>
+            <span className="truncate max-w-full">
+              {language === "ar" ? "د. العربي ن." : "Dr. Larbi N."}
+            </span>
+          </a>
         </div>
       </nav>
     </>

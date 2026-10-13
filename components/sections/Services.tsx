@@ -38,10 +38,10 @@ export function Services() {
   return (
     <section id="services" className="w-full py-28 sm:py-36 px-4 sm:px-8 bg-gradient-to-b from-[#F7F2E9] via-[#F2F8F6] to-[#FCFAF6] dark:from-[#111E1C] dark:via-[#0E1A18] dark:to-[#12201E] border-y border-[#EFE7DA] dark:border-[#243B37] transition-colors">
       <div className="max-w-6xl mx-auto space-y-16">
-        {/* Header */}
-        <div className="max-w-3xl space-y-4">
+        {/* Header - Centered */}
+        <div className="text-center space-y-4 max-w-3xl mx-auto">
           <Reveal>
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-[#E3F0EC] via-[#D5EADF] to-[#E3F0EC] dark:from-[#172927] dark:to-[#1F3834] border border-[#A5CEC4]/60 dark:border-[#2A423D] text-[11px] font-semibold tracking-[0.22em] text-[#3D655F] dark:text-[#A5CEC4] uppercase shadow-xs">
+            <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#10201F]/[0.04] dark:bg-white/[0.04] border border-[#10201F]/[0.08] dark:border-white/[0.08] text-[11px] font-medium tracking-[0.2em] text-[#3D655F] dark:text-[#A5CEC4] uppercase">
               {tagText}
             </span>
           </Reveal>
@@ -50,7 +50,7 @@ export function Services() {
             as="h2"
             text={headlineText}
             highlightWord={highlightWord}
-            className="font-serif-display text-3xl sm:text-4xl lg:text-5xl text-[#10201F] dark:text-white font-normal leading-tight"
+            className="font-serif-display text-3xl sm:text-4xl lg:text-5xl text-[#10201F] dark:text-white font-normal leading-tight text-center"
           />
         </div>
 
@@ -72,10 +72,10 @@ export function Services() {
                 >
                   <div className="flex items-center gap-3.5">
                     <span
-                      className={`p-2.5 rounded-xl transition-all duration-300 ${
+                      className={`p-2 rounded-xl transition-all duration-300 ${
                         isActive
-                          ? "bg-gradient-to-br from-[#4E7F77] to-[#3D655F] text-white shadow-md scale-105"
-                          : "bg-[#EFE7DA]/70 dark:bg-[#1C2E2B] text-[#4A605E] dark:text-[#B3CFC8] group-hover:bg-[#E3F0EC] dark:group-hover:bg-[#223B37] group-hover:text-[#3D655F]"
+                          ? "bg-[#4E7F77] text-white shadow-xs"
+                          : "bg-[#F2F8F6] dark:bg-[#162825] text-[#4A605E] dark:text-[#B3CFC8] group-hover:bg-[#E3F0EC] dark:group-hover:bg-[#223B37] group-hover:text-[#3D655F]"
                       }`}
                     >
                       {getIconForCategory(cat.id)}
@@ -86,7 +86,7 @@ export function Services() {
                   </div>
 
                   {isActive && (
-                    <span className="w-2.5 h-2.5 rounded-full bg-[#C8A46B] shrink-0 animate-pulse" />
+                    <span className="w-2 h-2 rounded-full bg-[#C8A46B] shrink-0" />
                   )}
                 </button>
               );
@@ -104,9 +104,9 @@ export function Services() {
                 transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                 className="space-y-6"
               >
-                <div className="p-8 rounded-3xl bg-gradient-to-br from-[#FFFFFF] via-[#FCFAF6] to-[#F7F2E9] dark:from-[#12201E] dark:via-[#162825] dark:to-[#12201E] border border-[#A5CEC4]/50 dark:border-[#243B37] shadow-md space-y-6">
-                  <div className="flex items-center gap-3 pb-4 border-b border-[#EFE7DA] dark:border-[#243B37]">
-                    <div className="p-3 rounded-2xl bg-gradient-to-br from-[#E3F0EC] to-[#C7E1DA] dark:from-[#1C2D2A] dark:to-[#223B37] text-[#3D655F] dark:text-[#A5CEC4]">
+                <div className="p-7 sm:p-8 rounded-3xl bg-[#FCFAF6] dark:bg-[#0E1A18] border border-[#EFE7DA] dark:border-[#1E3530] shadow-sm space-y-6">
+                  <div className="flex items-center gap-3 pb-4 border-b border-[#EFE7DA] dark:border-[#1E3530]">
+                    <div className="p-2.5 rounded-xl bg-[#F2F8F6] dark:bg-[#162825] text-[#3D655F] dark:text-[#7FB5AB] border border-[#10201F]/5 dark:border-white/5">
                       {getIconForCategory(activeCategory.id)}
                     </div>
                     <h3 className="font-serif-display text-2xl text-[#10201F] dark:text-white font-medium">

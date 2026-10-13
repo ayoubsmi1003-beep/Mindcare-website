@@ -47,6 +47,7 @@ export interface DayAvailability {
   dayNumber: number;
   monthName: string;
   isClosed: boolean;
+  reason?: string;
   slots: Slot[];
 }
 

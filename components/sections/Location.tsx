@@ -3,8 +3,9 @@
 import React, { useState, useEffect } from "react";
 import { Reveal } from "../primitives/Reveal";
 import { WordReveal } from "../primitives/WordReveal";
+import { LocationMap } from "@/components/ui/expand-map";
 import { clinic } from "@/content/clinic";
-import { MapPin, Phone, MessageCircle, Clock, ExternalLink } from "lucide-react";
+import { MapPin, Phone, MessageCircle, Clock, ExternalLink, Compass } from "lucide-react";
 import { useAppContext } from "@/lib/app-context";
 
 export function Location() {
@@ -20,50 +21,66 @@ export function Location() {
       const currentMinute = now.getMinutes();
       const timeInMin = currentHour * 60 + currentMinute;
 
-      const openMin = 8 * 60;
-      const closeMin = 17 * 60;
+      const openMin = 8 * 60 + 30; // 08:30
+      const closeMin = 16 * 60;    // 16:00 (last appointment at 15:30)
+
+      const isMonday = currentDay === 1;
+      const isFriday = currentDay === 5;
+      const isClosedDay = isMonday || isFriday;
 
       if (language === "ar") {
-        if (currentDay === clinic.hours.closedDay) {
+        if (isMonday) {
           setIsOpenNow(false);
-          setStatusLabel("مغلق الإثنين — يفتح الثلاثاء 8:00 صباحاً");
+          setStatusLabel("مغلق يوم الإثنين (عطلة) — يفتح الثلاثاء 8:30 صباحاً");
+        } else if (isFriday) {
+          setIsOpenNow(false);
+          setStatusLabel("مغلق يوم الجمعة (عطلة) — يفتح السبت 8:30 صباحاً");
         } else if (timeInMin >= openMin && timeInMin < closeMin) {
           setIsOpenNow(true);
-          setStatusLabel("مفتوح الآن — يغلق 5:00 مساءً");
+          setStatusLabel("مفتوح الآن — آخر موعد 3:30 م (يغلق 4:00 م)");
         } else if (timeInMin < openMin) {
           setIsOpenNow(false);
-          setStatusLabel("مغلق — يفتح اليوم 8:00 صباحاً");
+          setStatusLabel("مغلق — يفتح اليوم 8:30 صباحاً");
         } else {
           setIsOpenNow(false);
-          setStatusLabel("مغلق — يفتح غداً 8:00 صباحاً");
+          const nextDayText = currentDay === 4 ? "السبت" : currentDay === 0 ? "الثلاثاء" : "غداً";
+          setStatusLabel(`مغلق — يفتح ${nextDayText} 8:30 صباحاً`);
         }
       } else if (language === "en") {
-        if (currentDay === clinic.hours.closedDay) {
+        if (isMonday) {
           setIsOpenNow(false);
-          setStatusLabel("Closed Mondays — opens Tuesday at 8:00 AM");
+          setStatusLabel("Closed Mondays — opens Tuesday at 8:30 AM");
+        } else if (isFriday) {
+          setIsOpenNow(false);
+          setStatusLabel("Closed Fridays — opens Saturday at 8:30 AM");
         } else if (timeInMin >= openMin && timeInMin < closeMin) {
           setIsOpenNow(true);
-          setStatusLabel("Open now — closes at 5:00 PM");
+          setStatusLabel("Open now — last slot 3:30 PM (closes 4:00 PM)");
         } else if (timeInMin < openMin) {
           setIsOpenNow(false);
-          setStatusLabel("Closed — opens today at 8:00 AM");
+          setStatusLabel("Closed — opens today at 8:30 AM");
         } else {
           setIsOpenNow(false);
-          setStatusLabel("Closed — opens tomorrow at 8:00 AM");
+          const nextDayText = currentDay === 4 ? "Saturday" : currentDay === 0 ? "Tuesday" : "tomorrow";
+          setStatusLabel(`Closed — opens ${nextDayText} at 8:30 AM`);
         }
       } else {
-        if (currentDay === clinic.hours.closedDay) {
+        if (isMonday) {
           setIsOpenNow(false);
-          setStatusLabel("Fermé le lundi — ouvre mardi à 8h00");
+          setStatusLabel("Fermé le lundi — ouvre mardi à 8h30");
+        } else if (isFriday) {
+          setIsOpenNow(false);
+          setStatusLabel("Fermé le vendredi — ouvre samedi à 8h30");
         } else if (timeInMin >= openMin && timeInMin < closeMin) {
           setIsOpenNow(true);
-          setStatusLabel("Ouvert maintenant — ferme à 17h00");
+          setStatusLabel("Ouvert maintenant — dernier créneau 15h30 (ferme 16h00)");
         } else if (timeInMin < openMin) {
           setIsOpenNow(false);
-          setStatusLabel("Fermé — ouvre aujourd'hui à 8h00");
+          setStatusLabel("Fermé — ouvre aujourd'hui à 8h30");
         } else {
           setIsOpenNow(false);
-          setStatusLabel("Fermé — ouvre demain à 8h00");
+          const nextDayText = currentDay === 4 ? "samedi" : currentDay === 0 ? "mardi" : "demain";
+          setStatusLabel(`Fermé — ouvre ${nextDayText} à 8h30`);
         }
       }
     };
@@ -75,20 +92,20 @@ export function Location() {
 
   const tagText = language === "ar" ? "عنوان وموقع العيادة" : language === "en" ? "Visit the Clinic" : "Venir au Cabinet";
   const headlineText = language === "ar"
-    ? "«مكان هادئ ومريح ومصمم لراحتك بالمعالمة.»"
+    ? "«مكان هادئ ومريح ومصمم لراحتك.»"
     : language === "en"
-    ? "“A peaceful space designed for comfort in Mahelma.”"
-    : "« Un lieu de calme et d'apaisement à Mahelma. »";
+    ? "“A peaceful space designed for comfort.”"
+    : "« Un lieu de calme et d'apaisement. »";
 
   const routeBtnText = language === "ar" ? "الاتجاهات على الخريطة" : language === "en" ? "Get Directions" : "Voir l'itinéraire";
 
   return (
     <section id="location" className="w-full py-28 sm:py-36 px-4 sm:px-8 bg-gradient-to-b from-[#FCFAF6] via-[#F4EFE6] to-[#F2F8F6] dark:from-[#0A1312] dark:via-[#0E1A18] dark:to-[#111E1C] overflow-hidden transition-colors">
       <div className="max-w-6xl mx-auto space-y-16">
-        {/* Header */}
-        <div className="max-w-3xl space-y-4">
+        {/* Header - Centered */}
+        <div className="text-center space-y-4 max-w-3xl mx-auto">
           <Reveal>
-            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-[#E3F0EC] via-[#D5EADF] to-[#E3F0EC] dark:from-[#172927] dark:to-[#1F3834] border border-[#A5CEC4]/60 dark:border-[#2A423D] text-[11px] font-semibold tracking-[0.22em] text-[#3D655F] dark:text-[#A5CEC4] uppercase shadow-xs">
+            <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#10201F]/[0.04] dark:bg-white/[0.04] border border-[#10201F]/[0.08] dark:border-white/[0.08] text-[11px] font-medium tracking-[0.2em] text-[#3D655F] dark:text-[#A5CEC4] uppercase">
               {tagText}
             </span>
           </Reveal>
@@ -97,64 +114,48 @@ export function Location() {
             as="h2"
             text={headlineText}
             highlightWord={language === "ar" ? "هادئ" : language === "en" ? "peaceful" : "calme"}
-            className="font-serif-display text-3xl sm:text-4xl lg:text-5xl text-[#10201F] dark:text-white font-normal leading-tight"
+            className="font-serif-display text-3xl sm:text-4xl lg:text-5xl text-[#10201F] dark:text-white font-normal leading-tight text-center"
           />
         </div>
 
         {/* Split Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-          {/* Left: Map Card */}
-          <Reveal className="lg:col-span-7 h-full min-h-[400px]">
-            <a
-              href={clinic.mapsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Voir l'itinéraire vers MindCare Center sur Google Maps"
-              className="group relative block w-full h-full min-h-[400px] rounded-3xl overflow-hidden border-2 border-[#A5CEC4]/40 dark:border-[#2A423D] shadow-lg hover:shadow-2xl transition-all duration-500"
-            >
-              {/* Map Image Surface */}
-              <img
-                src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=1200&q=80"
-                alt="Carte de localisation du cabinet MindCare Center à Mahelma Alger"
-                className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#10201F]/85 via-[#10201F]/35 to-transparent" />
-
-              {/* Pulsing Pin Marker */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col items-center">
-                <div className="relative flex items-center justify-center">
-                  <div className="w-14 h-14 rounded-full bg-[#7FB5AB]/50 animate-ping absolute" />
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#4E7F77] to-[#3D655F] border-2 border-white shadow-xl flex items-center justify-center text-white">
-                    <MapPin className="w-6 h-6" />
-                  </div>
-                </div>
-                <div className="mt-2.5 px-4 py-1.5 rounded-full bg-[#10201F]/95 backdrop-blur-md border border-[#7FB5AB]/40 text-xs font-bold text-white shadow-xl">
-                  MindCare Center
-                </div>
-              </div>
-
-              {/* Bottom Overlay Bar */}
-              <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between text-white">
-                <div>
-                  <p className="font-serif-display text-xl font-medium">{language === "ar" ? "المعالمة، الجزائر العاصمة" : "Mahelma, Alger"}</p>
-                  <p className="text-xs text-[#C7E1DA] font-medium">{language === "ar" ? "الجزائر" : "Algérie"}</p>
-                </div>
-
-                <span className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white text-xs font-bold text-[#10201F] shadow-lg group-hover:bg-[#E3F0EC] group-hover:text-[#3D655F] transition-all duration-300">
-                  <span>{routeBtnText}</span>
-                  <ExternalLink className="w-3.5 h-3.5 text-[#3D655F]" />
-                </span>
-              </div>
-            </a>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          {/* Left: 21st.dev Interactive Expandable Map (Clean, without outer rectangle wrapper) */}
+          <Reveal className="lg:col-span-6 flex flex-col items-center justify-center min-h-[380px] py-4">
+            <LocationMap
+              location={
+                language === "ar"
+                  ? "المعالمة، الجزائر العاصمة"
+                  : language === "en"
+                  ? "Mahelma, Algiers"
+                  : "Mahelma, Alger"
+              }
+              coordinates="36.6713° N, 2.8797° E"
+              mapsUrl={clinic.mapsUrl}
+              expandLabel={
+                language === "ar"
+                  ? "انقر لتوسيع الخريطة"
+                  : language === "en"
+                  ? "Click to expand"
+                  : "Cliquer pour agrandir"
+              }
+              openMapsLabel={
+                language === "ar"
+                  ? "فتح خرائط Google"
+                  : language === "en"
+                  ? "Open Google Maps"
+                  : "Ouvrir Google Maps"
+              }
+            />
           </Reveal>
 
           {/* Right: Contact & Hours */}
-          <Reveal delay={0.15} className="lg:col-span-5 flex flex-col justify-between">
-            <div className="p-8 rounded-3xl bg-gradient-to-br from-[#FFFFFF] via-[#FCFAF6] to-[#F7F2E9] dark:from-[#12201E] dark:via-[#162825] dark:to-[#12201E] border border-[#A5CEC4]/50 dark:border-[#243B37] shadow-sm space-y-6 h-full flex flex-col justify-between">
+          <Reveal delay={0.15} className="lg:col-span-6 flex flex-col justify-between">
+            <div className="p-7 sm:p-8 rounded-3xl bg-[#FCFAF6] dark:bg-[#0E1A18] border border-[#EFE7DA] dark:border-[#1E3530] shadow-sm space-y-6 flex flex-col justify-between">
               <div className="space-y-6">
                 {/* Live Open Status Badge */}
-                <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#E3F0EC] dark:bg-[#1C2D2A] border border-[#A5CEC4]/60 dark:border-[#2A423D] text-xs font-semibold text-[#10201F] dark:text-[#E3F0EC]">
-                  <span className={`w-2.5 h-2.5 rounded-full ${isOpenNow ? "bg-[#3D655F] animate-pulse" : "bg-[#C8A46B]"}`} />
+                <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-[#10201F]/[0.03] dark:bg-white/[0.04] border border-[#10201F]/[0.08] dark:border-white/[0.08] text-xs font-medium text-[#10201F] dark:text-[#E3F0EC]">
+                  <span className={`w-2 h-2 rounded-full ${isOpenNow ? "bg-[#3D655F] dark:bg-[#7FB5AB] animate-pulse" : "bg-[#C8A46B]"}`} />
                   <span>{statusLabel}</span>
                 </div>
 
@@ -165,47 +166,51 @@ export function Location() {
 
                   <div className="space-y-4 text-sm text-[#4A605E] dark:text-[#B3CFC8]">
                     <div className="flex items-start gap-3.5">
-                      <div className="p-2.5 rounded-xl bg-gradient-to-br from-[#E3F0EC] to-[#C7E1DA] dark:from-[#1C2D2A] dark:to-[#223B37] text-[#3D655F] dark:text-[#7FB5AB] shrink-0 border border-[#A5CEC4]/40 dark:border-[#2A423D]">
+                      <div className="p-2 rounded-xl bg-[#F2F8F6] dark:bg-[#142523] text-[#3D655F] dark:text-[#7FB5AB] shrink-0 border border-[#10201F]/5 dark:border-white/5">
                         <MapPin className="w-4 h-4" />
                       </div>
                       <div>
-                        <p className="font-semibold text-[#10201F] dark:text-white">{language === "ar" ? "العنوان" : language === "en" ? "Address" : "Adresse"}</p>
+                        <p className="font-medium text-[#10201F] dark:text-white">{language === "ar" ? "العنوان" : language === "en" ? "Address" : "Adresse"}</p>
                         <p className="text-[#3D5250] dark:text-[#B3CFC8]">{clinic.address}</p>
                       </div>
                     </div>
 
                     <div className="flex items-start gap-3.5">
-                      <div className="p-2.5 rounded-xl bg-gradient-to-br from-[#E3F0EC] to-[#C7E1DA] dark:from-[#1C2D2A] dark:to-[#223B37] text-[#3D655F] dark:text-[#7FB5AB] shrink-0 border border-[#A5CEC4]/40 dark:border-[#2A423D]">
+                      <div className="p-2 rounded-xl bg-[#F2F8F6] dark:bg-[#142523] text-[#3D655F] dark:text-[#7FB5AB] shrink-0 border border-[#10201F]/5 dark:border-white/5">
                         <Phone className="w-4 h-4" />
                       </div>
                       <div>
-                        <p className="font-semibold text-[#10201F] dark:text-white">{language === "ar" ? "الهاتف" : language === "en" ? "Phone" : "Téléphone"}</p>
-                        <a href={clinic.phoneHref} className="text-[#3D655F] dark:text-[#7FB5AB] hover:underline font-bold">
+                        <p className="font-medium text-[#10201F] dark:text-white">{language === "ar" ? "الهاتف" : language === "en" ? "Phone" : "Téléphone"}</p>
+                        <a href={clinic.phoneHref} className="text-[#3D655F] dark:text-[#7FB5AB] hover:underline font-semibold">
                           {clinic.phone}
                         </a>
                       </div>
                     </div>
 
                     <div className="flex items-start gap-3.5">
-                      <div className="p-2.5 rounded-xl bg-gradient-to-br from-[#E3F0EC] to-[#C7E1DA] dark:from-[#1C2D2A] dark:to-[#223B37] text-[#3D655F] dark:text-[#7FB5AB] shrink-0 border border-[#A5CEC4]/40 dark:border-[#2A423D]">
+                      <div className="p-2 rounded-xl bg-[#F2F8F6] dark:bg-[#142523] text-[#3D655F] dark:text-[#7FB5AB] shrink-0 border border-[#10201F]/5 dark:border-white/5">
                         <MessageCircle className="w-4 h-4" />
                       </div>
                       <div>
-                        <p className="font-semibold text-[#10201F] dark:text-white">WhatsApp</p>
-                        <a href={clinic.whatsapp} target="_blank" rel="noopener noreferrer" className="text-[#3D655F] dark:text-[#7FB5AB] hover:underline font-semibold">
+                        <p className="font-medium text-[#10201F] dark:text-white">WhatsApp</p>
+                        <a href={clinic.whatsapp} target="_blank" rel="noopener noreferrer" className="text-[#3D655F] dark:text-[#7FB5AB] hover:underline font-medium">
                           {language === "ar" ? "تواصل معنا مباشرة عبر واتساب" : language === "en" ? "Chat directly on WhatsApp" : "Discuter directement sur WhatsApp"}
                         </a>
                       </div>
                     </div>
 
                     <div className="flex items-start gap-3.5">
-                      <div className="p-2.5 rounded-xl bg-gradient-to-br from-[#E3F0EC] to-[#C7E1DA] dark:from-[#1C2D2A] dark:to-[#223B37] text-[#3D655F] dark:text-[#7FB5AB] shrink-0 border border-[#A5CEC4]/40 dark:border-[#2A423D]">
+                      <div className="p-2 rounded-xl bg-[#F2F8F6] dark:bg-[#142523] text-[#3D655F] dark:text-[#7FB5AB] shrink-0 border border-[#10201F]/5 dark:border-white/5">
                         <Clock className="w-4 h-4" />
                       </div>
                       <div>
-                        <p className="font-semibold text-[#10201F] dark:text-white">{language === "ar" ? "أوقات الاستقبال" : language === "en" ? "Opening Hours" : "Horaires de Consultation"}</p>
-                        <p className="text-xs text-[#4A605E] dark:text-[#B3CFC8] mt-0.5 font-medium">
-                          {language === "ar" ? "من السبت إلى الخميس، من 8:00 صباحاً حتى 5:00 مساءً (المغلق: الجمعة واللإثنين)" : language === "en" ? "Sat–Thu: 8:00 AM – 5:00 PM (Closed Mon & Fri)" : clinic.hours.label}
+                        <p className="font-medium text-[#10201F] dark:text-white">{language === "ar" ? "أوقات الاستقبال" : language === "en" ? "Opening Hours" : "Horaires de Consultation"}</p>
+                        <p className="text-xs text-[#4A605E] dark:text-[#B3CFC8] mt-0.5">
+                          {language === "ar"
+                            ? "السبت، الأحد، الثلاثاء، الأربعاء، الخميس: 8:30 ص – 4:00 م (آخر موعد 3:30 م) · مغلق الإثنين والجمعة"
+                            : language === "en"
+                            ? "Sat, Sun, Tue, Wed, Thu: 8:30 AM – 4:00 PM (last slot 3:30 PM) · Closed Mon & Fri"
+                            : "Sam, Dim, Mar, Mer, Jeu : 8h30 – 16h00 (dernier créneau 15h30) · Fermé lundi & vendredi"}
                         </p>
                       </div>
                     </div>
@@ -214,13 +219,24 @@ export function Location() {
               </div>
 
               {/* Direct Call Button */}
-              <a
-                href={clinic.phoneHref}
-                className="w-full py-4 rounded-full bg-gradient-to-r from-[#3D655F] via-[#4E7F77] to-[#365A54] text-white text-sm font-semibold text-center hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2.5 mt-4"
-              >
-                <Phone className="w-4 h-4" />
-                <span>{language === "ar" ? "الاتصال بالعيادة مباشرة" : language === "en" ? "Call Clinic Now" : "Appeler le cabinet"}</span>
-              </a>
+              <div className="pt-2 flex flex-col sm:flex-row gap-3">
+                <a
+                  href={clinic.phoneHref}
+                  className="flex-1 py-3 px-4 rounded-xl bg-gradient-to-r from-[#3D655F] to-[#2E4B47] text-white text-xs font-semibold text-center hover:opacity-95 active:scale-98 transition-all flex items-center justify-center gap-2"
+                >
+                  <Phone className="w-3.5 h-3.5" />
+                  <span>{language === "ar" ? "اتصال بالعيادة" : language === "en" ? "Call Clinic" : "Appeler le cabinet"}</span>
+                </a>
+                <a
+                  href={clinic.mapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="py-3 px-4 rounded-xl border border-[#EFE7DA] dark:border-[#1E3530] bg-white dark:bg-[#12201E] text-[#10201F] dark:text-white text-xs font-semibold text-center hover:bg-[#F2F8F6] dark:hover:bg-[#162825] active:scale-98 transition-all flex items-center justify-center gap-2"
+                >
+                  <span>{routeBtnText}</span>
+                  <ExternalLink className="w-3.5 h-3.5 text-[#3D655F] dark:text-[#7FB5AB]" />
+                </a>
+              </div>
             </div>
           </Reveal>
         </div>

@@ -63,8 +63,8 @@ export function Hero({ onOpenBooking, onOpenChat }: HeroProps) {
           className="lg:col-span-7 space-y-8"
         >
           {/* Eyebrow */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#E3F0EC] via-[#D5EADF] to-[#E3F0EC] dark:from-[#172927] dark:via-[#1F3834] dark:to-[#172927] border border-[#A5CEC4]/60 dark:border-[#2A423D] text-[11px] font-semibold tracking-[0.22em] text-[#3D655F] dark:text-[#A5CEC4] uppercase shadow-xs">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#4E7F77] dark:bg-[#7FB5AB] animate-pulse" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#10201F]/[0.04] dark:bg-white/[0.04] border border-[#10201F]/[0.08] dark:border-white/[0.08] text-[11px] font-medium tracking-[0.2em] text-[#3D655F] dark:text-[#A5CEC4] uppercase">
+            <span className="w-2 h-2 rounded-full bg-[#4E7F77] dark:bg-[#7FB5AB]" />
             <span>{t.hero.eyebrow}</span>
           </div>
 
@@ -86,7 +86,7 @@ export function Hero({ onOpenBooking, onOpenChat }: HeroProps) {
             <Magnetic sheen strength={6}>
               <button
                 onClick={onOpenBooking}
-                className="px-8 py-4 rounded-full bg-gradient-to-r from-[#3D655F] via-[#4E7F77] to-[#365A54] text-white font-semibold text-sm sm:text-base shadow-[0_10px_30px_rgba(61,101,95,0.32)] hover:shadow-[0_14px_38px_rgba(61,101,95,0.45)] hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] transition-all duration-300 flex items-center gap-3 group"
+                className="px-8 py-3.5 rounded-full bg-gradient-to-r from-[#3D655F] via-[#4E7F77] to-[#365A54] text-white font-semibold text-sm sm:text-base shadow-sm hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] transition-all duration-300 flex items-center gap-3 group"
               >
                 <div className="p-1 rounded-full bg-white/20 group-hover:bg-white/30 transition-colors">
                   <Calendar className="w-4 h-4 text-white" />
@@ -97,7 +97,7 @@ export function Hero({ onOpenBooking, onOpenChat }: HeroProps) {
 
             <button
               onClick={onOpenChat}
-              className="px-7 py-4 rounded-full bg-gradient-to-r from-[#FCFAF6] to-[#E3F0EC] dark:from-[#12201E] dark:to-[#1A2D2A] border-2 border-[#A5CEC4] dark:border-[#2A423D] text-[#2E4B47] dark:text-[#E3F0EC] hover:border-[#4E7F77] hover:bg-[#E3F0EC] dark:hover:bg-[#223B37] font-semibold text-sm sm:text-base shadow-xs hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 flex items-center gap-2.5 group"
+              className="px-7 py-3.5 rounded-full bg-white dark:bg-[#0E1A18] border border-[#EFE7DA] dark:border-[#1E3530] text-[#10201F] dark:text-[#E3F0EC] hover:bg-[#F2F8F6] dark:hover:bg-[#162825] font-semibold text-sm sm:text-base shadow-2xs hover:shadow-xs hover:-translate-y-0.5 active:scale-[0.98] transition-all duration-300 flex items-center gap-2.5 group"
             >
               <Sparkles className="w-4 h-4 text-[#4E7F77] dark:text-[#7FB5AB] group-hover:rotate-12 transition-transform" />
               <span>{t.hero.chatBtn}</span>
@@ -105,26 +105,26 @@ export function Hero({ onOpenBooking, onOpenChat }: HeroProps) {
           </div>
 
           {/* Trust Row */}
-          <div className="pt-6 border-t border-[#EFE7DA]/80 dark:border-[#243B37] grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs font-medium text-[#3D5250] dark:text-[#B3CFC8]">
-            <div className="flex items-center gap-2.5 p-2 rounded-xl bg-white/50 dark:bg-[#12201E]/50 border border-[#EFE7DA]/60 dark:border-[#243B37]">
-              <div className="p-1.5 rounded-lg bg-[#E3F0EC] dark:bg-[#1C2D2A] text-[#4E7F77] dark:text-[#7FB5AB]">
+          <div className="pt-6 border-t border-[#EFE7DA]/80 dark:border-[#1E3530] grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-medium text-[#3D5250] dark:text-[#B3CFC8]">
+            <div className="flex items-center gap-2.5 p-2 rounded-xl bg-white/60 dark:bg-[#0E1A18]/60 border border-[#EFE7DA]/60 dark:border-[#1E3530]">
+              <div className="p-1.5 rounded-lg bg-[#F2F8F6] dark:bg-[#142523] text-[#4E7F77] dark:text-[#7FB5AB]">
                 <UserCheck className="w-3.5 h-3.5" />
               </div>
               <span>{t.hero.doctorTag}</span>
             </div>
-            <div className="flex items-center gap-2.5 p-2 rounded-xl bg-white/50 dark:bg-[#12201E]/50 border border-[#EFE7DA]/60 dark:border-[#243B37]">
-              <div className="p-1.5 rounded-lg bg-[#E3F0EC] dark:bg-[#1C2D2A] text-[#4E7F77] dark:text-[#7FB5AB]">
+            <div className="flex items-center gap-2.5 p-2 rounded-xl bg-white/60 dark:bg-[#0E1A18]/60 border border-[#EFE7DA]/60 dark:border-[#1E3530]">
+              <div className="p-1.5 rounded-lg bg-[#F2F8F6] dark:bg-[#142523] text-[#4E7F77] dark:text-[#7FB5AB]">
                 <Clock className="w-3.5 h-3.5" />
               </div>
               <span>{t.hero.hoursTag}</span>
             </div>
-            <div className="flex items-center gap-2.5 p-2 rounded-xl bg-white/50 dark:bg-[#12201E]/50 border border-[#EFE7DA]/60 dark:border-[#243B37]">
-              <div className="p-1.5 rounded-lg bg-[#E3F0EC] dark:bg-[#1C2D2A] text-[#4E7F77] dark:text-[#7FB5AB]">
+            <div className="flex items-center gap-2.5 p-2 rounded-xl bg-white/60 dark:bg-[#0E1A18]/60 border border-[#EFE7DA]/60 dark:border-[#1E3530]">
+              <div className="p-1.5 rounded-lg bg-[#F2F8F6] dark:bg-[#142523] text-[#4E7F77] dark:text-[#7FB5AB]">
                 <ShieldCheck className="w-3.5 h-3.5" />
               </div>
               <span>{t.hero.privacyTag}</span>
             </div>
-            <div className="flex items-center gap-2.5 p-2 rounded-xl bg-white/50 dark:bg-[#12201E]/50 border border-[#EFE7DA]/60 dark:border-[#243B37]">
+            <div className="flex items-center gap-2.5 p-2 rounded-xl bg-white/60 dark:bg-[#0E1A18]/60 border border-[#EFE7DA]/60 dark:border-[#1E3530]">
               <div className="p-1.5 rounded-lg bg-[#FFF7E6] dark:bg-[#2A2318] text-[#C8A46B]">
                 <Star className="w-3.5 h-3.5 fill-[#C8A46B]" />
               </div>
