@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="fr">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sanad Jardin — validation de la conception</title>
+<link rel="stylesheet" href="prototype.css">
+<header><a href="#01-connexion" class="brand">sanad <span>Jardin</span></a><p>Prototype de navigation · profils fictifs · rien n’est enregistré</p></header>
+<main>
+  <aside aria-label="Écrans à examiner"><h1>Un espace pour vous.</h1><p>Une présence chaleureuse au quotidien, des informations de suivi claires et un partage choisi.</p><nav id="screens" aria-label="Maquettes"></nav><label><input id="zones" type="checkbox" checked> Afficher les liens dans les maquettes</label><p class="note">Les images sont des références visuelles générées. Les zones cliquables permettent seulement de parcourir la conception. Les formulaires, comptes et données persistantes seront construits après validation.</p><details><summary>Conception et limites</summary><p>Portail Next.js trilingue, cinq onglets, stockage PostgreSQL synthétique isolé et preview Vercel protégée. Journal et conversations privés par défaut, partage explicite, dialogue scénarisé, aucun modèle connecté.</p><p>La démonstration persistante, la sécurité des comptes, les contrats de synchronisation et les exercices seront construits et testés après validation. Aucune donnée réelle ni notification envoyée dans ce prototype.</p></details></aside>
+  <section aria-labelledby="screen-title"><div class="toolbar"><h2 id="screen-title"></h2><a id="original" target="_blank" rel="noopener">Ouvrir l’image en taille réelle ↗</a></div><figure><div id="canvas"><img id="screen" alt=""><div id="hotspots"></div></div><figcaption id="description"></figcaption></figure><nav class="actions" aria-label="Parcours"><button id="previous">← Écran précédent</button><button id="next">Écran suivant →</button></nav><p role="status" id="status" aria-live="polite"></p></section>
+</main>
+<script type="module" src="prototype.mjs"></script>
+</html>
