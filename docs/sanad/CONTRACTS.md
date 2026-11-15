@@ -11,7 +11,7 @@ migration clinique n'est livré ici.
 
 | Émetteur authentifié | Objets dont il fait autorité |
 | --- | --- |
-| MindCare | Identité/rattachement, traitement validé, consigne, rendez-vous confirmé, objectif prescrit, document partagé |
+| MindCare | Identité/rattachement, traitement validé, consigne, rendez-vous confirmé, objectif prescrit, document partagé, réponse du cabinet |
 | Sanad | Bilan, prise déclarée, effet ressenti, message, demande en attente, révision de journal/conversation explicitement partagée |
 
 `patientId` est un identifiant stable ; `bindingId` identifie le rattachement vérifié.
@@ -30,6 +30,13 @@ Chaque événement porte `schemaVersion: 1`, `eventId`, `correlationId`, `patien
 `lastSyncedAt` est facultatif et technique. Les dates sont ISO avec fuseau ;
 l'affichage et les limites journalières se calculent en `Africa/Algiers`.
 Les champs inconnus et versions de schéma non reconnues sont rejetés.
+
+`clinic-reply` contient `replyTo` (message patient stable), `text` et `respondedAt`.
+Seul l'émetteur MindCare authentifié peut le publier. Dans le dispositif de test,
+la porte opérateur `sanad.operator_reply` persiste cette réponse sous `clinicMessage`,
+contrôle le même patient et l'état envoyé, et déduplique son identifiant stable.
+Le rôle web ne peut ni créer ni modifier ce type. Un reçu technique reste distinct
+de cette réponse explicite ; aucun humain réel n'est réputé avoir lu le message.
 
 Le traitement exige `name`, son état `active | paused | stopped`, sa période
 `validFrom` / `validUntil`, ses horaires explicites, `asNeeded` et

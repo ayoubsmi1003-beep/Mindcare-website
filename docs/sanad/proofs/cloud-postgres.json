@@ -21,6 +21,11 @@
   "webStateGate": true,
   "migrations": [
     "001_synthetic.sql",
-    "002_function_privileges.sql"
-  ]
+    "002_function_privileges.sql",
+    "003_clinic_replies.sql"
+  ],
+  "activeProfiles": 1,
+  "disabledIsolationProfiles": 2,
+  "eligibleForFinalDelivery": false,
+  "ownerClaimState": "pending"
 }

@@ -1,0 +1,13 @@
+{
+  "at": "2026-11-15T12:39:47.600Z",
+  "runtime": "Local compiled Next production; VERCEL_ENV=production with explicit fictional-test server opt-in; real isolated Neon PostgreSQL17",
+  "websiteEntry": "Espace patient / Sanad",
+  "sameSiteRoute": "/sanad",
+  "activeTestAccounts": 1,
+  "strongPasswordLogin": true,
+  "oldPublicPasswordStatus": 401,
+  "disabledIsolationAccountStatus": 401,
+  "credentialsKeptOutsideRepository": true,
+  "websiteProductionPublished": false,
+  "durableOwnershipConfirmed": false
+}

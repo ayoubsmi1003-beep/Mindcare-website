@@ -12,7 +12,7 @@ const codes = new Set(['UNAUTHENTICATED','CONFLICT','INVALID_INPUT','UNAVAILABLE
 function config() {
   const url = process.env.SANAD_DATABASE_URL;
   const instance = process.env.SANAD_DEMO_INSTANCE_ID;
-  if (process.env.VERCEL_ENV === 'production' || process.env.SANAD_MODE !== 'synthetic' || !url || !instance || !/^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/i.test(instance)) throw new Error('UNAVAILABLE');
+  if ((process.env.VERCEL_ENV === 'production' && process.env.SANAD_PUBLISH_FICTIONAL_TEST !== 'true') || process.env.SANAD_MODE !== 'synthetic' || !url || !instance || !/^[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}$/i.test(instance)) throw new Error('UNAVAILABLE');
   try {
     const parsed = new URL(url);
     if (!['postgresql:','postgres:'].includes(parsed.protocol) || !/^\/sanad_[\w-]+$/.test(parsed.pathname) || decodeURIComponent(parsed.username) !== 'sanad_runtime') throw new Error();

@@ -35,12 +35,13 @@ const ObjectSchema = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('adherence'), treatmentObjectId: IdSchema, treatmentVersion: z.number().int().positive(), scheduledAt: DateSchema.optional(), declaration: z.enum(['taken', 'forgotten', 'not-taken', 'unknown']), reason: text.optional() }).strict(),
   z.object({ kind: z.literal('effect'), recordedAt: DateSchema, text }).strict(),
   z.object({ kind: z.literal('message'), text }).strict(),
+  z.object({ kind: z.literal('clinic-reply'), replyTo: IdSchema, text, respondedAt: DateSchema }).strict(),
   z.object({ kind: z.literal('request'), requestType: z.enum(['appointment', 'renewal', 'administrative', 'effect']), text, status: z.literal('pending') }).strict(),
   z.object({ kind: z.literal('journal'), revision: z.number().int().positive(), text: text.optional() }).strict(),
   z.object({ kind: z.literal('conversation'), revision: z.number().int().positive(), text: text.optional() }).strict(),
 ]);
 
-const mindcareKinds = new Set(['identity', 'treatment', 'appointment', 'instruction', 'doctor-goal', 'shared-document']);
+const mindcareKinds = new Set(['identity', 'treatment', 'appointment', 'instruction', 'doctor-goal', 'shared-document', 'clinic-reply']);
 export const EventSchema = z.object({
   schemaVersion: z.literal(1), eventId: IdSchema, patientId: IdSchema, bindingId: IdSchema,
   objectId: IdSchema, version: z.number().int().positive(), effectiveAt: DateSchema,

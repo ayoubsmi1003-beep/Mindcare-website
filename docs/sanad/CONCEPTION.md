@@ -35,3 +35,9 @@ Direction Jardin et conception validées explicitement par l’utilisateur le 14
 ## Lancement du prototype
 
 Depuis docs/sanad/design : `python -m http.server 43861 --bind 127.0.0.1`, puis ouvrir http://127.0.0.1:43861/. L’ouverture directe du fichier peut bloquer les modules JavaScript selon le navigateur. Tests : `node --test docs/sanad/design/prototype.test.mjs` depuis la racine.
+## Livraison précisée le 15 novembre 2026
+
+La direction Jardin reste validée. La demande finale impose un stockage durable
+et un seul compte test accessible depuis le site. Les bases à expiration et les
+liens de partage temporaires ne constituent pas la livraison. Les comptes
+supplémentaires restent limités aux tests techniques d'isolation locaux.

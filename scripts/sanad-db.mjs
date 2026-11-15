@@ -20,7 +20,7 @@ try {
     if (existing.rows[0].present) throw new Error('CONFLICT');
     const relations = await client.query("select count(*)::int as n from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname not in ('pg_catalog','information_schema') and n.nspname not like 'pg_toast%' and c.relkind in ('r','p')");
     if (relations.rows[0].n !== 0) throw new Error('FORBIDDEN');
-    for(const file of ['001_synthetic.sql','002_function_privileges.sql'])
+    for(const file of ['001_synthetic.sql','002_function_privileges.sql','003_clinic_replies.sql'])
       await client.query(await readFile(new URL(`../db/sanad/${file}`, import.meta.url),'utf8'));
     await client.query('insert into sanad.environment(id,instance_id,mode) values(true,$1,$2)',[instance,'synthetic']);
     // Identifier is fixed; PostgreSQL cannot bind a role password as a query parameter.
@@ -28,7 +28,11 @@ try {
   } else {
     await client.query('select sanad.assert_environment($1)',[instance]);
     if (command === 'seed') {
-      const profiles = [['+447700900001','Lina fictive','fr','01011990'],['+447700900002','Samir fictif','ar','02021992'],['+447700900003','Nour fictive · adolescent','en','03032012']];
+      const profiles = [['+447700900001','Lina fictive','fr','01011990']];
+      if(process.argv.includes('--test-fixtures')) {
+        if(!['127.0.0.1','localhost'].includes(url.hostname)) throw new Error('FORBIDDEN');
+        profiles.push(['+447700900002','Samir fictif','ar','02021992'],['+447700900003','Nour fictive · adolescent','en','03032012']);
+      }
       await client.query('begin');
       for (const [phone,name,locale,dob] of profiles) {
         const result = await client.query('select sanad.operator_provision($1,$2,$3,$4,$5,$6) as id',[instance,phone,name,locale,await hashPassword(dob),'operator-verified-fictional-identity-and-demo-consent']);
@@ -63,6 +67,8 @@ try {
         await client.query('select sanad.operator_reset($1,$2,$3,$4)',[instance,input.profileId,await hashPassword(input.initialDob),'operator-identity-and-consent-reverified']);
       } else if(command === 'receive') {
         await client.query('select sanad.operator_receive($1,$2,$3,$4,$5,$6)',[instance,input.profileId,input.id,input.kind,input.version,input.body]);
+      } else if(command === 'reply') {
+        await client.query('select sanad.operator_reply($1,$2,$3,$4,$5)',[instance,input.profileId,input.messageId,input.id,input.text]);
       } else throw new Error('INVALID_INPUT');
     }
   }

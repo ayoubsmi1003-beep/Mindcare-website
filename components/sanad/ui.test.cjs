@@ -25,6 +25,13 @@ test('every translation has French, English and Arabic content without fallback'
   assert.ok(translationKeys.length>180);
   for(const key of translationKeys)for(const locale of locales){const text=translate(locale,key);assert.equal(typeof text,'string',`${locale}:${key}`);assert.ok(text.trim().length,`${locale}:${key}`);assert.ok(!text.includes('undefined'),`${locale}:${key}`);if(locale==='ar')assert.match(text,/[\u0600-\u06ff]/,key);}
 });
+
+test('a clinic response is linked to its sent message, labelled synthetic and escaped',()=>{
+  const message={id:profile.id,kind:'message',version:1,body:{category:'administrative',text:'Fictional question',status:'sent',simulation:true},createdAt:'2026-01-01T12:00:00Z',updatedAt:'2026-01-01T12:00:00Z'};
+  const reply={...message,id:'reply',kind:'clinicMessage',body:{replyTo:message.id,text:'<script>test</script>',respondedAt:message.createdAt,simulation:true}};
+  for(const locale of locales){const html=render(spaces.Messages,locale,[message,reply]);assert.match(html,/sn-clinic-reply/);assert.ok(html.includes(translate(locale,'clinicReply')));assert.match(html,/&lt;script&gt;test&lt;\/script&gt;/);assert.doesNotMatch(html,/<script>test/);}
+  assert.ok(!render(spaces.Messages,'fr',[message,{...reply,body:{...reply.body,replyTo:'another'}}]).includes('sn-clinic-reply'));
+});
 test('all patient screens render their empty and labelled states in three languages',()=>{
   const screens=[tracking.Checkin,tracking.Followup,tracking.Treatment,Resources,spaces.Chat,spaces.Appointments,spaces.Messages,spaces.Help,spaces.Settings];
   for(const locale of locales)for(const screen of screens){const html=render(screen,locale);assert.ok(html.length>150,`${locale}:${screen.name}`);assert.ok(!html.includes('undefined'),`${locale}:${screen.name}`);assert.ok(!html.includes('NaN'),`${locale}:${screen.name}`);}

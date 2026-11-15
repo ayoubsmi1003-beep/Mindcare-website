@@ -1,7 +1,7 @@
 # Sanad Jardin — démonstration privée
 
 État du 15 novembre 2026. Le portail `/sanad` est une démonstration persistante
-pour testeurs autorisés, avec trois personnes entièrement fictives. Le site
+pour testeurs autorisés, avec un seul compte fictif à livrer. Le site
 public et son chatbot restent distincts. Cette livraison ne raccorde aucun
 cabinet et n'est pas qualifiée pour de vrais patients.
 
@@ -28,28 +28,36 @@ Ne pas employer ce lanceur comme hébergement permanent ou stockage clinique.
 Après un build réussi, `node scripts/sanad-local-demo.mjs --synthetic --built`
 utilise `next start` au lieu du serveur de développement, avec la même base jetable.
 
-## Comptes fictifs
+## Compte de test
 
 | Profil | Identifiant de démonstration | Langue initiale |
 | --- | --- | --- |
 | Lina fictive | `+447700900001` | Français |
-| Samir fictif | `+447700900002` | Arabe |
-| Nour fictive, adolescente | `+447700900003` | Anglais |
 
-Ces numéros appartiennent à la plage de fiction Ofcom ; aucun appel ni SMS
+Ce numéro appartient à la plage de fiction Ofcom ; aucun appel ni SMS
 n'est envoyé. Les dates de naissance initiales, au format `JJMMAAAA`, sont
 définies dans les fixtures `profiles` de [sanad-db.mjs](../../scripts/sanad-db.mjs).
 Elles servent de mots de passe initiaux uniquement pour ces comptes fictifs.
-Les mots de passe sont hachés ; changement et réinitialisation révoquent les
+Le seul compte préparé pour le site possède désormais un mot de passe fort,
+conservé dans un fichier privé hors dépôt. Le mot de passe initial public est
+refusé. Les mots de passe sont hachés ; changement et réinitialisation révoquent les
 sessions. Ce mode prévisible reste bloqué pour de vrais comptes ; activation,
 récupération et droits des mineurs exigent une décision distincte.
+
+Les tests d'isolation utilisent deux comptes supplémentaires uniquement dans une
+instance locale jetable : `node scripts/sanad-local-demo.mjs --synthetic --test-fixtures`,
+puis `node --test scripts/sanad-api.test.mjs`. Ces comptes ne font pas partie de la livraison.
 
 ## Configuration et stockage
 
 Variables du service web : `SANAD_MODE`, `SANAD_DEMO_INSTANCE_ID`,
 `SANAD_DATABASE_URL`, `SANAD_PATIENT_PROVIDER`. Le lanceur local les prépare.
 Le marqueur synthétique en base et l'identifiant d'instance doivent correspondre
-avant toute opération ; `VERCEL_ENV` de production est refusé.
+avant toute opération ; `VERCEL_ENV` de production est refusé par défaut.
+La publication du compte fictif sur le site est préparée par l'option serveur
+`SANAD_PUBLISH_FICTIONAL_TEST=true`, désactivée par défaut. Elle ne retire ni
+le verrou synthétique ni la restriction aux identités de fiction. L'option ne
+doit être activée qu'avec le stockage durable et le contrôle d'accès final.
 
 Variables opérateur séparées : `SANAD_ADMIN_DATABASE_URL` et
 `SANAD_RUNTIME_PASSWORD`. Elles ne doivent pas être transmises au service web,
@@ -89,12 +97,15 @@ contacts d'aide non vérifiés restent à configurer ; aucune surveillance conti
 ## Livraison et raccordement ultérieurs
 
 La base distante PostgreSQL 17.12 `sanad_demo` est créée sur Neon Claimable avec
-trois comptes fictifs ; ses portes et droits ont été vérifiés. Elle expire le
+les fixtures de recette ; ses portes et droits ont été vérifiés. Elle expire le
 18 novembre 2026 à 11:31 UTC si elle n'est pas rattachée à un compte Neon.
 Les variables Sanad sont configurées uniquement pour les previews du projet
 Vercel existant `mindcare-website`, protégé par authentification. Sanad reste
-une partie du site, sous `/sanad`. Le déploiement et sa recette HTTPS restent à
-terminer. Aucune production ou modification DNS n'est livrée.
+une partie du site, sous `/sanad`. La preview du commit `ae45bff` est READY et
+l'accès anonyme est redirigé vers Vercel SSO. Depuis la demande de livraison durable,
+cette base éphémère n'est plus admissible comme stockage final. Le stockage permanent,
+le seul compte de test et l'accès final depuis le site restent des critères de livraison.
+Aucune production ou modification DNS n'est livrée.
 
 Les contrats, autorités, révocations et limites sont dans
 [CONTRACTS.md](CONTRACTS.md). Le PC dédié, HTTPS, accès distant, sauvegarde et

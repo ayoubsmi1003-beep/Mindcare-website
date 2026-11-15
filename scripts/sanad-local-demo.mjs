@@ -31,7 +31,7 @@ try{
   }
   if(!ready)throw new Error('UNAVAILABLE');
   const operatorEnv={...process.env,SANAD_MODE:'synthetic',SANAD_DEMO_INSTANCE_ID:instance,SANAD_ADMIN_DATABASE_URL:`postgresql://postgres:${password}@127.0.0.1:${databasePort}/sanad_browser`,SANAD_RUNTIME_PASSWORD:password};
-  for(const operation of ['migrate','seed'])execFileSync(process.execPath,['scripts/sanad-db.mjs',operation,'--synthetic'],{cwd:root,env:operatorEnv,stdio:['ignore','pipe','pipe']});
+  for(const operation of ['migrate','seed'])execFileSync(process.execPath,['scripts/sanad-db.mjs',operation,'--synthetic',...(operation==='seed'&&process.argv.includes('--test-fixtures')?['--test-fixtures']:[])],{cwd:root,env:operatorEnv,stdio:['ignore','pipe','pipe']});
   const runtimeEnv={...process.env,SANAD_MODE:'synthetic',SANAD_DEMO_INSTANCE_ID:instance,SANAD_DATABASE_URL:`postgresql://sanad_runtime:${password}@127.0.0.1:${databasePort}/sanad_browser`,SANAD_PATIENT_PROVIDER:'scenario',NEXT_TELEMETRY_DISABLED:'1'};
   delete runtimeEnv.SANAD_ADMIN_DATABASE_URL;
   delete runtimeEnv.SANAD_RUNTIME_PASSWORD;

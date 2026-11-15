@@ -13,11 +13,11 @@ mise à jour documentaire ne les présente pas comme une nouvelle exécution.
 | --- | --- | --- |
 | Sources du site déployé | 84 originaux retrouvés sur 85 ; 81 fichiers courants identiques, 4 différences intentionnelles | [SOURCE-PROVENANCE.md](SOURCE-PROVENANCE.md), `source-reconciliation.json`, `deployed-source-hashes.json` |
 | Site public restauré | 12/12, 0 échec, 0 skip | `node --test scripts/booking-current.test.mjs scripts/booking-ui.test.mjs scripts/public-chat.test.mjs scripts/gemini-fallback.test.mjs` |
-| Contrats synthétiques | 21/21, 0 échec, 0 skip | `node --experimental-strip-types --test lib/sanad/contracts/contracts.test.mjs` |
+| Contrats synthétiques | 22/22, 0 échec, 0 skip | `node --experimental-strip-types --test lib/sanad/contracts/contracts.test.mjs` |
 | Commandes et frontière HTTP | 4/4, 0 échec, 0 skip | `node --experimental-strip-types --test lib/sanad/commands.test.mjs` |
-| Interface et traductions | 11/11, 0 échec, 0 skip | `node --test components/sanad/ui.test.cjs` |
+| Interface et traductions | 12/12, 0 échec, 0 skip | `node --test components/sanad/ui.test.cjs` |
 | Service worker isolé | 2/2, 0 échec, 0 skip | `node --test lib/sanad/sw.test.mjs` |
-| Crypto et vraies portes PostgreSQL isolées | 8/8, 0 échec, 0 skip | `node --experimental-strip-types --test lib/sanad/server/crypto.test.mjs lib/sanad/server/integration.test.mjs` |
+| Crypto et vraies portes PostgreSQL isolées | 9/9, 0 échec, 0 skip | `node --experimental-strip-types --test lib/sanad/server/crypto.test.mjs lib/sanad/server/integration.test.mjs` |
 | Parcours HTTP vers la base synthétique | 1 test de parcours complet, réussi | Démonstration locale lancée, puis `node --test scripts/sanad-api.test.mjs` |
 | Lint global | Sortie 0 | `node node_modules/eslint/bin/eslint.js .` |
 
@@ -80,9 +80,9 @@ contrôle final. Capture : [en-tête final](proofs/360-header-final.png).
 
 `npm run build` a terminé avec succès : `/sanad` représente 16 ko et 134 ko de
 JavaScript au premier chargement. Typecheck global et lint global : PASS.
-Les 38 tests contrats/interface/commandes/service worker ont ensuite été relancés :
-38 PASS, zéro skip. La dernière protection serveur des droits opérateur est
-également couverte par le typecheck et les huit tests PostgreSQL.
+Les 40 tests contrats/interface/commandes/service worker ont ensuite été relancés :
+40 PASS, zéro skip. La dernière protection serveur des droits opérateur est
+également couverte par le typecheck et les neuf tests PostgreSQL.
 
 La recette Chromium contre le build optimisé vérifie l'envoi retardé, le blocage
 du champ pendant l'envoi, l'annulation accessible et le brouillon conservé après
@@ -99,6 +99,12 @@ rôle web trop privilégié. [Preuve distante](proofs/cloud-postgres.json).
 La base Claimable expire le 18 novembre 2026 à 11:31 UTC sans rattachement ;
 aucune pérennité n'est promise avant ce rattachement.
 
+Le parcours site public compilé → lien « Espace patient / Sanad » → /sanad →
+connexion avec le seul compte fort est PASS en mode de publication explicite.
+L’ancien mot de passe public et un compte d’isolation désactivé renvoient 401.
+[Preuve](proofs/final-site-entry.json), [capture](proofs/390-final-site-entry.png).
+Les accès du testeur restent hors dépôt et hors captures.
+
 ## FAIL / limites connues
 
 - Le domaine `mindcare-centre.com` et son `www` restent indisponibles en HTTPS
@@ -106,19 +112,38 @@ aucune pérennité n'est promise avant ce rattachement.
   L'URL Vercel historique répond 200, l'alias d'équipe est protégé par SSO.
   Aucun de ces constats ne prouve la remise en service du domaine.
 
-## NOT RUN / preuves finales en attente
+## État de livraison durable
 
-- Preview distante protégée : déploiement et recette HTTPS encore en attente.
-  Les quatre variables Sanad sont configurées uniquement pour les previews du
-  projet existant `mindcare-website`. Ce projet n'est pas relié à Git ; le filtre
-  de branche n'est donc pas disponible. Aucune variable de production modifiée.
-- Téléphones physiques iOS/Android, vrai clavier virtuel, lecteur d'écran,
-  installation PWA et notifications application fermée : non vérifiés.
-- Raccordement MindCare, transport durable de synchronisation, écran Aftercare,
-  modèle local/cloud et qualification clinique multilingue : non réalisés.
-- Production, DNS, sauvegarde/restauration du PC dédié, redémarrage réel,
-  disponibilité, consentement/conservation et ouverture aux vrais patients :
-  non qualifiés. Aucun appel facturé ni envoi externe depuis Sanad.
+La demande du 15 novembre impose un stockage sans expiration et un seul compte
+test. Le seed standard crée désormais un compte et quatre objets d’autorité ;
+les comptes d’isolation supplémentaires exigent --test-fixtures sur loopback.
+Dans la base de recette distante, deux profils techniques sont désactivés et
+leurs sessions révoquées : un seul compte est actif. Aucun historique supprimé.
+
+Le parcours de réponse du cabinet est terminé dans le dispositif synthétique :
+message envoyé, reçu technique, réponse opérateur corrélée, lecture après
+rechargement. Les réponses sont exclusivement opérateur, sans doublon, et
+le message envoyé est immuable. Chromium contre le build final et PostgreSQL
+17 distant : PASS ; arabe RTL 360 pixels sans débordement.
+[Preuve](proofs/clinic-reply-flow.json), [capture FR](proofs/390-clinic-reply.png),
+[capture AR](proofs/360-clinic-reply-ar.png).
+
+La preview ae45bff est READY dans le projet du site ; accès anonyme : redirection
+302 vers Vercel SSO. Aucun lien temporaire de contournement créé. Ce déploiement
+de recette ne constitue pas la livraison durable. Le rattachement du stockage
+au compte propriétaire est encore pending. Aucune production ou DNS modifié.
+
+## NOT RUN / restant à terminer
+
+- Stockage permanent, vérification après rattachement et publication finale
+  accessible depuis le site : NON TERMINÉS.
+- Recette navigateur authentifiée sur le domaine Vercel distant : NON EXÉCUTÉE ;
+  les tests HTTP et navigateur passent avec le serveur local et la vraie base distante.
+- Téléphones physiques, clavier iOS/Android, lecteur d’écran, installation PWA
+  et livraison des notifications application fermée : non vérifiés.
+- Raccordement MindCare, écran Aftercare, transport durable de synchronisation,
+  modèle réel, sauvegarde/restauration du futur PC et qualification clinique :
+  hors de cette démonstration, non réalisés.
 
 ## Reprise
 
