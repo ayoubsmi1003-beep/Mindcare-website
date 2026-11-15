@@ -96,16 +96,29 @@ contacts d'aide non vérifiés restent à configurer ; aucune surveillance conti
 
 ## Livraison et raccordement ultérieurs
 
-La base distante PostgreSQL 17.12 `sanad_demo` est créée sur Neon Claimable avec
-les fixtures de recette ; ses portes et droits ont été vérifiés. Elle expire le
-18 novembre 2026 à 11:31 UTC si elle n'est pas rattachée à un compte Neon.
-Les variables Sanad sont configurées uniquement pour les previews du projet
-Vercel existant `mindcare-website`, protégé par authentification. Sanad reste
-une partie du site, sous `/sanad`. La preview du commit `ae45bff` est READY et
-l'accès anonyme est redirigé vers Vercel SSO. Depuis la demande de livraison durable,
-cette base éphémère n'est plus admissible comme stockage final. Le stockage permanent,
-le seul compte de test et l'accès final depuis le site restent des critères de livraison.
-Aucune production ou modification DNS n'est livrée.
+La base permanente PostgreSQL 17 `sanad_portal` appartient au compte Neon connecté,
+organisation Ayoub sur offre Free : projet `morning-recipe-93493444`, nommé
+`mindcare-website`, région `aws-eu-central-1`, branche `br-dark-term-ba1trh4g`.
+Elle n'est pas Claimable et sa branche n'a pas de date d'expiration. Les limites
+et conditions de disponibilité de l'offre Free restent applicables.
+
+Les trois migrations sont appliquées. Cette base contient exactement un profil
+fictif, quatre instantanés d'autorité et un journal de recette privé. Le mot de
+passe fort déjà fourni est conservé ; la date initiale publique est refusée.
+Connexion poolée TLS `verify-full`, rôle web sans propriété, superuser, BYPASSRLS
+ni exécution des portes opérateur. Aucun secret opérateur n'est transmis à Vercel.
+
+Les quatre variables Sanad de preview du projet Vercel existant utilisent désormais
+cette base permanente. Le code livré reste celui de `c26758e` et Sanad appartient
+au site sous `/sanad`. La nouvelle preview protégée est
+https://mindcare-website-emts0a45b-ayoubsmi1003-beeps-projects.vercel.app/sanad.
+Aucun lien temporaire ou contournement de protection n'est créé.
+
+La revue automatique a refusé la configuration de production : le brief exige
+une instruction explicite de publication. Aucun changement de production ou DNS
+n'est appliqué. La publication finale et sa recette HTTPS restent à terminer après
+cette autorisation. L'ancienne base Claimable de recette n'est plus le stockage
+configuré ; elle reste distincte et expirera selon ses conditions initiales.
 
 Les contrats, autorités, révocations et limites sont dans
 [CONTRACTS.md](CONTRACTS.md). Le PC dédié, HTTPS, accès distant, sauvegarde et

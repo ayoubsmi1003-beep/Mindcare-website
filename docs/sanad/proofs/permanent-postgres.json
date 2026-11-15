@@ -1,0 +1,20 @@
+{
+  "at": "2026-11-15T14:14:52.088Z",
+  "runtime": "Compiled local Next with real owned permanent Neon PostgreSQL 17",
+  "projectId": "morning-recipe-93493444",
+  "database": "sanad_portal",
+  "accountCount": 1,
+  "websiteEntryToSanad": true,
+  "strongLogin": true,
+  "reloadAuthenticated": true,
+  "recordPersistsAfterRelogin": true,
+  "oldPublicPasswordStatus": 401,
+  "runtimeSuperuser": false,
+  "runtimeBypassRls": false,
+  "runtimeOperatorExecute": false,
+  "plan": "free",
+  "claimable": false,
+  "branchHasExpiry": false,
+  "productionPublished": false,
+  "productionApproval": "Automatic review requires explicit user production publication authorization"
+}

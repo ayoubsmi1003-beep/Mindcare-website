@@ -96,8 +96,8 @@ propriétaire ni superuser, n'a ni BYPASSRLS, lecture directe des tables ni droi
 d'exécuter les portes opérateur. La migration 002 corrige le défaut global
 `PUBLIC EXECUTE`, reproduit en RED puis testé en GREEN ; le serveur refuse un
 rôle web trop privilégié. [Preuve distante](proofs/cloud-postgres.json).
-La base Claimable expire le 18 novembre 2026 à 11:31 UTC sans rattachement ;
-aucune pérennité n'est promise avant ce rattachement.
+Cette ancienne base Claimable était uniquement la recette intermédiaire ; elle
+n'est plus le stockage configuré depuis la création de la base permanente ci-dessous.
 
 Le parcours site public compilé → lien « Espace patient / Sanad » → /sanad →
 connexion avec le seul compte fort est PASS en mode de publication explicite.
@@ -136,15 +136,31 @@ le message envoyé est immuable. Chromium contre le build final et PostgreSQL
 [Preuve](proofs/clinic-reply-flow.json), [capture FR](proofs/390-clinic-reply.png),
 [capture AR](proofs/360-clinic-reply-ar.png).
 
-La preview ae45bff est READY dans le projet du site ; accès anonyme : redirection
-302 vers Vercel SSO. Aucun lien temporaire de contournement créé. Ce déploiement
-de recette ne constitue pas la livraison durable. Le rattachement du stockage
-au compte propriétaire est encore pending. Aucune production ou DNS modifié.
+Le compte Neon connecté est vérifié : organisation Ayoub, offre Free. La base
+permanente `sanad_portal`, PostgreSQL 17, projet `morning-recipe-93493444` nommé
+`mindcare-website`, appartient à cette organisation. La branche principale n'a pas
+de champ d'expiration et n'est pas une ressource Claimable. Le seed distant crée
+exactement un profil et quatre instantanés. Le mot de passe fort est conservé,
+la date initiale publique renvoie 401. Le marqueur synthétique correspond ; le rôle
+`sanad_runtime` n'a ni superuser, BYPASSRLS ni exécution des portes opérateur.
+
+Recette réelle contre cette nouvelle base : écriture d'un journal fictif privé,
+déconnexion, reconnexion et journal retrouvé. Chromium sur le build compilé :
+site → lien Sanad → connexion → rechargement authentifié, largeur 390 sans
+débordement. [Preuve](proofs/permanent-postgres.json),
+[capture](proofs/permanent-site-entry.png).
+
+Les quatre variables de preview utilisent cette base permanente. Nouveau déploiement
+de `c26758e` : `dpl_3UFBhjssaQh4AQaUnhC51oT8QHWN` ; build READY vérifié.
+Accès anonyme observé : 302 vers Vercel SSO. Aucun lien temporaire créé.
+La revue automatique a refusé les variables de production, exigeant une instruction
+explicite de publication conformément au brief. Aucun changement de production ou DNS appliqué.
 
 ## NOT RUN / restant à terminer
 
-- Stockage permanent, vérification après rattachement et publication finale
-  accessible depuis le site : NON TERMINÉS.
+- Stockage permanent propriétaire et recette locale vers cette base : PASS.
+- Publication finale accessible depuis le site et recette HTTPS distante : EN ATTENTE
+  de l'autorisation explicite exigée par la revue automatique.
 - Recette navigateur authentifiée sur le domaine Vercel distant : NON EXÉCUTÉE ;
   les tests HTTP et navigateur passent avec le serveur local et la vraie base distante.
 - Téléphones physiques, clavier iOS/Android, lecteur d’écran, installation PWA
