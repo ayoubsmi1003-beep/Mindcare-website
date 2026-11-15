@@ -1,7 +1,7 @@
 # Sanad Jardin — démonstration privée
 
 État du 15 novembre 2026. Le portail `/sanad` est une démonstration persistante
-pour testeurs autorisés, avec un seul compte fictif à livrer. Le site
+pour testeurs autorisés, avec un seul compte fictif livré. Le site
 public et son chatbot restent distincts. Cette livraison ne raccorde aucun
 cabinet et n'est pas qualifiée pour de vrais patients.
 
@@ -103,22 +103,33 @@ Elle n'est pas Claimable et sa branche n'a pas de date d'expiration. Les limites
 et conditions de disponibilité de l'offre Free restent applicables.
 
 Les trois migrations sont appliquées. Cette base contient exactement un profil
-fictif, quatre instantanés d'autorité et un journal de recette privé. Le mot de
+fictif, quatre instantanés d'autorité et les saisies fictives de recette. Le mot de
 passe fort déjà fourni est conservé ; la date initiale publique est refusée.
 Connexion poolée TLS `verify-full`, rôle web sans propriété, superuser, BYPASSRLS
 ni exécution des portes opérateur. Aucun secret opérateur n'est transmis à Vercel.
 
-Les quatre variables Sanad de preview du projet Vercel existant utilisent désormais
-cette base permanente. Le code livré reste celui de `c26758e` et Sanad appartient
-au site sous `/sanad`. La nouvelle preview protégée est
-https://mindcare-website-emts0a45b-ayoubsmi1003-beeps-projects.vercel.app/sanad.
-Aucun lien temporaire ou contournement de protection n'est créé.
+L'utilisateur a explicitement autorisé la publication en production le 15 novembre
+2026. Sanad est publié dans le projet Vercel existant, sans autre application :
+[site](https://mindcare-website-eight.vercel.app/) → « Espace patient / Sanad » →
+[portail](https://mindcare-website-eight.vercel.app/sanad).
+Le déploiement `dpl_EgtCCGhnjESqA1aUR5x7TbFzY7zm` est READY, cible production,
+commit `d9dfe1a83ed8dbe1d2344ae5f13f2a4d36a92c1f`. Les quatre variables Sanad et
+l'option `SANAD_PUBLISH_FICTIONAL_TEST=true` y sont configurées. Les variables
+existantes du site et ses protections Vercel sont conservées ; aucun DNS modifié.
 
-La revue automatique a refusé la configuration de production : le brief exige
-une instruction explicite de publication. Aucun changement de production ou DNS
-n'est appliqué. La publication finale et sa recette HTTPS restent à terminer après
-cette autorisation. L'ancienne base Claimable de recette n'est plus le stockage
-configuré ; elle reste distincte et expirera selon ses conditions initiales.
+La recette Chromium HTTPS est PASS : entrée depuis le site, compte fort, bilan
+et journal enregistrés, conversation scénarisée, partage puis retrait, demande
+en attente, document privé, reconnexion et données retrouvées, déconnexion avec
+accès privé refusé, arabe RTL 360 et anglais desktop. Le cookie est Secure,
+HttpOnly, SameSite Strict ; les réponses privées sont no-store. Le service worker
+activé ne conserve que sept ressources publiques ; localStorage est vide.
+[Preuve complète](proofs/production-https.json). Les accès du seul testeur sont
+conservés hors dépôt dans le fichier privé remis à l'utilisateur.
+
+La preview protégée demeure séparée de l'URL permanente. Aucun lien temporaire
+ni contournement de protection créé. L'ancienne base Claimable n'est plus le
+stockage configuré. Le domaine `mindcare-centre.com` attend toujours la vérification
+du titulaire chez le registrar ; son rétablissement n'est pas revendiqué.
 
 Les contrats, autorités, révocations et limites sont dans
 [CONTRACTS.md](CONTRACTS.md). Le PC dédié, HTTPS, accès distant, sauvegarde et

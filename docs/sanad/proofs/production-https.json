@@ -1,0 +1,48 @@
+{
+  "at": "2026-11-15T18:26:51.264Z",
+  "url": "https://mindcare-website-eight.vercel.app/sanad",
+  "deploymentId": "dpl_EgtCCGhnjESqA1aUR5x7TbFzY7zm",
+  "target": "production",
+  "storage": "owned permanent Neon sanad_portal",
+  "accountCount": 1,
+  "checks": {
+    "publicHomepage": 200,
+    "sameWebsiteEntry": true,
+    "strongLogin": true,
+    "secureSessionCookie": true,
+    "noPrivateCache": true,
+    "checkinSaveAndReload": true,
+    "journalUiSave": true,
+    "shareRevokeAndForbiddenReshare": true,
+    "scenarioChatUi": true,
+    "requestRemainsPending": true,
+    "privateDocument": true,
+    "providerOverrideRejected": true,
+    "staticOnlyServiceWorker": {
+      "active": "activated",
+      "cacheKeys": [
+        {
+          "key": "sanad-public-v1",
+          "paths": [
+            "/sanad/offline.html",
+            "/sanad/offline.js",
+            "/sanad/icon.svg",
+            "/sanad/icon-192.png",
+            "/sanad/icon-512.png",
+            "/sanad/garden.webp",
+            "/sanad/resource-night.webp"
+          ]
+        }
+      ],
+      "localStorageKeys": []
+    },
+    "arabicRtl360": true,
+    "englishDesktop": true,
+    "persistenceAfterRelogin": true,
+    "oldPublicPasswordRejected": true,
+    "logoutRevokesPrivateAccess": true,
+    "pageErrors": []
+  },
+  "physicalDevices": "NOT RUN",
+  "clinicalUse": "NOT QUALIFIED"
+}

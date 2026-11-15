@@ -41,3 +41,7 @@ La direction Jardin reste validée. La demande finale impose un stockage durable
 et un seul compte test accessible depuis le site. Les bases à expiration et les
 liens de partage temporaires ne constituent pas la livraison. Les comptes
 supplémentaires restent limités aux tests techniques d'isolation locaux.
+
+## Publication autorisée le 15 novembre 2026
+
+Instruction explicite de l’utilisateur : « J’autorise la publication en production de Sanad dans le site existant. » La publication concerne uniquement le portail fictif, la base Neon permanente dédiée et un compte test, sans DNS ni accès au cabinet. Le résultat et les preuves HTTPS sont consignés dans VERIFICATION.md.

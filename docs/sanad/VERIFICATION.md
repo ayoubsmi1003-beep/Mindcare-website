@@ -1,8 +1,9 @@
 # Vérification Sanad — 15 novembre 2026
 
 Ce rapport remplace le bilan de conception du 14 novembre. Les résultats
-ci-dessous concernent une démonstration privée locale avec données fictives.
-Ils ne qualifient ni usage clinique, ni fournisseur IA réel, ni exploitation.
+ci-dessous concernent une démonstration avec données exclusivement fictives,
+publiée sur le site après autorisation explicite. Ils ne qualifient ni usage
+clinique, ni fournisseur IA réel, ni exploitation avec de vrais patients.
 
 ## PASS — sources et tests ciblés
 
@@ -125,8 +126,9 @@ retirée, état final privé, arabe RTL 360 pixels sans débordement.
 La demande du 15 novembre impose un stockage sans expiration et un seul compte
 test. Le seed standard crée désormais un compte et quatre objets d’autorité ;
 les comptes d’isolation supplémentaires exigent --test-fixtures sur loopback.
-Dans la base de recette distante, deux profils techniques sont désactivés et
-leurs sessions révoquées : un seul compte est actif. Aucun historique supprimé.
+L'ancienne base de recette comportait deux profils techniques désactivés. La base
+permanente livrée contient exactement un profil, actif ; aucun second compte de
+test n'y a été créé. Les essais d'isolation restent dans les bases techniques.
 
 Le parcours de réponse du cabinet est terminé dans le dispositif synthétique :
 message envoyé, reçu technique, réponse opérateur corrélée, lecture après
@@ -153,16 +155,36 @@ débordement. [Preuve](proofs/permanent-postgres.json),
 Les quatre variables de preview utilisent cette base permanente. Nouveau déploiement
 de `c26758e` : `dpl_3UFBhjssaQh4AQaUnhC51oT8QHWN` ; build READY vérifié.
 Accès anonyme observé : 302 vers Vercel SSO. Aucun lien temporaire créé.
-La revue automatique a refusé les variables de production, exigeant une instruction
-explicite de publication conformément au brief. Aucun changement de production ou DNS appliqué.
+Le refus initial de production est levé par l'autorisation explicite de l'utilisateur :
+« J'autorise la publication en production de Sanad dans le site existant. »
+Le déploiement `dpl_EgtCCGhnjESqA1aUR5x7TbFzY7zm`, commit `d9dfe1a83ed8dbe1d2344ae5f13f2a4d36a92c1f`,
+est READY en production et l'alias permanent `mindcare-website-eight.vercel.app`
+le désigne. Aucune modification DNS, fusion Git ou protection contournée.
+
+## PASS — recette HTTPS de production
+
+[Site](https://mindcare-website-eight.vercel.app/) → lien Sanad →
+[/sanad](https://mindcare-website-eight.vercel.app/sanad), sans lien temporaire.
+Chromium réel contre Vercel et la base Neon permanente : page publique 200,
+connexion avec le compte fort, cookie Secure/HttpOnly/SameSite Strict, réponses
+privées no-store, bilan 7,5 heures sauvé par l'interface et retrouvé après reload,
+journal sauvé par l'interface, partage puis retrait, nouvelle tentative du même
+partage refusée 409, dialogue scénarisé, demande de rendez-vous pending,
+document privé, override Gemini refusé 400, reconnexion avec toutes les données
+retrouvées et partage toujours retiré. Ancien mot de passe public : 401.
+Après déconnexion, état et document privés : 401. Aucune erreur JavaScript de page.
+
+Arabe RTL 360 pixels et anglais desktop 1440 : aucun débordement. Service worker
+activé ; son cache contient seulement sept ressources publiques, aucune API ou
+donnée de session ; localStorage est vide. La lecture SQL finale confirme un
+seul profil actif, un bilan, une conversation et un partage retiré dans la base
+synthétique permanente. [Preuve](proofs/production-https.json),
+[capture FR](proofs/production-fr-390.png), [capture AR](proofs/production-ar-360.png).
 
 ## NOT RUN / restant à terminer
 
-- Stockage permanent propriétaire et recette locale vers cette base : PASS.
-- Publication finale accessible depuis le site et recette HTTPS distante : EN ATTENTE
-  de l'autorisation explicite exigée par la revue automatique.
-- Recette navigateur authentifiée sur le domaine Vercel distant : NON EXÉCUTÉE ;
-  les tests HTTP et navigateur passent avec le serveur local et la vraie base distante.
+- Stockage permanent, publication sur le site et recette HTTPS authentifiée : PASS,
+  documentés ci-dessus ; aucun rattachement clinique.
 - Téléphones physiques, clavier iOS/Android, lecteur d’écran, installation PWA
   et livraison des notifications application fermée : non vérifiés.
 - Raccordement MindCare, écran Aftercare, transport durable de synchronisation,
@@ -173,7 +195,7 @@ explicite de publication conformément au brief. Aucun changement de production 
 
 Lancement : [IMPLEMENTATION.md](IMPLEMENTATION.md). Préparation du raccordement :
 [CONTRACTS.md](CONTRACTS.md) et [FUTURE-HOSTING.md](FUTURE-HOSTING.md).
-Compléter les preuves finales avant tout bilan de livraison intégré. L'ouverture
-réelle reste bloquée par les validations d'identité, sécurité, mineurs,
+La démonstration intégrée au site est livrée avec sa recette HTTPS. L'ouverture
+aux vrais patients reste bloquée par les validations d'identité, sécurité, mineurs,
 contenu, exploitation et raccordement ; aucune donnée clinique n'est nécessaire
 pour poursuivre les essais synthétiques.
