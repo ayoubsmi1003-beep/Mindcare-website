@@ -1,4 +1,4 @@
-# Sanad Jardin — conception pour validation
+# Sanad Jardin — conception validée
 
 État du 14 novembre 2026 : huit références visuelles générées avec les outils intégrés imagegen-frontend-mobile/imagegen et un prototype de navigation local, sans persistance. Les prompts exacts sont conservés dans design/prompts.json. Aucune activation clinique ou publication.
 
@@ -30,7 +30,7 @@ Préparer PWA et ressources statiques hors ligne, sans cache des réponses priv�
 
 ## Point de validation
 
-À valider ensemble : palette et illustrations, lisibilité, densité des vues, cinq onglets, style de conversation et adaptation arabe/desktop. La construction complète attend cet accord explicite demandé dans le brief. Les fonctionnalités, contrats et tests du BRIEF.md restent tous dans l’objectif.
+Direction Jardin et conception validées explicitement par l’utilisateur le 14 novembre 2026 : « Valider Jardin et la conception ». La construction complète est autorisée. Cette validation porte sur la conception ; elle ne prouve ni les parcours implémentés, ni la sécurité, ni l’accès privé distant. Les fonctionnalités, contrats et tests du BRIEF.md restent tous dans l’objectif.
 
 ## Lancement du prototype
 

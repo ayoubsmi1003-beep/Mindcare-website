@@ -1,0 +1,76 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {randomUUID} from 'node:crypto';
+
+const base='http://127.0.0.1:43862';
+async function call(path,{body,cookie,origin=true}={}){
+  const response=await fetch(`${base}/api/sanad/${path}`,{method:body===undefined?'GET':'POST',headers:{...(body===undefined?{}:{'Content-Type':'application/json'}),...(origin?{Origin:base}:{}),...(cookie?{Cookie:cookie}:{})},body:body===undefined?undefined:JSON.stringify(body)});
+  return {response,data:await response.json().catch(()=>null)};
+}
+async function login(phone,password){
+  const result=await call('sign-in',{body:{phone,password}});
+  assert.equal(result.response.status,200);
+  const header=result.response.headers.get('set-cookie');
+  assert.ok(header && /HttpOnly/i.test(header) && /SameSite=Strict/i.test(header));
+  return header.split(';')[0];
+}
+test('real HTTP synthetic flows: auth, durable revisions, isolation, sharing, chat, requests and password revocation',async()=>{
+  assert.equal((await call('state')).response.status,401);
+  assert.equal((await call('sign-in',{body:{phone:'+447700900003',password:'03032012'},origin:false})).response.status,403);
+  let a=await login('+447700900003','03032012');
+  const b=await login('+447700900002','02021992');
+  const command=async(cookie,body)=>call('command',{cookie,body:{idempotencyKey:randomUUID(),...body}});
+  let initial=await call('state',{cookie:a});
+  assert.match(initial.response.headers.get('cache-control'),/private.*no-store/);
+  assert.equal(initial.data.profile.locale,'en');
+  const checkin={action:'save',kind:'checkin',idempotencyKey:randomUUID(),body:{date:'2026-11-15',mood:'calm',sleepHours:7}};
+  const first=await command(a,checkin);
+  assert.equal(first.response.status,200);
+  const repeat=await command(a,checkin);
+  assert.equal(repeat.data.record.id,first.data.record.id);
+  assert.equal(repeat.data.record.version,1);
+  assert.equal((await command(b,{...checkin,id:first.data.record.id,expectedVersion:1,idempotencyKey:randomUUID()})).response.status,403);
+  const corrected=await command(a,{...checkin,id:first.data.record.id,expectedVersion:1,idempotencyKey:randomUUID(),body:{date:'2026-11-15',mood:'mixed'}});
+  assert.equal(corrected.data.record.version,2);
+  assert.equal((await command(a,{...checkin,id:first.data.record.id,expectedVersion:1,idempotencyKey:randomUUID()})).response.status,409);
+  const journal=await command(a,{action:'save',kind:'journal',body:{situation:'Synthetic test only',emotion:'',need:'',helped:''}});
+  assert.equal(journal.response.status,200);
+  const share={action:'share',id:journal.data.record.id,version:1,shared:true};
+  assert.equal((await command(a,share)).response.status,200);
+  assert.equal((await command(a,{...share,shared:false})).response.status,200);
+  assert.equal((await command(b,share)).response.status,403);
+  assert.equal((await command(a,share)).response.status,409);
+  assert.equal((await command(a,{action:'save',kind:'treatment',body:{}})).response.status,400);
+  assert.equal((await command(a,{action:'chat',text:'Synthetic text',provider:'gemini'})).response.status,400);
+  const chat={action:'chat',text:'I am testing this fictional demonstration.',idempotencyKey:randomUUID()};
+  const reply=await command(a,chat);
+  assert.equal(reply.response.status,200);
+  assert.equal(reply.data.record.body.scenario,true);
+  assert.equal(reply.data.record.body.messages.length,2);
+  const replay=await command(a,chat);
+  assert.deepEqual(replay.data.record,reply.data.record);
+  assert.equal((await command(a,{...chat,text:'A different fictional request.'})).response.status,409);
+  assert.equal((await command(a,{...chat,conversationId:reply.data.record.id})).response.status,409);
+  assert.equal((await command(a,{...chat,conversationId:randomUUID()})).response.status,409);
+  const request=await command(a,{action:'save',kind:'request',body:{category:'appointment',text:'Fictional test request',status:'pending',simulation:true}});
+  assert.equal(request.response.status,200);
+  assert.equal(request.data.record.body.status,'pending');
+  assert.equal((await command(a,{action:'save',kind:'request',body:{category:'appointment',text:'Fictional test request',status:'confirmed',simulation:true}})).response.status,400);
+  const doc=initial.data.records.find(record=>record.kind==='document');
+  const document=await fetch(`${base}/api/sanad/document/${doc.id}`,{headers:{Cookie:a}});
+  assert.equal(document.status,200);
+  assert.match(document.headers.get('cache-control'),/no-store/);
+  assert.equal((await fetch(`${base}/api/sanad/document/${doc.id}`,{headers:{Cookie:b}})).status,403);
+  assert.equal((await call('sign-out',{cookie:a,body:{}})).response.status,200);
+  assert.equal((await call('state',{cookie:a})).response.status,401);
+  a=await login('+447700900003','03032012');
+  const reloaded=await call('state',{cookie:a});
+  assert.ok(reloaded.data.records.some(record=>record.id===first.data.record.id&&record.version===2));
+  assert.ok(!((await call('state',{cookie:b})).data.records.some(record=>record.id===first.data.record.id)));
+  const changed='Synthetic-test-access-2026';
+  assert.equal((await call('password',{cookie:a,body:{currentPassword:'03032012',newPassword:changed}})).response.status,200);
+  assert.equal((await call('state',{cookie:a})).response.status,401);
+  assert.equal((await call('sign-in',{body:{phone:'+447700900003',password:'03032012'}})).response.status,401);
+  a=await login('+447700900003',changed);
+  assert.equal((await call('password',{cookie:a,body:{currentPassword:changed,newPassword:'03032012'}})).response.status,200);
+});

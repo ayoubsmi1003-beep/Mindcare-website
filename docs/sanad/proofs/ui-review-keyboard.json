@@ -1,0 +1,26 @@
+[
+  {
+    "locale": "fr",
+    "passwordFocused": true,
+    "outline": "solid",
+    "outlineWidth": "3px",
+    "phoneDir": "ltr",
+    "appDir": "ltr"
+  },
+  {
+    "locale": "ar",
+    "passwordFocused": true,
+    "outline": "solid",
+    "outlineWidth": "3px",
+    "phoneDir": "ltr",
+    "appDir": "rtl"
+  },
+  {
+    "locale": "en",
+    "passwordFocused": true,
+    "outline": "solid",
+    "outlineWidth": "3px",
+    "phoneDir": "ltr",
+    "appDir": "ltr"
+  }
+]

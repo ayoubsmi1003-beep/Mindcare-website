@@ -8,6 +8,7 @@ import { clinic } from "@/content/clinic";
 import { Magnetic } from "../primitives/Magnetic";
 import { useAppContext } from "@/lib/app-context";
 import { Language } from "@/lib/i18n/translations";
+import { patientEntryLabels } from "@/lib/sanad/i18n";
 
 interface NavProps {
   onOpenBooking: () => void;
@@ -100,8 +101,8 @@ export function Nav({ onOpenBooking, onOpenChat }: NavProps) {
             <a href="#services" className="hover:text-[#10201F] dark:hover:text-white transition-colors">
               {t.nav.care}
             </a>
-            <a href="#aftercare" className="hover:text-[#10201F] dark:hover:text-white transition-colors">
-              {t.nav.aftercare}
+            <a href="/sanad" className="hover:text-[#10201F] dark:hover:text-white transition-colors">
+              {patientEntryLabels[language]}
             </a>
             <a href="#temoignages" className="hover:text-[#10201F] dark:hover:text-white transition-colors">
               {t.nav.reviews}
@@ -203,6 +204,9 @@ export function Nav({ onOpenBooking, onOpenChat }: NavProps) {
           </span>
         </a>
 
+        <a href="/sanad" className="max-w-28 px-2 text-[10px] leading-tight font-semibold text-[#3D655F] dark:text-[#A5CEC4]">
+          {patientEntryLabels[language]}
+        </a>
         <div className="flex items-center gap-1.5">
           {/* Mobile Language Pill */}
           <button

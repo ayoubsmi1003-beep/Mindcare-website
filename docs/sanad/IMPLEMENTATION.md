@@ -1,0 +1,103 @@
+# Sanad Jardin — démonstration privée
+
+État du 15 novembre 2026. Le portail `/sanad` est une démonstration persistante
+pour testeurs autorisés, avec trois personnes entièrement fictives. Le site
+public et son chatbot restent distincts. Cette livraison ne raccorde aucun
+cabinet et n'est pas qualifiée pour de vrais patients.
+
+## Lancer la démonstration locale
+
+Depuis `C:\MindCare\mindcare-website`, avec Node 24, les dépendances installées,
+Docker actif et l'image `postgres:16-alpine` déjà disponible :
+
+```powershell
+npm ci
+node scripts/sanad-local-demo.mjs --synthetic
+```
+
+Ouvrir [Sanad local](http://127.0.0.1:43862/sanad). Le lanceur crée un conteneur
+PostgreSQL dédié sur un port loopback aléatoire, migre une base vide, charge les
+fixtures et démarre Next sur `127.0.0.1:43862`. Les identifiants techniques sont
+générés dans le processus et ne sont pas affichés. Il refuse un lancement cloud.
+
+Garder le processus ouvert pendant les essais. `Ctrl+C` arrête le serveur et
+supprime exclusivement son conteneur : les données de cette instance sont
+jetables. Les saisies persistent après rechargement et reconnexion tant que
+l'instance reste active ; un nouveau lancement recrée une démonstration neuve.
+Ne pas employer ce lanceur comme hébergement permanent ou stockage clinique.
+Après un build réussi, `node scripts/sanad-local-demo.mjs --synthetic --built`
+utilise `next start` au lieu du serveur de développement, avec la même base jetable.
+
+## Comptes fictifs
+
+| Profil | Identifiant de démonstration | Langue initiale |
+| --- | --- | --- |
+| Lina fictive | `+447700900001` | Français |
+| Samir fictif | `+447700900002` | Arabe |
+| Nour fictive, adolescente | `+447700900003` | Anglais |
+
+Ces numéros appartiennent à la plage de fiction Ofcom ; aucun appel ni SMS
+n'est envoyé. Les dates de naissance initiales, au format `JJMMAAAA`, sont
+définies dans les fixtures `profiles` de [sanad-db.mjs](../../scripts/sanad-db.mjs).
+Elles servent de mots de passe initiaux uniquement pour ces comptes fictifs.
+Les mots de passe sont hachés ; changement et réinitialisation révoquent les
+sessions. Ce mode prévisible reste bloqué pour de vrais comptes ; activation,
+récupération et droits des mineurs exigent une décision distincte.
+
+## Configuration et stockage
+
+Variables du service web : `SANAD_MODE`, `SANAD_DEMO_INSTANCE_ID`,
+`SANAD_DATABASE_URL`, `SANAD_PATIENT_PROVIDER`. Le lanceur local les prépare.
+Le marqueur synthétique en base et l'identifiant d'instance doivent correspondre
+avant toute opération ; `VERCEL_ENV` de production est refusé.
+
+Variables opérateur séparées : `SANAD_ADMIN_DATABASE_URL` et
+`SANAD_RUNTIME_PASSWORD`. Elles ne doivent pas être transmises au service web,
+au navigateur ou aux journaux. Aucun secret dans `NEXT_PUBLIC_*`. Pour une base
+de test gérée séparément, suivre [le guide de base](../../db/sanad/README.md) ;
+ne jamais réutiliser une connexion du cabinet.
+
+L'interface utilise Next.js/React, les traductions françaises, arabes et
+anglaises et des ressources auto-hébergées. Les routes `/api/sanad/*` valident
+les commandes puis passent par les portes PostgreSQL. La session détermine le
+patient côté serveur ; le rôle web n'accède pas directement aux tables. RLS
+forcée, versions, reçus d'idempotence et audit protègent les écritures. Journal
+et conversations restent privés ; le partage vise une révision précise et les
+révisions suivantes ne sont pas partagées automatiquement.
+
+## Ce que la démonstration permet
+
+Aujourd'hui, suivi et tendances déclarées, bilan quotidien, journal guidé,
+objectifs, prises déclarées, effets ressentis, préparation de rendez-vous,
+demandes et messages simulés, conversation, exercices, favoris et réglages.
+Les demandes restent en attente ; un reçu technique ne signifie pas lecture
+médicale. Traitement inerte, rendez-vous, objectif prescrit et document viennent
+exclusivement d'instantanés synthétiques. Aucune consigne clinique n'est inventée.
+
+Le fournisseur patient est exclusivement un scénario écrit, signalé dans
+l'interface et les réponses. Aucun appel Gemini, modèle local, SDK du chatbot
+public, outil d'écriture clinique ou voix active n'est utilisé dans ce parcours.
+La mémoire de préférences est visible et corrigeable ; désactivation et
+suppression sont séparées. La préparation du contexte autorisé existe dans les
+contrats, sans injection réelle d'un dossier dans un modèle.
+
+Le service worker réserve son cache aux ressources statiques ; les réponses
+authentifiées ne sont pas conservées. Le mode hors ligne générique n'affiche
+aucun dossier et n'envoie aucun message. Les notifications fermées et les
+contacts d'aide non vérifiés restent à configurer ; aucune surveillance continue.
+
+## Livraison et raccordement ultérieurs
+
+La base distante PostgreSQL 17.12 `sanad_demo` est créée sur Neon Claimable avec
+trois comptes fictifs ; ses portes et droits ont été vérifiés. Elle expire le
+18 novembre 2026 à 11:31 UTC si elle n'est pas rattachée à un compte Neon.
+Les variables Sanad sont configurées uniquement pour les previews du projet
+Vercel existant `mindcare-website`, protégé par authentification. Sanad reste
+une partie du site, sous `/sanad`. Le déploiement et sa recette HTTPS restent à
+terminer. Aucune production ou modification DNS n'est livrée.
+
+Les contrats, autorités, révocations et limites sont dans
+[CONTRACTS.md](CONTRACTS.md). Le PC dédié, HTTPS, accès distant, sauvegarde et
+restauration sont préparés dans [FUTURE-HOSTING.md](FUTURE-HOSTING.md). Aucun écran
+Aftercare MindCare ni migration clinique n'est inclus. Les preuves et les
+contrôles restant à faire sont dans [VERIFICATION.md](VERIFICATION.md).

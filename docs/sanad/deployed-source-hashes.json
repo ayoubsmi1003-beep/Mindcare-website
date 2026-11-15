@@ -1,0 +1,347 @@
+{
+  "deployment": "dpl_3PvJMyiTujLuY7smjozcRTq6zg7t",
+  "retrievedAt": "2026-11-15",
+  "algorithm": "SHA-1 of raw file bytes",
+  "files": [
+    {
+      "path": ".vercelignore",
+      "sha1": "975a65c3aa70188d84cf2e35c4b6240ce5246297"
+    },
+    {
+      "path": "app/api/booking/route.ts",
+      "sha1": "4d94c81ab2d1f72403c1642c88e551393121c4f6"
+    },
+    {
+      "path": "app/api/chat/route.ts",
+      "sha1": "d3e24d224bf1497d321d3e541ab31d9b292136ae"
+    },
+    {
+      "path": "app/api/clinic-bridge/route.ts",
+      "sha1": "2359350a0313568c7c0cfbebd146267640d86948"
+    },
+    {
+      "path": "app/booking/page.tsx",
+      "sha1": "224e69cd77ebab55ac1eb5bdcdf8c797aefd31e0"
+    },
+    {
+      "path": "app/chat/page.tsx",
+      "sha1": "c684548bd4db1b411f340f8738cc643de95299e0"
+    },
+    {
+      "path": "app/globals.css",
+      "sha1": "5b30b278c0ca4f87ff0562812f57d26c81e42812"
+    },
+    {
+      "path": "app/layout.tsx",
+      "sha1": "3256d53e7a74896d605e84ed3fc1cf520da3fb37"
+    },
+    {
+      "path": "app/not-found.tsx",
+      "sha1": "4f7b2487aa0fe018d3c986ce5b169cce212a70b1"
+    },
+    {
+      "path": "app/page.tsx",
+      "sha1": "1c213b9c0ba3eae0b359808a47df4dd8b60f1b58"
+    },
+    {
+      "path": "bun.lock",
+      "sha1": "ca6d77388833f6330247dbd299ca51ac063c368f"
+    },
+    {
+      "path": "components/booking/BookingFlow.tsx",
+      "sha1": "1366b9f0cc87069d1438efbb80cfd967f4f4eda2"
+    },
+    {
+      "path": "components/booking/BookingSuccess.tsx",
+      "sha1": "433a04289bfeb4efe8d3b9d2afec05ee4a187878"
+    },
+    {
+      "path": "components/booking/ReceiptTracking.tsx",
+      "sha1": "71b1dd1bec2c55b03f2b331c70ca7803ddfbb8e6"
+    },
+    {
+      "path": "components/booking/StepContact.tsx",
+      "sha1": "2ab21321eeeb087bf06d8d1e894af7bbb15a3d57"
+    },
+    {
+      "path": "components/booking/StepFirstTime.tsx",
+      "sha1": "e74e52cb19ce63b33b8959e7cba38fe334ef4119"
+    },
+    {
+      "path": "components/booking/StepFor.tsx",
+      "sha1": "16022fadd4160c8726eb3e59f8574b10f7773ed2"
+    },
+    {
+      "path": "components/booking/StepMotif.tsx",
+      "sha1": "f751d0c07c586c0e465e6163c5cfe95a3ad367d6"
+    },
+    {
+      "path": "components/booking/StepSlot.tsx",
+      "sha1": "e5b72bf8f2716c2a1cc2903e6876521beff01e91"
+    },
+    {
+      "path": "components/chat/ChatDrawer.tsx",
+      "sha1": "4640b06ea65b64d345002fe11d7b308fc0ff6b04"
+    },
+    {
+      "path": "components/layout/CrisisBanner.tsx",
+      "sha1": "79c174f2c67efc89a39bdf110f484e8749a9a8ae"
+    },
+    {
+      "path": "components/layout/Footer.tsx",
+      "sha1": "e51491b43509d9df233ef2519adff6faece52878"
+    },
+    {
+      "path": "components/layout/LogoMark.tsx",
+      "sha1": "1e11852206a42c694e477ba16c9e873e6f394349"
+    },
+    {
+      "path": "components/layout/Nav.tsx",
+      "sha1": "713065e78a4c15c97d8f35bed35125a07fb142df"
+    },
+    {
+      "path": "components/primitives/CountUp.tsx",
+      "sha1": "b4f9041bff3f04c899aa0e026c3d9b9acce7ebde"
+    },
+    {
+      "path": "components/primitives/GradientOrb.tsx",
+      "sha1": "045cea15e6d51e3d15ded1fe992b3375d827e853"
+    },
+    {
+      "path": "components/primitives/GrainOverlay.tsx",
+      "sha1": "9600b9d8a7de2f5ba91f003173b00ae309f3be56"
+    },
+    {
+      "path": "components/primitives/Magnetic.tsx",
+      "sha1": "d5f2c9f875634e366f413d5cde1547d790fe0f34"
+    },
+    {
+      "path": "components/primitives/Marquee.tsx",
+      "sha1": "74e527ba50ff93cddf5f6c000141932c67a2b39c"
+    },
+    {
+      "path": "components/primitives/Reveal.tsx",
+      "sha1": "e241a6087dc8233daef82d92e8955d901a55e718"
+    },
+    {
+      "path": "components/primitives/SectionDivider.tsx",
+      "sha1": "fda3ad49254cb928c1c897443cad7e7fe1cf153f"
+    },
+    {
+      "path": "components/primitives/WordReveal.tsx",
+      "sha1": "3e8904f9edc4564a1196256a150e66b93af54e05"
+    },
+    {
+      "path": "components/sections/Aftercare.tsx",
+      "sha1": "5fa0a80ed42a2eb00424125adb1067f48e88f347"
+    },
+    {
+      "path": "components/sections/Booking.tsx",
+      "sha1": "108a9c4321edcd2b022680708b85127f697dbad7"
+    },
+    {
+      "path": "components/sections/Doctor.tsx",
+      "sha1": "ca34efd7fc5898445a62490e786e12f2c80ff540"
+    },
+    {
+      "path": "components/sections/Familiar.tsx",
+      "sha1": "0f0a077bfe1388bdb5b8133a81151bd0b3b7de06"
+    },
+    {
+      "path": "components/sections/Faq.tsx",
+      "sha1": "f9afe70db6ba5e3ab2f002a87b1bfd0321adb59c"
+    },
+    {
+      "path": "components/sections/Hero.tsx",
+      "sha1": "729119635ebb92b01eaddf75ceb8bfe59e824d0c"
+    },
+    {
+      "path": "components/sections/Journey.tsx",
+      "sha1": "c48506dcc916cc15e193cd64e3ed25aba9ed785f"
+    },
+    {
+      "path": "components/sections/Location.tsx",
+      "sha1": "dde7917c87ce2080ed688b161d4470f1522a892c"
+    },
+    {
+      "path": "components/sections/Reassurance.tsx",
+      "sha1": "4fc195581068dcfac8645ad4a0b08f0f599bf87c"
+    },
+    {
+      "path": "components/sections/Services.tsx",
+      "sha1": "4c642ef4582618d8d8c3e3480746802f5aaec832"
+    },
+    {
+      "path": "components/sections/Testimonials.tsx",
+      "sha1": "e5ff3d6e70d3473f7748d21230bc4300801eba8b"
+    },
+    {
+      "path": "components/sections/WhyUs.tsx",
+      "sha1": "5f8be67a917873e8302484c1402bd121b1bc9f4d"
+    },
+    {
+      "path": "components/ui/expand-map.tsx",
+      "sha1": "411b58cb4f1032c0eca42a10dcd78cf48471c11b"
+    },
+    {
+      "path": "content/aftercare.ts",
+      "sha1": "4addabb9e3b86b9d284e5d9a07c98783409e89eb"
+    },
+    {
+      "path": "content/clinic.ts",
+      "sha1": "d9abe1058026b6439a8bbe88e85ed9841ea4bc93"
+    },
+    {
+      "path": "content/faq.ts",
+      "sha1": "d27b3ab63cbb6c34d0aad466eae2b08294ffc7d3"
+    },
+    {
+      "path": "content/pillars.ts",
+      "sha1": "cfef7eafe840ef41d6d8d54fcaf41f2efbede000"
+    },
+    {
+      "path": "content/services.ts",
+      "sha1": "0721c2e097377cf5b2a9c3135859931236c776f0"
+    },
+    {
+      "path": "content/testimonials.ts",
+      "sha1": "5e04db1b053a70db97c76940cfab960af5aa0efd"
+    },
+    {
+      "path": "eslint.config.mjs",
+      "sha1": "f7e63be35f9d157c85dd728afab76eecd5d5c2e9"
+    },
+    {
+      "path": "hooks/use-mobile.ts",
+      "sha1": "f9f437b6eeda93d8cb2fbb1065a5dfae0689a5a8"
+    },
+    {
+      "path": "lib/app-context.tsx",
+      "sha1": "1f5d9c1ebfeb168f0c5be86a60d8f47b40129746"
+    },
+    {
+      "path": "lib/availability.ts",
+      "sha1": "686ebd3bb6dc51a99c66b2857cbf7f7498040361"
+    },
+    {
+      "path": "lib/booking-broker.ts",
+      "sha1": "2430ed88fccf93837bd6e8a41188735d82ee10c2"
+    },
+    {
+      "path": "lib/booking-client.ts",
+      "sha1": "ea7d712a985fe0e124144cb9e31171fbab701288"
+    },
+    {
+      "path": "lib/booking-durable.ts",
+      "sha1": "04115ef3cadd0064ffceccaf2f3bac6fca82c3b3"
+    },
+    {
+      "path": "lib/booking-form.ts",
+      "sha1": "6a807a21b176e42ffb83585dd0f463f1ca6bb712"
+    },
+    {
+      "path": "lib/booking-http.ts",
+      "sha1": "56ffcde573e5e7eea3bd4904ee75b2c4db158564"
+    },
+    {
+      "path": "lib/booking-protocol.ts",
+      "sha1": "6f553422f5395700b12a5382e393734085883f18"
+    },
+    {
+      "path": "lib/booking-redis.ts",
+      "sha1": "3770b60b85e7f451c916111cfeb4775d50d4a540"
+    },
+    {
+      "path": "lib/booking-tool.ts",
+      "sha1": "28ef4de8648953cb6f8d13047df04653ce9a655e"
+    },
+    {
+      "path": "lib/chat-model.ts",
+      "sha1": "ecf829c5cd01711c9cdbfb854b96015083ad64c5"
+    },
+    {
+      "path": "lib/clinic-bridge-auth.ts",
+      "sha1": "feb7c31a752ea9cec3111e5dbf04ac16ed391005"
+    },
+    {
+      "path": "lib/gemini-reply.ts",
+      "sha1": "0886cfec11058ec87c969a599fbcb39db34884a2"
+    },
+    {
+      "path": "lib/i18n/translations.ts",
+      "sha1": "ada8247d8fb8ca66132719a86f631cd540a61008"
+    },
+    {
+      "path": "lib/public-chat.ts",
+      "sha1": "4858c296932b7e82caa2b110980a3f0ee6f858bd"
+    },
+    {
+      "path": "lib/system-prompt.ts",
+      "sha1": "c2bfb67b8fe5ca7c29f10057b7070354cbf2026f"
+    },
+    {
+      "path": "lib/types.ts",
+      "sha1": "c986c968cfa46a3b30828a9668869fd3fb95f365"
+    },
+    {
+      "path": "lib/utils.ts",
+      "sha1": "407448e8a9b241fc58443cb40deaff4ef4b78017"
+    },
+    {
+      "path": "metadata.json",
+      "sha1": "e6a8b96b6f39273245d47d3bfeaee40d9524f5d6"
+    },
+    {
+      "path": "next-env.d.ts",
+      "sha1": "18c914c761d5644b44e7e6e22d79cbe186093ba0"
+    },
+    {
+      "path": "next.config.ts",
+      "sha1": "200679f23155c09bce6069f52a24ad6fcc8cba27"
+    },
+    {
+      "path": "package-lock.json",
+      "sha1": "3e2101aeb88c518cb86cebb2631277130187a8fe"
+    },
+    {
+      "path": "package.json",
+      "sha1": "929405d3088d2432f461c051e01a0264a61dab72"
+    },
+    {
+      "path": "postcss.config.mjs",
+      "sha1": "8c0f4b4dcc9aad4b369398eb58a8b93b33ec0c99"
+    },
+    {
+      "path": "public/doctor.svg",
+      "sha1": "f4b13f19d966994233eeba2dbbaab18273c08314"
+    },
+    {
+      "path": "public/hero.svg",
+      "sha1": "ba9a9d066866a8b3d75c2cc3d5b33d007fb80a39"
+    },
+    {
+      "path": "scripts/booking-current.test.mjs",
+      "sha1": "52542f3d57e5ab90bbcacd061c9aef87cde74bef"
+    },
+    {
+      "path": "scripts/booking-ui.test.mjs",
+      "sha1": "d579fc4bd2cb966b3a55e9629e1b5186290882f1"
+    },
+    {
+      "path": "scripts/gemini-fallback.test.mjs",
+      "sha1": "787ed97bcbf9e8edbfc10e1d81315529b7921a15"
+    },
+    {
+      "path": "scripts/public-chat.test.mjs",
+      "sha1": "3160672edc6eba79f9219ac19ce1744fe2fafc75"
+    },
+    {
+      "path": "tsconfig.json",
+      "sha1": "49a734e23930e58c95ea214924613bd10ec54e72"
+    },
+    {
+      "path": "vercel.json",
+      "sha1": "633dd8adffc37097557ae4ebff00976cfa698ee5"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "at": "2026-11-15T11:45:59.830Z",
+  "provider": "Neon Claimable",
+  "project": {
+    "id": "ancient-night-42868776",
+    "branch_id": "br-square-rain-b99eetso",
+    "region_id": "aws-eu-central-1",
+    "expires_at": "2026-11-18T11:31:21.734Z"
+  },
+  "postgres": "17.12",
+  "database": "sanad_demo",
+  "syntheticMarker": true,
+  "profiles": 3,
+  "authorityRecords": 12,
+  "runtimeRole": "sanad_runtime",
+  "superuser": false,
+  "bypassRls": false,
+  "ownerMember": false,
+  "directTableRead": false,
+  "operatorExecution": false,
+  "webStateGate": true,
+  "migrations": [
+    "001_synthetic.sql",
+    "002_function_privileges.sql"
+  ]
+}

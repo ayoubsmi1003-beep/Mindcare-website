@@ -1,0 +1,23 @@
+{
+  "at": "2026-11-15T11:35:58.666Z",
+  "runtime": "Next production build; real Chromium and isolated PostgreSQL",
+  "mutationDisablesComposer": true,
+  "cancellationAvailable": true,
+  "successfulSendClearsSavedDraft": true,
+  "failedSendRetainsDraft": true,
+  "failedSendRestoresEditing": true,
+  "performance": {
+    "navigation": [
+      {
+        "ttfbMs": 292.6000000014901,
+        "domContentLoadedMs": 835.2000000029802,
+        "loadMs": 1142.6000000014901
+      }
+    ],
+    "resources": {
+      "transferBytes": 572458,
+      "encodedBytes": 707516,
+      "count": 28
+    }
+  }
+}

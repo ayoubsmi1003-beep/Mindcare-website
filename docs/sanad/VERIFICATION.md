@@ -1,25 +1,130 @@
-# Vérification — étape de conception, 14 novembre 2026
+# Vérification Sanad — 15 novembre 2026
 
-## PASS
+Ce rapport remplace le bilan de conception du 14 novembre. Les résultats
+ci-dessous concernent une démonstration privée locale avec données fictives.
+Ils ne qualifient ni usage clinique, ni fournisseur IA réel, ni exploitation.
 
-- Huit images distinctes : six vues mobiles françaises, une référence arabe RTL et un desktop. Visuellement inspectées à la génération ; contenu fictif signalé. Les images restent des références, pas une preuve d’accessibilité de l’application future.
-- `node --test docs/sanad/design/prototype.test.mjs` : 2 tests réussis, 0 échec, 0 skip. Résolution sûre des fragments inconnus ; présence et taille des PNG ; cibles de navigation valides.
-- `node --check docs/sanad/design/prototype.mjs` : sortie 0.
-- `git diff --check` : sortie 0.
-- Navigateur intégré réel : ouverture du prototype local ; lien Connexion → Aujourd’hui → Bilan ; accès à la référence arabe puis retour Aujourd’hui. Titres, liens et image active constatés dans l’arbre d’accessibilité. Onglet conservé pour revue.
+## PASS — sources et tests ciblés
 
-## FAIL / limite d’outil
+Les exécutions ci-dessous ont été observées pendant la réalisation ; cette
+mise à jour documentaire ne les présente pas comme une nouvelle exécution.
 
-- Capture du navigateur : « Unable to capture screenshot ». Aucun fichier de capture navigateur livré ; les PNG de génération ne sont pas présentés comme des captures de l’application.
-- Récupération complète du code déployé : le connecteur tronque de nombreux fichiers. Aucun contenu tronqué appliqué, aucune réconciliation réputée terminée. Voir SOURCE-PROVENANCE.md.
+| Contrôle | Résultat | Commande ou preuve |
+| --- | --- | --- |
+| Sources du site déployé | 84 originaux retrouvés sur 85 ; 81 fichiers courants identiques, 4 différences intentionnelles | [SOURCE-PROVENANCE.md](SOURCE-PROVENANCE.md), `source-reconciliation.json`, `deployed-source-hashes.json` |
+| Site public restauré | 12/12, 0 échec, 0 skip | `node --test scripts/booking-current.test.mjs scripts/booking-ui.test.mjs scripts/public-chat.test.mjs scripts/gemini-fallback.test.mjs` |
+| Contrats synthétiques | 21/21, 0 échec, 0 skip | `node --experimental-strip-types --test lib/sanad/contracts/contracts.test.mjs` |
+| Commandes et frontière HTTP | 4/4, 0 échec, 0 skip | `node --experimental-strip-types --test lib/sanad/commands.test.mjs` |
+| Interface et traductions | 11/11, 0 échec, 0 skip | `node --test components/sanad/ui.test.cjs` |
+| Service worker isolé | 2/2, 0 échec, 0 skip | `node --test lib/sanad/sw.test.mjs` |
+| Crypto et vraies portes PostgreSQL isolées | 8/8, 0 échec, 0 skip | `node --experimental-strip-types --test lib/sanad/server/crypto.test.mjs lib/sanad/server/integration.test.mjs` |
+| Parcours HTTP vers la base synthétique | 1 test de parcours complet, réussi | Démonstration locale lancée, puis `node --test scripts/sanad-api.test.mjs` |
+| Lint global | Sortie 0 | `node node_modules/eslint/bin/eslint.js .` |
 
-## NOT RUN
+Le verrou de dépendances original du déploiement est le seul fichier non
+retrouvé : le verrou courant contient les ajouts Sanad. Les quatre différences
+assumées concernent la navigation Sanad, les dépendances PostgreSQL, ce verrou
+et l'en-tête du service worker. Aucun fichier tronqué du connecteur n'a été appliqué.
 
-- Build, lint et typecheck du site : code applicatif inchangé et dépendances non installées à cette étape documentaire.
-- Comptes, RLS, persistance, base, contrats de synchronisation et appels IA : aucune implémentation complète avant validation des maquettes.
-- Recette de l’application aux largeurs 360/390/430, tablette et desktop : la navigation de référence ne remplace pas cette recette future.
-- Provisionnement PostgreSQL, preview distante protégée, notifications, connexion au cabinet, qualification clinique et remise en service du domaine.
+Les tests couvrent notamment sessions, mots de passe, isolation entre patients,
+corrections et concurrence, idempotence, partage par révision/révocation,
+interdiction d'écritures patient sur les objets d'autorité, commandes invalides,
+traitement modifié/arrêté et événements retardés. Les tests de contrat couvrent
+aussi déduplication après sérialisation, conflit d'autorité, confidentialité du
+contexte et refus des fournisseurs Gemini/local dans le parcours patient.
+Les tests HTTP vérifient de vraies réponses, cookies et données persistées,
+dont le refus 409 d'une clé de chat réutilisée avec un autre texte ou une autre
+conversation. Le test de contrat inclut la révocation à date d'effet future ;
+le cabinet, les messages reçus et le dialogue restent synthétiques.
+
+## PASS — navigateur et présentation
+
+Le navigateur réel a confirmé un bilan enregistré avec 7,5 heures de sommeil,
+retrouvé après rechargement, une conversation partagée puis révoquée, la pause
+d'un exercice et le refus de présenter une saisie hors connexion comme reçue.
+Captures fonctionnelles : [bilan](proofs/390-bilan.png),
+[conversation](proofs/390-conversation.png), [arabe](proofs/390-arabe.png),
+[ressources](proofs/390-ressources.png), [hors ligne](proofs/390-offline.png).
+
+La revue indépendante a rendu **195 cas** : 13 écrans × 5 largeurs
+(360/390/430/768/1440 pixels CSS) × 3 langues (FR/AR/EN). Aucun débordement
+horizontal ou champ sans label associé dans cette matrice ; RTL arabe, champs
+téléphone/heure LTR, focus clavier visible, en-tête fixe et réduction des
+animations contrôlés. L'aide, auparavant masquée sous 376 pixels, a été corrigée
+puis ouverte au clic à 360 pixels dans les trois langues, sans collision.
+
+Preuves : [compte rendu de revue](proofs/ui-review-summary.md),
+[matrice](proofs/ui-review-report.json), [clavier](proofs/ui-review-keyboard.json),
+[aide corrigée](proofs/ui-review-help-fixed.json),
+[mobile français](proofs/ui-review-fr-390-today.png),
+[mobile arabe](proofs/ui-review-ar-390-today.png),
+[desktop arabe](proofs/ui-review-ar-1440-today.png).
+La seule erreur console de la matrice est le 401 initial attendu sans session ;
+aucune erreur JavaScript de page n'a été relevée.
+
+La matrice vérifie le rendu et la navigation : elle n'a pas enregistré de bilan
+ou envoyé de message. Les essais fonctionnels ci-dessus et HTTP apportent les
+preuves d'écriture. Le viewport de 420 pixels avec saisie active est une
+approximation du clavier mobile, pas un essai sur téléphone physique.
+
+Le cycle réel du service worker a aussi été vérifié dans Chromium : en-tête
+`Service-Worker-Allowed` limité à `/sanad`, activation et contrôle de page,
+rechargement hors connexion vers la page générique, puis début/pause d'exercice
+hors ligne réussis. Le cache ne contient que sept ressources publiques et
+`localStorage` est vide. Capture : [hors ligne réel](proofs/390-offline.png).
+Cela ne prouve pas le cycle d'installation d'une PWA sur téléphone.
+
+Le rognage du sélecteur de langue à 360 pixels a été corrigé après la matrice :
+largeur finale 94 pixels, texte 11 pixels, largeur du document 360 pixels lors du
+contrôle final. Capture : [en-tête final](proofs/360-header-final.png).
+
+`npm run build` a terminé avec succès : `/sanad` représente 16 ko et 134 ko de
+JavaScript au premier chargement. Typecheck global et lint global : PASS.
+Les 38 tests contrats/interface/commandes/service worker ont ensuite été relancés :
+38 PASS, zéro skip. La dernière protection serveur des droits opérateur est
+également couverte par le typecheck et les huit tests PostgreSQL.
+
+La recette Chromium contre le build optimisé vérifie l'envoi retardé, le blocage
+du champ pendant l'envoi, l'annulation accessible et le brouillon conservé après
+une erreur 503 : [preuve](proofs/final-browser-mutations.json). Mesure locale sans
+bridage réseau/CPU : TTFB 293 ms, DOMContentLoaded 835 ms, chargement 1 143 ms ;
+ces valeurs de laboratoire ne prédisent pas un téléphone sur réseau mobile.
+
+Base distante créée et vérifiée : PostgreSQL 17.12, base vide dédiée `sanad_demo`,
+trois comptes fictifs, douze objets d'autorité synthétiques. Le rôle web n'est ni
+propriétaire ni superuser, n'a ni BYPASSRLS, lecture directe des tables ni droit
+d'exécuter les portes opérateur. La migration 002 corrige le défaut global
+`PUBLIC EXECUTE`, reproduit en RED puis testé en GREEN ; le serveur refuse un
+rôle web trop privilégié. [Preuve distante](proofs/cloud-postgres.json).
+La base Claimable expire le 18 novembre 2026 à 11:31 UTC sans rattachement ;
+aucune pérennité n'est promise avant ce rattachement.
+
+## FAIL / limites connues
+
+- Le domaine `mindcare-centre.com` et son `www` restent indisponibles en HTTPS
+  depuis le poste ; la vérification titulaire/DNS nécessite l'action du titulaire.
+  L'URL Vercel historique répond 200, l'alias d'équipe est protégé par SSO.
+  Aucun de ces constats ne prouve la remise en service du domaine.
+
+## NOT RUN / preuves finales en attente
+
+- Preview distante protégée : déploiement et recette HTTPS encore en attente.
+  Les quatre variables Sanad sont configurées uniquement pour les previews du
+  projet existant `mindcare-website`. Ce projet n'est pas relié à Git ; le filtre
+  de branche n'est donc pas disponible. Aucune variable de production modifiée.
+- Téléphones physiques iOS/Android, vrai clavier virtuel, lecteur d'écran,
+  installation PWA et notifications application fermée : non vérifiés.
+- Raccordement MindCare, transport durable de synchronisation, écran Aftercare,
+  modèle local/cloud et qualification clinique multilingue : non réalisés.
+- Production, DNS, sauvegarde/restauration du PC dédié, redémarrage réel,
+  disponibilité, consentement/conservation et ouverture aux vrais patients :
+  non qualifiés. Aucun appel facturé ni envoi externe depuis Sanad.
 
 ## Reprise
 
-Attendre l’accord explicite sur la direction visuelle et la conception, puis poursuivre le BRIEF.md sans réduire le périmètre. Résoudre la provenance complète des correctifs du site avant toute livraison qui modifierait ses parcours existants. Aucun accès à la base du cabinet, aucune publication en production, aucun domaine modifié et aucune dépense engagée.
+Lancement : [IMPLEMENTATION.md](IMPLEMENTATION.md). Préparation du raccordement :
+[CONTRACTS.md](CONTRACTS.md) et [FUTURE-HOSTING.md](FUTURE-HOSTING.md).
+Compléter les preuves finales avant tout bilan de livraison intégré. L'ouverture
+réelle reste bloquée par les validations d'identité, sécurité, mineurs,
+contenu, exploitation et raccordement ; aucune donnée clinique n'est nécessaire
+pour poursuivre les essais synthétiques.
