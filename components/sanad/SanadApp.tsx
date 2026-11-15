@@ -2,14 +2,16 @@
 
 import {useCallback,useEffect,useRef,useState, type FormEvent} from 'react';
 import Link from 'next/link';
-import {ArrowRight,BookOpen,CalendarDays,ChevronLeft,ClipboardList,HelpCircle,Home,Leaf,LogOut,MessageCircle,Pill,ShieldCheck,Sprout,UserRound,Wind} from 'lucide-react';
+import {motion} from 'motion/react';
+import {GlassSculpture,useMotionPreference} from './GlassSculpture';
+import {ArrowRight,BookOpen,CalendarDays,ChevronLeft,ClipboardList,HelpCircle,Home,AudioLines,MessageCircle,Pill,ShieldCheck,Fingerprint,UserRound,Wind,CircleGauge} from 'lucide-react';
 import {languageNames,locales,translate,type CopyKey,type Locale} from '@/lib/sanad/i18n';
 import {Context,day,dateLabel,str,useSanad,type Body,type PatientState,type SanadRecord,type Screen} from './core';
 import {Checkin,Followup,Treatment} from './Tracking';
 import {Resources} from './Resources';
 import {Appointments,Chat,Help,Messages,Settings} from './Spaces';
 
-const tabs = [{key:'today',Icon:Home},{key:'followup',Icon:ClipboardList},{key:'chat',Icon:Sprout},{key:'resources',Icon:BookOpen},{key:'space',Icon:UserRound}] as const;
+const tabs = [{key:'today',Icon:Home},{key:'followup',Icon:ClipboardList},{key:'chat',Icon:AudioLines},{key:'resources',Icon:BookOpen},{key:'space',Icon:UserRound}] as const;
 class ApiError extends Error { constructor(public status: number, public code: string) { super(code); } }
 async function api(path: string, body?: Body, signal?: AbortSignal) {
   const controller=new AbortController();
@@ -24,6 +26,7 @@ async function api(path: string, body?: Body, signal?: AbortSignal) {
   } finally {clearTimeout(timeout);signal?.removeEventListener('abort',abort);}
 }
 export function SanadApp() {
+  const reducedMotion=useMotionPreference();
   const [state,setState] = useState<PatientState | null>(null);
   const [locale,setLocale] = useState<Locale>('fr');
   const [screen,setScreen] = useState<Screen>('today');
@@ -70,10 +73,47 @@ export function SanadApp() {
   async function login(event: FormEvent<HTMLFormElement>) {event.preventDefault();if(requestLock.current)return;requestLock.current=true;setBusy(true);setError(null);const fields = new FormData(event.currentTarget);try{await api('sign-in',{phone:fields.get('phone'),password:fields.get('password')});const fresh = await load();if(fresh){setScreen('today');setLocale(locales.includes(fresh.profile.locale) ? fresh.profile.locale : 'fr');}}catch(error){if(error instanceof ApiError&&error.status===401)setError('authError');else handleError(error);}finally{requestLock.current=false;setBusy(false);}}
   const localePicker = <label className="sn-language"><span className="sn-sr-only">{t('language')}</span><select value={locale} onChange={event => setLocale(event.target.value as Locale)}>{locales.map(value => <option key={value} value={value}>{languageNames[value]}</option>)}</select></label>;
   const status = <>{offline && <div className="sn-banner sn-warning" role="status">{t('offline')}</div>}{error && <div className="sn-banner sn-error" role="alert">{t(error)}{auth && <button type="button" onClick={() => {setError(null);void load();}}>{t('reload')}</button>}</div>}{notice && <div className="sn-banner sn-success" role="status">{t(notice)}</div>}</>;
-  if(loading) return <div className="sn-app sn-loading" lang={locale} dir={locale==='ar'?'rtl':'ltr'}><Sprout size={42} aria-hidden="true"/><p role="status">{t('loading')}</p></div>;
-  if(!auth || !state) return <div className="sn-app sn-login" lang={locale} dir={locale==='ar'?'rtl':'ltr'}><section className="sn-login-art" aria-hidden="true"><div className="sn-wordmark"><Sprout/>sanad</div><img src="/sanad/garden.webp" alt=""/><p>{t('oneStep')}</p></section><main className="sn-login-main"><div className="sn-login-top"><Link href="/" className="sn-wordmark"><Sprout/>sanad</Link>{localePicker}</div><span className="sn-tag">{t('demo')}</span><h1>{t('welcome')}</h1><p className="sn-lead">{t('loginIntro')}</p>{status}<form onSubmit={login} className="sn-form"><label className="sn-field"><span>{t('phone')}</span><input dir="ltr" name="phone" type="tel" autoComplete="username" required maxLength={30}/></label><label className="sn-field"><span>{t('password')}</span><input name="password" type="password" autoComplete="current-password" required maxLength={256}/></label><button type="submit" className="sn-button" disabled={busy || offline}>{busy ? t('loading') : t('signIn')}<ArrowRight size={19}/></button></form><p className="sn-small sn-login-help"><ShieldCheck size={20}/>{t('loginHelp')}</p><p className="sn-small">{t('demoNote')}</p></main></div>;
+  if(loading) return <div className="sn-app sn-loading" lang={locale} dir={locale==='ar'?'rtl':'ltr'}><AudioLines size={42} aria-hidden="true"/><p role="status">{t('loading')}</p></div>;
+  if(!auth || !state) return <div className="sn-app sn-login" lang={locale} dir={locale==='ar'?'rtl':'ltr'}>
+    <section className="sn-login-art" aria-hidden="true">
+      <div className="sn-wordmark"><Fingerprint/>sanad</div><GlassSculpture/>
+      <div className="sn-login-art-copy"><p>{t('loginStatement')}</p><span>{t('todayIntro')}</span></div>
+    </section>
+    <main className="sn-login-main"><div className="sn-login-top"><Link href="/" className="sn-wordmark">sanad</Link>{localePicker}</div>
+      <span className="sn-tag">{t('demo')}</span><h1>{t('welcome')}</h1><p className="sn-lead">{t('loginIntro')}</p>{status}
+      <form onSubmit={login} className="sn-form">
+        <label className="sn-field"><span>{t('phone')}</span><input dir="ltr" name="phone" type="tel" autoComplete="username" required maxLength={30}/></label>
+        <label className="sn-field"><span>{t('password')}</span><input name="password" type="password" autoComplete="current-password" required maxLength={256}/></label>
+        <button type="submit" className="sn-button" disabled={busy || offline}>{busy ? t('loading') : t('signIn')}<ArrowRight size={19}/></button>
+      </form>
+      <p className="sn-small sn-login-help"><ShieldCheck size={20}/>{t('loginHelp')}</p><p className="sn-small">{t('demoNote')}</p>
+    </main></div>;
   const activeTab = ['checkin','treatment'].includes(screen) ? 'followup' : ['messages','appointments','help'].includes(screen) ? '' : screen;
-  return <Context.Provider value={{state,locale,setLocale,t,go,busy,save,command,cancelCommand:()=>commandAbort.current?.abort(),password,signOut,reload:async()=>{await load();}}}><div className="sn-app" lang={locale} dir={locale==='ar'?'rtl':'ltr'}><aside className="sn-sidebar"><a href="/sanad" className="sn-wordmark"><Sprout/>sanad</a><span className="sn-tag">{t('demo')}</span><nav aria-label={t('space')}>{tabs.map(({key,Icon})=><button key={key} type="button" aria-current={activeTab===key?'page':undefined} onClick={()=>go(key)}><Icon size={21}/>{t(key)}</button>)}</nav><div className="sn-sidebar-bottom"><button type="button" onClick={()=>go('help')}><HelpCircle size={19}/>{t('help')}</button><button type="button" disabled={busy} onClick={signOut}><LogOut size={19}/>{t('signOut')}</button><p>{t('demoNote')}</p></div></aside><div className="sn-workspace"><header className="sn-topbar"><a href="/sanad" className="sn-wordmark sn-mobile-brand"><Sprout/>sanad</a><span className="sn-mobile-demo">{t('demo')}</span><span className="sn-desktop-label">{t('demo')}</span><div className="sn-top-actions">{localePicker}<button type="button" className="sn-icon-button" onClick={()=>go('appointments')} aria-label={t('appointments')}><CalendarDays size={21}/></button><button type="button" className="sn-icon-button sn-help-button" onClick={()=>go('help')} aria-label={t('help')}><HelpCircle size={21}/><span>{t('help')}</span></button></div></header><main ref={main} tabIndex={-1} className={`sn-main sn-screen-${screen}`}><div className="sn-status">{status}</div>{!tabs.some(tab=>tab.key===screen) && <button type="button" className="sn-back" onClick={()=>go(screen==='checkin'||screen==='treatment'?'followup':'today')}><ChevronLeft size={18}/>{t('back')}</button>}{screen==='today' && <Today/>}{screen==='followup' && <Followup/>}{screen==='checkin' && <Checkin/>}{screen==='treatment' && <Treatment/>}{screen==='resources' && <Resources/>}{screen==='chat' && <Chat/>}{screen==='appointments' && <Appointments/>}{screen==='messages' && <Messages/>}{screen==='help' && <Help/>}{screen==='space' && <Settings/>}</main></div><nav className="sn-bottom-nav" aria-label={t('space')}>{tabs.map(({key,Icon})=><button key={key} type="button" aria-current={activeTab===key?'page':undefined} onClick={()=>go(key)}><Icon size={22}/><span>{t(key)}</span></button>)}</nav></div></Context.Provider>;
+  return <Context.Provider value={{state,locale,setLocale,t,go,busy,save,command,cancelCommand:()=>commandAbort.current?.abort(),password,signOut,reload:async()=>{await load();}}}>
+    <div className="sn-app" lang={locale} dir={locale==='ar'?'rtl':'ltr'}>
+      <a href="#sn-content" className="sn-skip">{t('skipContent')}</a>
+      <div className="sn-workspace">
+        <header className="sn-topbar">
+          <a href="/sanad" className="sn-wordmark sn-mobile-brand"><Fingerprint/>sanad<small>{t('yourSpace')}</small></a>
+          <span className="sn-desktop-label">{t('demo')}</span>
+          <div className="sn-top-actions">{localePicker}
+            <button type="button" className="sn-icon-button" onClick={()=>go('appointments')} aria-label={t('appointments')}><CalendarDays size={21}/></button>
+            <button type="button" className="sn-icon-button sn-help-button" onClick={()=>go('help')} aria-label={t('help')}><HelpCircle size={21}/><span>{t('help')}</span></button>
+          </div>
+        </header>
+        <motion.main key={screen} id="sn-content" ref={main} tabIndex={-1} className={`sn-main sn-screen-${screen}`}
+          initial={reducedMotion?false:{opacity:0,y:12}} animate={{opacity:1,y:0}} transition={{duration:reducedMotion?0:.4,ease:[.16,1,.3,1]}}>
+          <div className="sn-status">{status}</div>
+          {!tabs.some(tab=>tab.key===screen) && <button type="button" className="sn-back" onClick={()=>go(screen==='checkin'||screen==='treatment'?'followup':'today')}><ChevronLeft size={18}/>{t('back')}</button>}
+          {screen==='today' && <Today/>}{screen==='followup' && <Followup/>}{screen==='checkin' && <Checkin/>}{screen==='treatment' && <Treatment/>}{screen==='resources' && <Resources/>}{screen==='chat' && <Chat/>}{screen==='appointments' && <Appointments/>}{screen==='messages' && <Messages/>}{screen==='help' && <Help/>}{screen==='space' && <Settings/>}
+        </motion.main>
+      </div>
+      <nav className="sn-bottom-nav" aria-label={t('space')}>
+        {tabs.map(({key,Icon})=><button key={key} type="button" aria-current={activeTab===key?'page':undefined} onClick={()=>go(key)}>
+          {activeTab===key&&<motion.span className="sn-nav-active" layoutId="sanad-active-tab" transition={reducedMotion?{duration:0}:{type:'spring',stiffness:360,damping:32}}/>}
+          <Icon size={22}/><span>{t(key)}</span></button>)}
+      </nav>
+    </div></Context.Provider>;
 }
 function Today() {
   const {state,t,go,locale}=useSanad();
@@ -81,5 +121,13 @@ function Today() {
   const next=state.records.filter(record=>record.kind==='appointment' && str(record.body,'date')>=day() && str(record.body,'status')==='confirmed').sort((a,b)=>str(a.body,'date').localeCompare(str(b.body,'date')))[0];
   const preferences=state.records.find(record=>record.kind==='preferences');
   const name=(preferences && str(preferences.body,'displayName')) || state.profile.displayName;
-  return <><section className="sn-today-hero"><div className="sn-hero-copy"><span className="sn-eyebrow">{t('greeting')}, {name}</span><p className="sn-date">{dateLabel(day(),locale,true)}</p><h1>{t('oneStep')}</h1><p>{t('todayIntro')}</p></div><img className="sn-hero-garden" src="/sanad/garden.webp" alt="" fetchPriority="high"/><span className="sn-hero-mark" aria-hidden="true"><Leaf/></span></section><div className="sn-today-grid"><section className="sn-checkin-prompt"><div className="sn-flower" aria-hidden="true"><Sprout size={82}/></div><div><span className="sn-eyebrow">{t('today')}</span><h2>{t('checkinTitle')}</h2><p>{t(checkin?'checkinDone':'checkinIntro')}</p><button type="button" className="sn-button" onClick={()=>go('checkin')}>{t(checkin?'editCheckin':'doCheckin')}<ArrowRight size={18}/></button></div></section><section className="sn-quick-links"><button type="button" onClick={()=>go('treatment')}><span className="sn-link-icon"><Pill/></span><span><strong>{t('treatment')}</strong><small>{t('treatmentHint')}</small></span><ArrowRight size={20}/></button><button type="button" onClick={()=>go('appointments')}><span className="sn-link-icon"><CalendarDays/></span><span><strong>{t('appointmentNext')}</strong><small>{next ? `${dateLabel(str(next.body,'date'),locale)} · ${str(next.body,'startTime')}` : t('noAppointment')}</small></span><ArrowRight size={20}/></button><button type="button" className="sn-coral-link" onClick={()=>go('resources')}><span className="sn-link-icon"><Wind/></span><span><strong>{t('breatheMoment')}</strong></span><ArrowRight size={20}/></button></section></div><section className="sn-chat-invite"><span className="sn-orbit" aria-hidden="true"><Sprout/></span><div><span className="sn-eyebrow">{t('scenario')}</span><h2>{t('talk')}</h2></div><button type="button" className="sn-round-arrow" aria-label={t('chat')} onClick={()=>go('chat')}><ArrowRight/></button></section><button type="button" className="sn-text-button sn-cabinet-link" onClick={()=>go('messages')}><MessageCircle size={18}/>{t('messages')}</button></>;
+  return <>
+    <section className="sn-today-hero"><div className="sn-hero-copy"><span className="sn-eyebrow">{t('greeting')}, <bdi>{name}</bdi></span><p className="sn-date">{dateLabel(day(),locale,true)}</p><h1>{t('oneStep')}</h1><p>{t('todayIntro')}</p></div>
+      <div className="sn-hero-side"><GlassSculpture/><span className="sn-hero-caption">{t('yourSpace')}</span></div>
+    </section>
+    <div className="sn-today-grid"><section className="sn-checkin-prompt"><div className="sn-checkin-symbol" aria-hidden="true"><CircleGauge/></div><div><span className="sn-eyebrow">{t('today')}</span><h2>{t('dailyCheckin')}</h2><p>{t(checkin?'checkinDone':'checkinIntro')}</p><button type="button" className="sn-button" onClick={()=>go('checkin')}>{t(checkin?'editCheckin':'doCheckin')}<ArrowRight size={18}/></button></div></section>
+    <section className="sn-quick-links"><button type="button" onClick={()=>go('treatment')}><span className="sn-link-icon"><Pill/></span><span><strong>{t('treatment')}</strong><small>{t('treatmentHint')}</small></span><ArrowRight size={20}/></button><button type="button" onClick={()=>go('appointments')}><span className="sn-link-icon"><CalendarDays/></span><span><strong>{t('appointmentNext')}</strong><small>{next ? `${dateLabel(str(next.body,'date'),locale)} · ${str(next.body,'startTime')}` : t('noAppointment')}</small></span><ArrowRight size={20}/></button><button type="button" onClick={()=>go('resources')}><span className="sn-link-icon"><Wind/></span><span><strong>{t('breatheMoment')}</strong></span><ArrowRight size={20}/></button></section></div>
+    <section className="sn-chat-invite"><span className="sn-orbit" aria-hidden="true"><AudioLines/></span><div><span className="sn-eyebrow">{t('scenario')}</span><h2>{t('talk')}</h2></div><button type="button" className="sn-round-arrow" aria-label={t('chat')} onClick={()=>go('chat')}><ArrowRight/></button></section>
+    <button type="button" className="sn-text-button sn-cabinet-link" onClick={()=>go('messages')}><MessageCircle size={18}/>{t('messages')}</button>
+  </>;
 }

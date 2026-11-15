@@ -1,0 +1,1605 @@
+{
+  "at": "2026-11-15T19:08:05.559Z",
+  "runtime": "Compiled local Next, actual permanent Neon, sole existing test account",
+  "cases": 195,
+  "matrix": [
+    {
+      "locale": "fr",
+      "width": 360,
+      "screen": "today",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 360,
+      "screen": "checkin",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 360,
+      "screen": "treatment",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 360,
+      "screen": "appointments",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 360,
+      "screen": "messages",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 360,
+      "screen": "help",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 360,
+      "screen": "followup",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 360,
+      "screen": "journal",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 360,
+      "screen": "weekly",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 360,
+      "screen": "chat",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 360,
+      "screen": "resources",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 360,
+      "screen": "exercise",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 360,
+      "screen": "space",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 390,
+      "screen": "today",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 390,
+      "screen": "checkin",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 390,
+      "screen": "treatment",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 390,
+      "screen": "appointments",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 390,
+      "screen": "messages",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 390,
+      "screen": "help",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 390,
+      "screen": "followup",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 390,
+      "screen": "journal",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 390,
+      "screen": "weekly",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 390,
+      "screen": "chat",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 390,
+      "screen": "resources",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 390,
+      "screen": "exercise",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 390,
+      "screen": "space",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 430,
+      "screen": "today",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 430,
+      "screen": "checkin",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 430,
+      "screen": "treatment",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 430,
+      "screen": "appointments",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 430,
+      "screen": "messages",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 430,
+      "screen": "help",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 430,
+      "screen": "followup",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 430,
+      "screen": "journal",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 430,
+      "screen": "weekly",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 430,
+      "screen": "chat",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 430,
+      "screen": "resources",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 430,
+      "screen": "exercise",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 430,
+      "screen": "space",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 768,
+      "screen": "today",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 768,
+      "screen": "checkin",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 768,
+      "screen": "treatment",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 768,
+      "screen": "appointments",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 768,
+      "screen": "messages",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 768,
+      "screen": "help",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 768,
+      "screen": "followup",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 768,
+      "screen": "journal",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 768,
+      "screen": "weekly",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 768,
+      "screen": "chat",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 768,
+      "screen": "resources",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 768,
+      "screen": "exercise",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 768,
+      "screen": "space",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 1440,
+      "screen": "today",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 1440,
+      "screen": "checkin",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 1440,
+      "screen": "treatment",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 1440,
+      "screen": "appointments",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 1440,
+      "screen": "messages",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 1440,
+      "screen": "help",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 1440,
+      "screen": "followup",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 1440,
+      "screen": "journal",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 1440,
+      "screen": "weekly",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 1440,
+      "screen": "chat",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 1440,
+      "screen": "resources",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 1440,
+      "screen": "exercise",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "fr",
+      "width": 1440,
+      "screen": "space",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "ar",
+      "width": 360,
+      "screen": "today",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 360,
+      "screen": "checkin",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 360,
+      "screen": "treatment",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 360,
+      "screen": "appointments",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 360,
+      "screen": "messages",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 360,
+      "screen": "help",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 360,
+      "screen": "followup",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 360,
+      "screen": "journal",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 360,
+      "screen": "weekly",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 360,
+      "screen": "chat",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 360,
+      "screen": "resources",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 360,
+      "screen": "exercise",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 360,
+      "screen": "space",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 390,
+      "screen": "today",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 390,
+      "screen": "checkin",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 390,
+      "screen": "treatment",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 390,
+      "screen": "appointments",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 390,
+      "screen": "messages",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 390,
+      "screen": "help",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 390,
+      "screen": "followup",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 390,
+      "screen": "journal",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 390,
+      "screen": "weekly",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 390,
+      "screen": "chat",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 390,
+      "screen": "resources",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 390,
+      "screen": "exercise",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 390,
+      "screen": "space",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 430,
+      "screen": "today",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 430,
+      "screen": "checkin",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 430,
+      "screen": "treatment",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 430,
+      "screen": "appointments",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 430,
+      "screen": "messages",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 430,
+      "screen": "help",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 430,
+      "screen": "followup",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 430,
+      "screen": "journal",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 430,
+      "screen": "weekly",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 430,
+      "screen": "chat",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 430,
+      "screen": "resources",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 430,
+      "screen": "exercise",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 430,
+      "screen": "space",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 768,
+      "screen": "today",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 768,
+      "screen": "checkin",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 768,
+      "screen": "treatment",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 768,
+      "screen": "appointments",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 768,
+      "screen": "messages",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 768,
+      "screen": "help",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 768,
+      "screen": "followup",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 768,
+      "screen": "journal",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 768,
+      "screen": "weekly",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 768,
+      "screen": "chat",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 768,
+      "screen": "resources",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 768,
+      "screen": "exercise",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 768,
+      "screen": "space",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 1440,
+      "screen": "today",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 1440,
+      "screen": "checkin",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 1440,
+      "screen": "treatment",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 1440,
+      "screen": "appointments",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 1440,
+      "screen": "messages",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 1440,
+      "screen": "help",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 1440,
+      "screen": "followup",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 1440,
+      "screen": "journal",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 1440,
+      "screen": "weekly",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 1440,
+      "screen": "chat",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 1440,
+      "screen": "resources",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 1440,
+      "screen": "exercise",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "ar",
+      "width": 1440,
+      "screen": "space",
+      "overflow": false,
+      "labels": true,
+      "rtl": "rtl"
+    },
+    {
+      "locale": "en",
+      "width": 360,
+      "screen": "today",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 360,
+      "screen": "checkin",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 360,
+      "screen": "treatment",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 360,
+      "screen": "appointments",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 360,
+      "screen": "messages",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 360,
+      "screen": "help",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 360,
+      "screen": "followup",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 360,
+      "screen": "journal",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 360,
+      "screen": "weekly",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 360,
+      "screen": "chat",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 360,
+      "screen": "resources",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 360,
+      "screen": "exercise",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 360,
+      "screen": "space",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 390,
+      "screen": "today",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 390,
+      "screen": "checkin",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 390,
+      "screen": "treatment",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 390,
+      "screen": "appointments",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 390,
+      "screen": "messages",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 390,
+      "screen": "help",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 390,
+      "screen": "followup",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 390,
+      "screen": "journal",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 390,
+      "screen": "weekly",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 390,
+      "screen": "chat",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 390,
+      "screen": "resources",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 390,
+      "screen": "exercise",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 390,
+      "screen": "space",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 430,
+      "screen": "today",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 430,
+      "screen": "checkin",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 430,
+      "screen": "treatment",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 430,
+      "screen": "appointments",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 430,
+      "screen": "messages",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 430,
+      "screen": "help",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 430,
+      "screen": "followup",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 430,
+      "screen": "journal",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 430,
+      "screen": "weekly",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 430,
+      "screen": "chat",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 430,
+      "screen": "resources",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 430,
+      "screen": "exercise",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 430,
+      "screen": "space",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 768,
+      "screen": "today",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 768,
+      "screen": "checkin",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 768,
+      "screen": "treatment",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 768,
+      "screen": "appointments",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 768,
+      "screen": "messages",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 768,
+      "screen": "help",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 768,
+      "screen": "followup",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 768,
+      "screen": "journal",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 768,
+      "screen": "weekly",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 768,
+      "screen": "chat",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 768,
+      "screen": "resources",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 768,
+      "screen": "exercise",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 768,
+      "screen": "space",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 1440,
+      "screen": "today",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 1440,
+      "screen": "checkin",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 1440,
+      "screen": "treatment",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 1440,
+      "screen": "appointments",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 1440,
+      "screen": "messages",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 1440,
+      "screen": "help",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 1440,
+      "screen": "followup",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 1440,
+      "screen": "journal",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 1440,
+      "screen": "weekly",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 1440,
+      "screen": "chat",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 1440,
+      "screen": "resources",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 1440,
+      "screen": "exercise",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    },
+    {
+      "locale": "en",
+      "width": 1440,
+      "screen": "space",
+      "overflow": false,
+      "labels": true,
+      "rtl": "ltr"
+    }
+  ],
+  "checks": {
+    "checkinSaveReload": true,
+    "allFieldsLabelled": true,
+    "noHorizontalOverflow": true,
+    "arabicRtl": true,
+    "reducedMotionBreathing": "none",
+    "chatShortViewportClearOfDock": true,
+    "glassRespondsToPointer": true,
+    "noGardenRequests": true,
+    "publicCaches": [
+      {
+        "key": "sanad-public-v2",
+        "paths": [
+          "/sanad/offline.html",
+          "/sanad/offline.js",
+          "/sanad/icon.svg",
+          "/sanad/icon-192.png",
+          "/sanad/icon-512.png"
+        ]
+      }
+    ],
+    "pageErrors": []
+  },
+  "screenshots": [
+    "glass-fr-390-today.png",
+    "glass-fr-390-checkin.png",
+    "glass-fr-390-treatment.png",
+    "glass-fr-390-journal.png",
+    "glass-fr-390-chat.png",
+    "glass-fr-390-resources.png",
+    "glass-fr-390-exercise.png",
+    "glass-ar-360-today.png",
+    "glass-ar-360-checkin.png",
+    "glass-ar-360-chat.png",
+    "glass-en-1440-today.png",
+    "glass-en-1440-space.png"
+  ],
+  "video": "sanad-glass-motion.webm"
+}
