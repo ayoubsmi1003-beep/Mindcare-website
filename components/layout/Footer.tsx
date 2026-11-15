@@ -123,9 +123,9 @@ export function Footer() {
                 <Clock className="w-4 h-4 text-[#7FB5AB] shrink-0 mt-0.5" />
                 <span>
                   {language === "ar"
-                    ? "السبت – الخميس (ما عدا الإثنين والجمعة): 8:30 ص – 4:00 م"
+                    ? "السبت – الخميس (ما عدا الإثنين والجمعة): 8:30 ص – 3:30 م"
                     : language === "en"
-                    ? "Sat–Thu (except Mon & Fri): 8:30 AM – 4:00 PM (last slot 3:30 PM)"
+                    ? "Sat–Thu (except Mon & Fri): 8:30 AM – 3:30 PM (last slot 3:30 PM)"
                     : clinic.hours.label}
                 </span>
               </div>

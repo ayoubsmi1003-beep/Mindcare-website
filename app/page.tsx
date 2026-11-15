@@ -20,14 +20,17 @@ import { Footer } from "@/components/layout/Footer";
 
 import { BookingFlow } from "@/components/booking/BookingFlow";
 import { ChatDrawer } from "@/components/chat/ChatDrawer";
+import type { BookingDraft } from '@/lib/public-chat';
 
 function MainApp() {
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [initialMotif, setInitialMotif] = useState("");
+  const [initialDraft, setInitialDraft] = useState<BookingDraft | undefined>();
 
   const handleOpenBooking = (motif: string = "") => {
     setInitialMotif(motif);
+    setInitialDraft(undefined);
     setIsBookingOpen(true);
   };
 
@@ -100,18 +103,21 @@ function MainApp() {
 
       {/* Standalone 5-Step Booking Flow */}
       <BookingFlow
+        key={JSON.stringify(initialDraft ?? null)}
         isOpen={isBookingOpen}
         onClose={() => setIsBookingOpen(false)}
         initialMotif={initialMotif}
+        initialDraft={initialDraft}
       />
 
       {/* Multilingual Gemini Chat Drawer */}
       <ChatDrawer
         isOpen={isChatOpen}
         onClose={() => setIsChatOpen(false)}
-        onOpenBooking={() => {
+        onOpenBooking={(draft) => {
           setIsChatOpen(false);
           handleOpenBooking();
+          setInitialDraft(draft);
         }}
       />
     </div>

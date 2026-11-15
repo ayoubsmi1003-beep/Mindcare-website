@@ -8,16 +8,16 @@ export const clinic = {
   address: "Mahelma, Alger, Algérie",
   mapsUrl: "https://maps.app.goo.gl/LvW2z4tZyutyySD28",
   hours: {
-    // Ouvert de 08h30 à 16h00 (premier créneau 8h30, dernier 15h30, durée 30 min)
+    // Ouvert de 08h30 à 15h30 (premier créneau 8h30, dernier 15h30, durée 30 min)
     // Fermé le LUNDI (1) et le VENDREDI (5)
     open: "08:30",
-    close: "16:00",
+    close: "15:30",
     lastSlot: "15:30",
     closedDays: [1, 5], // 1 = Lundi, 5 = Vendredi
     closedDay: 1, // for backward compatibility
-    label: "De 8h30 à 16h00 (dernier créneau 15h30) — fermé lundi & vendredi",
-    labelAr: "من 8:30 ص إلى 4:00 م (آخر موعد 3:30 م) — مغلق الإثنين والجمعة",
-    labelEn: "8:30 AM – 4:00 PM (last slot 3:30 PM) — closed Mon & Fri",
+    label: "De 8h30 à 15h30 (dernier créneau 15h30) — fermé lundi & vendredi",
+    labelAr: "من 8:30 ص إلى 3:30 م (آخر موعد 3:30 م) — مغلق الإثنين والجمعة",
+    labelEn: "8:30 AM – 3:30 PM (last slot 3:30 PM) — closed Mon & Fri",
   },
   consultationDuration: 30, // 30 minutes par consultation
   priceLabel: "Sur demande", // À CONFIRMER

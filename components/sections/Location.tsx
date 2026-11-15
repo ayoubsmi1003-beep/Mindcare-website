@@ -22,7 +22,7 @@ export function Location() {
       const timeInMin = currentHour * 60 + currentMinute;
 
       const openMin = 8 * 60 + 30; // 08:30
-      const closeMin = 16 * 60;    // 16:00 (last appointment at 15:30)
+      const closeMin = 15 * 60 + 30;    // 15:30 (last appointment at 15:30)
 
       const isMonday = currentDay === 1;
       const isFriday = currentDay === 5;
@@ -37,7 +37,7 @@ export function Location() {
           setStatusLabel("مغلق يوم الجمعة (عطلة) — يفتح السبت 8:30 صباحاً");
         } else if (timeInMin >= openMin && timeInMin < closeMin) {
           setIsOpenNow(true);
-          setStatusLabel("مفتوح الآن — آخر موعد 3:30 م (يغلق 4:00 م)");
+          setStatusLabel("مفتوح الآن — آخر موعد 3:30 م (يغلق 3:30 م)");
         } else if (timeInMin < openMin) {
           setIsOpenNow(false);
           setStatusLabel("مغلق — يفتح اليوم 8:30 صباحاً");
@@ -55,7 +55,7 @@ export function Location() {
           setStatusLabel("Closed Fridays — opens Saturday at 8:30 AM");
         } else if (timeInMin >= openMin && timeInMin < closeMin) {
           setIsOpenNow(true);
-          setStatusLabel("Open now — last slot 3:30 PM (closes 4:00 PM)");
+          setStatusLabel("Open now — last slot 3:30 PM (closes 3:30 PM)");
         } else if (timeInMin < openMin) {
           setIsOpenNow(false);
           setStatusLabel("Closed — opens today at 8:30 AM");
@@ -73,7 +73,7 @@ export function Location() {
           setStatusLabel("Fermé le vendredi — ouvre samedi à 8h30");
         } else if (timeInMin >= openMin && timeInMin < closeMin) {
           setIsOpenNow(true);
-          setStatusLabel("Ouvert maintenant — dernier créneau 15h30 (ferme 16h00)");
+          setStatusLabel("Ouvert maintenant — dernier créneau 15h30 (ferme 15h30)");
         } else if (timeInMin < openMin) {
           setIsOpenNow(false);
           setStatusLabel("Fermé — ouvre aujourd'hui à 8h30");
@@ -207,10 +207,10 @@ export function Location() {
                         <p className="font-medium text-[#10201F] dark:text-white">{language === "ar" ? "أوقات الاستقبال" : language === "en" ? "Opening Hours" : "Horaires de Consultation"}</p>
                         <p className="text-xs text-[#4A605E] dark:text-[#B3CFC8] mt-0.5">
                           {language === "ar"
-                            ? "السبت، الأحد، الثلاثاء، الأربعاء، الخميس: 8:30 ص – 4:00 م (آخر موعد 3:30 م) · مغلق الإثنين والجمعة"
+                            ? "السبت، الأحد، الثلاثاء، الأربعاء، الخميس: 8:30 ص – 3:30 م (آخر موعد 3:30 م) · مغلق الإثنين والجمعة"
                             : language === "en"
-                            ? "Sat, Sun, Tue, Wed, Thu: 8:30 AM – 4:00 PM (last slot 3:30 PM) · Closed Mon & Fri"
-                            : "Sam, Dim, Mar, Mer, Jeu : 8h30 – 16h00 (dernier créneau 15h30) · Fermé lundi & vendredi"}
+                            ? "Sat, Sun, Tue, Wed, Thu: 8:30 AM – 3:30 PM (last slot 3:30 PM) · Closed Mon & Fri"
+                            : "Sam, Dim, Mar, Mer, Jeu : 8h30 – 15h30 (dernier créneau 15h30) · Fermé lundi & vendredi"}
                         </p>
                       </div>
                     </div>

@@ -6,19 +6,22 @@ import { LogoMark } from "../layout/LogoMark";
 import { X, Send, Sparkles, Calendar, RefreshCw, AlertCircle } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import { useAppContext } from "@/lib/app-context";
+import type { BookingDraft } from '@/lib/public-chat';
+import { civilDate } from '@/lib/booking-protocol';
+import { PUBLIC_ASSISTANT_LABEL } from '@/lib/chat-model';
 
 interface ChatMessage {
   id: string;
   role: "user" | "model";
   text: string;
   timestamp: string;
-  toolCalls?: any[];
+  toolCalls?: {name:string;result?:{details?:BookingDraft}}[];
 }
 
 interface ChatDrawerProps {
   isOpen: boolean;
   onClose: () => void;
-  onOpenBooking: () => void;
+  onOpenBooking: (draft?: BookingDraft) => void;
 }
 
 function getWelcomeMessageByLang(lang: string) {
@@ -84,7 +87,7 @@ export function ChatDrawer({ isOpen, onClose, onOpenBooking }: ChatDrawerProps) 
     setIsLoading(true);
 
     try {
-      const historyPayload = messages.map((m) => ({
+      const historyPayload = messages.slice(-12).map((m) => ({
         role: m.role,
         text: m.text,
       }));
@@ -97,6 +100,7 @@ export function ChatDrawer({ isOpen, onClose, onOpenBooking }: ChatDrawerProps) 
           history: historyPayload,
           language,
         }),
+        signal: AbortSignal.timeout(30000),
       });
 
       const data = await res.json();
@@ -116,15 +120,13 @@ export function ChatDrawer({ isOpen, onClose, onOpenBooking }: ChatDrawerProps) 
       setMessages((prev) => [...prev, botMsg]);
 
       if (data.toolCalls && data.toolCalls.length > 0) {
-        const proposal = data.toolCalls.find((tCall: any) => tCall.name === "propose_booking");
-        if (proposal) {
-          setTimeout(() => {
-            onOpenBooking();
-          }, 1200);
+        const proposal = data.toolCalls.find((tCall: {name:string}) => tCall.name === "propose_booking");
+        const draft=proposal?.result?.details;
+        if (draft && civilDate.safeParse(draft.date).success && /^(?:0[89]|1[0-5]):(?:00|30)$/.test(draft.time ?? '') && draft.time>='08:30' && draft.time<='15:30') {
+          onOpenBooking({date:draft.date,time:draft.time,forWhom:['moi','mon enfant','un proche'].includes(draft.forWhom)?draft.forWhom:undefined,firstTime:typeof draft.firstTime==='boolean'?draft.firstTime:undefined});
         }
       }
-    } catch (err: any) {
-      console.error(err);
+    } catch {
       setMessages((prev) => [
         ...prev,
         {
@@ -174,10 +176,10 @@ export function ChatDrawer({ isOpen, onClose, onOpenBooking }: ChatDrawerProps) 
       ];
 
   const disclaimerText = language === "ar"
-    ? "هذه المساعدة الذكية للإرشاد وتسهيل الحجز، ولا تعوض الاستشارة الطبية المباشرة مع الدكتورة."
+    ? "للأسئلة العملية فقط. لا تشاركوا الاسم أو بيانات الاتصال أو المعلومات الصحية. الموعد يؤكد عبر مكالمة من العيادة."
     : language === "en"
-    ? "This assistant answers your questions and helps you book. It does not replace a medical consultation."
-    : "Cet assistant répond à vos questions et vous aide à prendre rendez-vous. Il ne remplace pas une consultation médicale.";
+    ? "Practical questions only. Please keep names, contact details and health information out of this chat. The clinic calls to confirm appointments."
+    : "Questions pratiques uniquement. Ne partagez ni nom, coordonnées, ni informations de santé. Le cabinet appelle pour confirmer les rendez-vous.";
 
   return (
     <div className="fixed inset-0 z-[120] flex justify-end bg-[#10201F]/50 backdrop-blur-xs animate-fade-in">
@@ -194,7 +196,7 @@ export function ChatDrawer({ isOpen, onClose, onOpenBooking }: ChatDrawerProps) 
                 <span className="w-2 h-2 rounded-full bg-[#4E7F77] dark:bg-[#7FB5AB] animate-pulse" />
               </div>
               <p className="text-[10px] uppercase tracking-wider text-[#718684] dark:text-[#B3CFC8]">
-                Dr. Larbi Nassiba · Gemini 3.5
+                Dr. Larbi Nassiba · {PUBLIC_ASSISTANT_LABEL}
               </p>
             </div>
           </div>
@@ -240,7 +242,7 @@ export function ChatDrawer({ isOpen, onClose, onOpenBooking }: ChatDrawerProps) 
               >
                 {msg.role === "model" ? (
                   <div className="prose prose-sm prose-emerald max-w-none text-[#10201F] dark:text-white">
-                    <ReactMarkdown>{msg.text}</ReactMarkdown>
+                    <ReactMarkdown>{msg.id==='welcome-1'?getWelcomeMessageByLang(language):msg.text}</ReactMarkdown>
                   </div>
                 ) : (
                   <p>{msg.text}</p>
@@ -281,7 +283,7 @@ export function ChatDrawer({ isOpen, onClose, onOpenBooking }: ChatDrawerProps) 
         <div className="p-4 border-t border-[#EFE7DA] dark:border-[#243B37] bg-[#FCFAF6] dark:bg-[#12201E] space-y-3">
           <div className="flex items-center gap-2">
             <button
-              onClick={onOpenBooking}
+              onClick={() => onOpenBooking()}
               className="p-2.5 rounded-xl bg-[#E3F0EC] dark:bg-[#1C2D2A] border border-[#C7E1DA] dark:border-[#2A423D] text-[#3D655F] dark:text-[#A5CEC4] hover:bg-[#C7E1DA] transition-colors text-xs font-semibold flex items-center gap-1.5 shrink-0 cursor-pointer"
             >
               <Calendar className="w-4 h-4" />
@@ -298,6 +300,7 @@ export function ChatDrawer({ isOpen, onClose, onOpenBooking }: ChatDrawerProps) 
               <input
                 type="text"
                 value={inputText}
+                maxLength={1200}
                 onChange={(e) => setInputText(e.target.value)}
                 placeholder={language === "ar" ? "اكتب سؤالك هنا..." : language === "en" ? "Type your question..." : "Posez votre question..."}
                 className="w-full px-4 py-2.5 rounded-full bg-[#F7F2E9] dark:bg-[#172927] border border-[#EFE7DA] dark:border-[#243B37] text-sm text-[#10201F] dark:text-white focus:border-[#4E7F77] focus:outline-hidden"

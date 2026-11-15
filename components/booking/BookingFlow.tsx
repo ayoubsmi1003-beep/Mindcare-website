@@ -1,6 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import { bookingSubmission } from '@/lib/booking-form';
+import { publicBookingApi, newReceipt } from '@/lib/booking-client';
+import { preferenceReceiptSchema } from '@/lib/booking-protocol';
+import type { BookingDraft } from '@/lib/public-chat';
 import { motion, AnimatePresence } from "motion/react";
 import { BookingFormState, BookingConfirmation, ForWhom } from "@/lib/types";
 import { StepMotif } from "./StepMotif";
@@ -16,17 +20,18 @@ interface BookingFlowProps {
   isOpen: boolean;
   onClose: () => void;
   initialMotif?: string;
+  initialDraft?: BookingDraft;
 }
 
-export function BookingFlow({ isOpen, onClose, initialMotif = "" }: BookingFlowProps) {
+export function BookingFlow({ isOpen, onClose, initialMotif = "", initialDraft }: BookingFlowProps) {
   const { language, t } = useAppContext();
   const [step, setStep] = useState<number>(1);
   const [formState, setFormState] = useState<BookingFormState>({
     motif: initialMotif,
-    forWhom: "moi",
-    firstTime: true,
-    selectedDate: "",
-    selectedTime: "",
+    forWhom: initialDraft?.forWhom ?? "moi",
+    firstTime: initialDraft?.firstTime ?? true,
+    selectedDate: initialDraft?.date ?? "",
+    selectedTime: initialDraft?.time ?? "",
     patientName: "",
     patientPhone: "",
     notes: "",
@@ -34,6 +39,9 @@ export function BookingFlow({ isOpen, onClose, initialMotif = "" }: BookingFlowP
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [confirmation, setConfirmation] = useState<BookingConfirmation | null>(null);
+  const [submitError, setSubmitError] = useState('');
+  const [trackingToken,setTrackingToken]=useState('');
+  const receiptRef = useRef<ReturnType<typeof newReceipt> | null>(null);
 
   if (!isOpen) return null;
 
@@ -51,25 +59,34 @@ export function BookingFlow({ isOpen, onClose, initialMotif = "" }: BookingFlowP
 
   const handleConfirmBooking = async () => {
     setIsSubmitting(true);
+    setSubmitError('');
     try {
-      const refId = `MC-${Math.floor(10000 + Math.random() * 90000)}`;
+      const receiptIdentity=receiptRef.current ??= newReceipt();
+      const receipt=preferenceReceiptSchema.parse(await publicBookingApi(bookingSubmission(formState,receiptIdentity,language)));
       const conf: BookingConfirmation = {
-        referenceId: refId,
+        referenceId: receipt.submissionId,
         patientName: formState.patientName,
         patientPhone: formState.patientPhone,
         motif: formState.motif || (language === "ar" ? "استشارة عامة" : "Consultation générale"),
-        date: formState.selectedDate || (language === "ar" ? "غداً" : "Demain"),
-        time: formState.selectedTime || "10:00",
+        date: formState.selectedDate,
+        time: formState.selectedTime,
+        receipt,
       };
-
-      await new Promise((res) => setTimeout(res, 800));
       setConfirmation(conf);
+      setTrackingToken(receiptIdentity.token);
       setStep(6);
-    } catch (err) {
-      console.error(err);
+    } catch {
+      setSubmitError(language==='ar'?'لم يتم تأكيد إرسال الطلب. أدخلوا الاسم واللقب ثم أعيدوا المحاولة بنفس المعلومات، أو اتصلوا بالعيادة.':language==='en'?'Request delivery is not confirmed. Enter your full name and retry with the same details, or call the clinic.':'L’envoi n’est pas confirmé. Indiquez votre nom complet et réessayez avec les mêmes informations, ou appelez le cabinet.');
     } finally {
       setIsSubmitting(false);
     }
+  };
+  const refreshReceipt=async()=>{
+    if(!receiptRef.current||!confirmation)return;
+    setIsSubmitting(true);setSubmitError('');
+    try {const receipt=preferenceReceiptSchema.parse(await publicBookingApi({protocolVersion:2,op:'status',token:receiptRef.current.token}));setConfirmation(prev=>prev?{...prev,receipt}:prev);}
+    catch {setSubmitError(language==='ar'?'تعذر التحقق حالياً؛ آخر حالة معروفة معروضة.':language==='en'?'Unable to refresh; showing the last known status.':'Vérification indisponible ; la dernière situation connue est affichée.');}
+    finally{setIsSubmitting(false);}
   };
 
   const stepLabels = language === "ar"
@@ -99,7 +116,7 @@ export function BookingFlow({ isOpen, onClose, initialMotif = "" }: BookingFlowP
               </span>
               <h2 className="font-serif-display text-lg font-medium text-[#10201F] dark:text-white">
                 {step === 6
-                  ? (language === "ar" ? "تأكيد الحجز" : "Confirmation")
+                  ? (language === "ar" ? "حالة الطلب" : language==='en'?'Request status':'État de la demande')
                   : t.hero.bookBtn}
               </h2>
             </div>
@@ -138,6 +155,7 @@ export function BookingFlow({ isOpen, onClose, initialMotif = "" }: BookingFlowP
 
         {/* Dynamic Body Content */}
         <div className="p-6 sm:p-8 overflow-y-auto flex-1 scrollbar-none">
+          {submitError && <p role="alert" className="mb-4 text-sm text-red-700 dark:text-red-300">{submitError}</p>}
           <AnimatePresence mode="wait">
             <motion.div
               key={step}
@@ -197,7 +215,7 @@ export function BookingFlow({ isOpen, onClose, initialMotif = "" }: BookingFlowP
               )}
 
               {step === 6 && confirmation && (
-                <BookingSuccess confirmation={confirmation} onClose={onClose} />
+                <BookingSuccess confirmation={confirmation} onClose={onClose} onRefresh={refreshReceipt} isRefreshing={isSubmitting} token={trackingToken} />
               )}
             </motion.div>
           </AnimatePresence>

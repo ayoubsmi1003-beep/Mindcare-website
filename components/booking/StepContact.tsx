@@ -5,6 +5,7 @@ import { BookingFormState } from "@/lib/types";
 import { Calendar, Clock, User, Heart, ShieldCheck } from "lucide-react";
 import { Magnetic } from "../primitives/Magnetic";
 import { useAppContext } from "@/lib/app-context";
+import { phoneCanonical } from '@/lib/booking-protocol';
 
 interface StepContactProps {
   formState: BookingFormState;
@@ -31,7 +32,7 @@ export function StepContact({
         ? "Phone number is required."
         : "Le numéro de téléphone est obligatoire.";
     }
-    if (!/^(?:0|\+?213)[567]\d{8}$/.test(clean) && clean.length < 9) {
+    try {phoneCanonical(clean);} catch {
       return language === "ar"
         ? "رقم هاتف غير صحيح (مثال: 0554 81 39 11)"
         : language === "en"
@@ -66,10 +67,10 @@ export function StepContact({
     : "Vos coordonnées";
 
   const subtitle = language === "ar"
-    ? "لتأكيد الحجز وموافقتك على استلام تذكير بالموعد وتفاصيله بسرية تامة."
+    ? "يرسل الاسم وبيانات الاتصال واليوم والوقت المفضل فقط بشكل مشفر. تتصل العيادة للتأكيد."
     : language === "en"
-    ? "To confirm your appointment and send your discreet reminder."
-    : "Afin de confirmer et vous envoyer votre rappel de rendez-vous.";
+    ? "Only your name, contact details and preferred day/time are sent encrypted. The clinic calls to confirm."
+    : "Seuls votre nom, vos coordonnées et le jour/horaire préféré sont envoyés chiffrés. Le cabinet appelle pour confirmer.";
 
   const recapTitle = language === "ar"
     ? "ملخص موعدك الطبي"
@@ -78,14 +79,14 @@ export function StepContact({
     : "Récapitulatif de votre rendez-vous";
 
   const consentText = language === "ar"
-    ? "أوافق على التواصل معي عبر هذا الرقم لتأكيد الموعد وإرسال التذكير. السرية الطبية مضمونة ومصونة بالكامل."
+    ? "أوافق على إرسال بيانات الطلب والاتصال بي عبر هذا الرقم للتحقق من الطلب وتأكيد الموعد."
     : language === "en"
-    ? "I agree to be contacted at this number to confirm my appointment. Medical confidentiality strictly guaranteed."
-    : "J'accepte d'être contacté(e) sur ce numéro pour la confirmation de mon rendez-vous. Confidentialité médicale garantie.";
+    ? "I agree to send these request details and be called at this number to verify and confirm the appointment."
+    : "J'accepte l'envoi de ces données et l'appel à ce numéro pour vérifier la demande et confirmer le rendez-vous.";
 
   const submitText = isSubmitting
-    ? (language === "ar" ? "جارٍ تأكيد الموعد..." : language === "en" ? "Confirming..." : "Confirmation en cours...")
-    : (language === "ar" ? "تأكيد حجز الموعد" : language === "en" ? "Confirm My Appointment" : "Confirmer mon rendez-vous");
+    ? (language === "ar" ? "جارٍ إرسال الطلب..." : language === "en" ? "Sending..." : "Envoi en cours...")
+    : (language === "ar" ? "إرسال طلب الموعد" : language === "en" ? "Send appointment request" : "Envoyer ma demande");
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
@@ -134,6 +135,7 @@ export function StepContact({
           <input
             type="text"
             required
+            maxLength={160}
             value={formState.patientName}
             onChange={(e) => onChange({ patientName: e.target.value })}
             placeholder={t.bookingFlow.namePlaceholder}
@@ -148,6 +150,7 @@ export function StepContact({
           <input
             type="tel"
             required
+            maxLength={24}
             value={formState.patientPhone}
             onChange={handlePhoneChange}
             placeholder={t.bookingFlow.phonePlaceholder}
@@ -164,11 +167,13 @@ export function StepContact({
           </label>
           <textarea
             rows={2}
+            maxLength={500}
             value={formState.notes}
             onChange={(e) => onChange({ notes: e.target.value })}
             placeholder={t.bookingFlow.notesPlaceholder}
             className="w-full px-4 py-3 rounded-xl bg-[#FCFAF6] dark:bg-[#0E1A18] border border-[#EFE7DA] dark:border-[#1E3530] text-sm text-[#10201F] dark:text-white focus:border-[#4E7F77] focus:outline-hidden resize-none"
           />
+          <p className="mt-1 text-xs text-[#718684] dark:text-[#B3CFC8]">{language==='ar'?'لا تُرسل الملاحظات أو السبب الطبي. للأسئلة الصحية اتصلوا بالعيادة.':language==='en'?'Notes and medical reasons are not sent. Please call the clinic for health questions.':'Les notes et le motif médical ne sont pas transmis. Pour une question de santé, appelez le cabinet.'}</p>
         </div>
 
         {/* Consent Checkbox */}

@@ -1,13 +1,20 @@
 import { clinic } from "@/content/clinic";
 import { DayAvailability, Slot } from "./types";
+import { civilDate } from './booking-protocol';
+function clinicClock(){
+  const parts=new Intl.DateTimeFormat('en-CA',{timeZone:'Africa/Algiers',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date());
+  const value=(kind:string)=>parts.find(part=>part.type===kind)?.value ?? '';
+  return {date:`${value('year')}-${value('month')}-${value('day')}`,minutes:Number(value('hour'))*60+Number(value('minute'))};
+}
 
 export function generateSlotsForDate(
   dateStr: string,
   language: string = "fr"
 ): { slots: Slot[]; isClosed: boolean; reason?: string } {
+  if(!civilDate.safeParse(dateStr).success)return {slots:[],isClosed:true};
   const [year, month, day] = dateStr.split("-").map(Number);
-  const targetDate = new Date(year, month - 1, day);
-  const dayOfWeek = targetDate.getDay(); // 0: Sunday, 1: Monday, 2: Tuesday, 3: Wednesday, 4: Thursday, 5: Friday, 6: Saturday
+  const targetDate = new Date(Date.UTC(year, month - 1, day));
+  const dayOfWeek = targetDate.getUTCDay();
 
   // Doctor does NOT work on Monday (1) and Friday (5)
   // "doctor mtkhdmch b tnin w ljem3a"
@@ -48,17 +55,9 @@ export function generateSlotsForDate(
   let current = new Date(year, month - 1, day, startHour, startMinute);
   const endTime = new Date(year, month - 1, day, endHour, endMinute);
 
-  const today = new Date();
-  const isToday =
-    today.getFullYear() === year &&
-    today.getMonth() === month - 1 &&
-    today.getDate() === day;
+  const today = clinicClock();
+  const isToday = today.date===dateStr;
 
-  // Derive pseudo-random but consistent booked slots for demo realism based on date string hash
-  const hash = dateStr.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0);
-  const mockBookedIndices = [hash % 7, (hash + 3) % 7, (hash + 5) % 7];
-
-  let index = 0;
   while (true) {
     const slotEndTime = new Date(current.getTime() + durationMin * 60000);
     if (slotEndTime > endTime) break;
@@ -70,9 +69,7 @@ export function generateSlotsForDate(
     let isAvailable = true;
 
     // Check if slot is in the past for today
-    if (isToday && current.getTime() <= today.getTime() + 15 * 60000) {
-      isAvailable = false;
-    } else if (mockBookedIndices.includes(index)) {
+    if (dateStr<today.date || isToday && current.getHours()*60+current.getMinutes() <= today.minutes + 15) {
       isAvailable = false;
     }
 
@@ -82,7 +79,6 @@ export function generateSlotsForDate(
     });
 
     current = slotEndTime;
-    index++;
   }
 
   return { slots, isClosed: false };
@@ -90,7 +86,7 @@ export function generateSlotsForDate(
 
 export function getUpcomingDays(count: number = 10, language: string = "fr"): DayAvailability[] {
   const result: DayAvailability[] = [];
-  const today = new Date();
+  const today = new Date(clinicClock().date+'T12:00:00Z');
 
   const dayNamesFr = ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"];
   const monthNamesFr = [
@@ -115,20 +111,20 @@ export function getUpcomingDays(count: number = 10, language: string = "fr"): Da
 
   for (let i = 0; i < count; i++) {
     const d = new Date(today);
-    d.setDate(today.getDate() + i);
+    d.setUTCDate(today.getUTCDate() + i);
 
-    const year = d.getFullYear();
-    const month = (d.getMonth() + 1).toString().padStart(2, "0");
-    const day = d.getDate().toString().padStart(2, "0");
+    const year = d.getUTCFullYear();
+    const month = (d.getUTCMonth() + 1).toString().padStart(2, "0");
+    const day = d.getUTCDate().toString().padStart(2, "0");
     const dateStr = `${year}-${month}-${day}`;
 
     const { slots, isClosed, reason } = generateSlotsForDate(dateStr, language);
 
     result.push({
       date: dateStr,
-      dayName: dayNames[d.getDay()],
-      dayNumber: d.getDate(),
-      monthName: monthNames[d.getMonth()],
+      dayName: dayNames[d.getUTCDay()],
+      dayNumber: d.getUTCDate(),
+      monthName: monthNames[d.getUTCMonth()],
       isClosed,
       reason,
       slots,

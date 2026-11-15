@@ -26,7 +26,7 @@ export function StepSlot({ selectedDate, selectedTime, onSelectSlot }: StepSlotP
     return firstOpen ? firstOpen.date : (initialDays[0]?.date || "");
   });
 
-  const activeDateStr = selectedDate || internalDate;
+  const activeDateStr = internalDate;
   const activeDayObj = days.find((d) => d.date === activeDateStr) || days[0];
   const availableSlotsCount = activeDayObj ? activeDayObj.slots.filter((s) => s.available).length : 0;
 
@@ -34,25 +34,25 @@ export function StepSlot({ selectedDate, selectedTime, onSelectSlot }: StepSlotP
     language === "ar"
       ? "اختر موعدك المناسب"
       : language === "en"
-      ? "Select a Time Slot"
-      : "Choisissez un créneau";
+      ? "Select your preferred time"
+      : "Choisissez un horaire préféré";
 
   const subtitleText =
     language === "ar"
-      ? "المواعيد من 08:30 صباحاً حتى 03:30 مساءً (30 دقيقة لكل استشارة) · العطلة: الإثنين والجمعة"
+      ? "وقت مفضل بين 08:30 و15:30 · مغلق الإثنين والجمعة · العيادة تتصل لتأكيد الموعد"
       : language === "en"
-      ? "Slots from 8:30 AM to 3:30 PM (30 min per consultation) · Closed Mon & Fri"
-      : "Séances de 8h30 à 15h30 (30 min par consultation) · Fermé lundi & vendredi";
+      ? "Preferred time 08:30–15:30 · Closed Mon & Fri · The clinic calls to confirm"
+      : "Horaire souhaité 08h30–15h30 · Fermé lundi & vendredi · Le cabinet appelle pour confirmer";
 
   const closedPillText =
     language === "ar" ? "عطلة" : language === "en" ? "Closed" : "Fermé";
 
   const slotsAvailableText =
     language === "ar"
-      ? `${availableSlotsCount} موعد متاح`
+      ? `${availableSlotsCount} اختيار وقت`
       : language === "en"
-      ? `${availableSlotsCount} available slots`
-      : `${availableSlotsCount} créneaux libres`;
+      ? `${availableSlotsCount} time preferences`
+      : `${availableSlotsCount} horaires proposés`;
 
   return (
     <div className="space-y-6">
@@ -105,10 +105,10 @@ export function StepSlot({ selectedDate, selectedTime, onSelectSlot }: StepSlotP
           <span className="flex items-center gap-1.5">
             <Clock className="w-3.5 h-3.5 text-[#3D655F] dark:text-[#7FB5AB]" />
             {language === "ar"
-              ? `المواعيد المتاحة ليوم ${activeDayObj.dayName} ${activeDayObj.dayNumber} ${activeDayObj.monthName}`
+              ? `الوقت المفضل يوم ${activeDayObj.dayName} ${activeDayObj.dayNumber} ${activeDayObj.monthName}`
               : language === "en"
               ? `Slots for ${activeDayObj.dayName} ${activeDayObj.dayNumber} ${activeDayObj.monthName}`
-              : `Créneaux disponibles le ${activeDayObj.dayName} ${activeDayObj.dayNumber} ${activeDayObj.monthName}`}
+              : `Horaires souhaités le ${activeDayObj.dayName} ${activeDayObj.dayNumber} ${activeDayObj.monthName}`}
           </span>
           <span className="font-semibold text-[#3D655F] dark:text-[#7FB5AB]">
             {slotsAvailableText}

@@ -28,6 +28,7 @@ export interface BookingFormState {
 }
 
 export interface BookingConfirmation {
+  receipt: import('./booking-protocol').PreferenceReceipt;
   referenceId: string;
   patientName: string;
   patientPhone: string;
