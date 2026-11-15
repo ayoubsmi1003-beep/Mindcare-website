@@ -154,3 +154,17 @@ test('a delayed chat failure preserves its draft and the field is editable again
     assert.equal(textarea.props.value,'brouillon fictif à préserver');assert.equal(textarea.props.disabled,false);
   } finally {runner.close();}
 });
+
+test('withdrawn sharing cannot offer a forbidden reshare and a new revision remains shareable',()=>{
+  for(const kind of ['journal','conversation'])for(const locale of locales){
+    const record={id:profile.id,kind,version:2,body:{},createdAt:'2026-01-01T12:00:00Z',updatedAt:'2026-01-02T12:00:00Z'};
+    const value={state:{profile,records:[record],shares:[{id:'withdrawn',recordId:record.id,recordVersion:2,sharedAt:'2026-01-01T12:00:00Z',revokedAt:'2026-01-02T12:00:00Z'}]},t:key=>translate(locale,key),locale,busy:false,command:async()=>null,go(){}};
+    const markup=current=>renderToStaticMarkup(React.createElement(Context.Provider,{value},React.createElement(ShareControl,{record:current})));
+    const withdrawn=markup(record);
+    assert.match(withdrawn,/<button[^>]+disabled=""/);
+    assert.ok(withdrawn.includes(translate(locale,'revokedVersion')));
+    const next=markup({...record,version:3});
+    assert.doesNotMatch(next,/<button[^>]+disabled=""/);
+    assert.ok(next.includes(translate(locale,'share')));
+  }
+});

@@ -15,7 +15,7 @@ mise à jour documentaire ne les présente pas comme une nouvelle exécution.
 | Site public restauré | 12/12, 0 échec, 0 skip | `node --test scripts/booking-current.test.mjs scripts/booking-ui.test.mjs scripts/public-chat.test.mjs scripts/gemini-fallback.test.mjs` |
 | Contrats synthétiques | 22/22, 0 échec, 0 skip | `node --experimental-strip-types --test lib/sanad/contracts/contracts.test.mjs` |
 | Commandes et frontière HTTP | 4/4, 0 échec, 0 skip | `node --experimental-strip-types --test lib/sanad/commands.test.mjs` |
-| Interface et traductions | 12/12, 0 échec, 0 skip | `node --test components/sanad/ui.test.cjs` |
+| Interface et traductions | 13/13, 0 échec, 0 skip | `node --test components/sanad/ui.test.cjs` |
 | Service worker isolé | 2/2, 0 échec, 0 skip | `node --test lib/sanad/sw.test.mjs` |
 | Crypto et vraies portes PostgreSQL isolées | 9/9, 0 échec, 0 skip | `node --experimental-strip-types --test lib/sanad/server/crypto.test.mjs lib/sanad/server/integration.test.mjs` |
 | Parcours HTTP vers la base synthétique | 1 test de parcours complet, réussi | Démonstration locale lancée, puis `node --test scripts/sanad-api.test.mjs` |
@@ -80,8 +80,8 @@ contrôle final. Capture : [en-tête final](proofs/360-header-final.png).
 
 `npm run build` a terminé avec succès : `/sanad` représente 16 ko et 134 ko de
 JavaScript au premier chargement. Typecheck global et lint global : PASS.
-Les 40 tests contrats/interface/commandes/service worker ont ensuite été relancés :
-40 PASS, zéro skip. La dernière protection serveur des droits opérateur est
+Les 41 tests contrats/interface/commandes/service worker ont ensuite été relancés :
+41 PASS, zéro skip. La dernière protection serveur des droits opérateur est
 également couverte par le typecheck et les neuf tests PostgreSQL.
 
 La recette Chromium contre le build optimisé vérifie l'envoi retardé, le blocage
@@ -104,6 +104,14 @@ connexion avec le seul compte fort est PASS en mode de publication explicite.
 L’ancien mot de passe public et un compte d’isolation désactivé renvoient 401.
 [Preuve](proofs/final-site-entry.json), [capture](proofs/390-final-site-entry.png).
 Les accès du testeur restent hors dépôt et hors captures.
+
+Le retrait de partage ne propose plus une action refusée par la base : le bouton
+est désactivé pour la version retirée, avec explication FR/AR/EN. Une nouvelle
+version reste partageable. Test RED observé puis GREEN ; Chromium sur le build
+compilé : retrait conservé après rechargement, nouvelle version partagée puis
+retirée, état final privé, arabe RTL 360 pixels sans débordement.
+[Preuve](proofs/withdrawn-sharing.json), [FR](proofs/withdrawn-sharing-fr-390.png),
+[AR](proofs/withdrawn-sharing-ar-360.png).
 
 ## FAIL / limites connues
 

@@ -1,0 +1,17 @@
+{
+  "at": "2026-11-15T13:30:27.308Z",
+  "runtime": "Compiled local Next production, existing isolated Neon PostgreSQL17, same single active test account",
+  "revokedVersionButtonDisabled": true,
+  "withdrawalSurvivesReload": true,
+  "newRevisionRemainsShareable": true,
+  "newRevisionShareAndWithdrawPass": true,
+  "finalSharingPrivate": true,
+  "arabicWidth360NoOverflow": true,
+  "noticeTranslations": [
+    "fr",
+    "ar",
+    "en"
+  ],
+  "durableOwnershipConfirmed": false,
+  "productionWebsitePublished": false
+}

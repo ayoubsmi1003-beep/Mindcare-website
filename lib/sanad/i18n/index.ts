@@ -2,6 +2,7 @@ export type Locale = 'fr' | 'ar' | 'en';
 const copy = {
   demo: ['Démonstration privée', 'Private demonstration', 'عرض تجريبي خاص'],
   authError:['Connexion impossible. Vérifiez vos accès ou contactez votre équipe de test.','Unable to sign in. Check your credentials or contact your test team.','تعذر تسجيل الدخول. تحقق من بياناتك أو تواصل مع فريق الاختبار.'],
+  revokedVersion:['Cette version a été retirée du partage. Pour partager à nouveau, créez une nouvelle version.','Sharing was withdrawn for this version. Create a new version to share again.','أُلغيت مشاركة هذه النسخة. أنشئ نسخة جديدة للمشاركة مرة أخرى.'],
   olderShared:['D’autres versions restent partagées · gérer dans Mon espace','Other versions remain shared · manage in My space','تبقى نسخ أخرى مشتركة · إدارتها في مساحتي'],
   treatmentReference:['Référence du traitement','Treatment reference','مرجع العلاج'],
   historicalTreatment:['Traitement non partagé actuellement','Treatment not currently shared','العلاج غير مشترك حالياً'],
