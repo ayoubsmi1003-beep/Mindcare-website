@@ -43,7 +43,7 @@ Light #F7F5FF/#252039/#6C5CE7; night #12111C/#1D1B2A/#B8A4FF. Primary hero dark-
 - [x] Studio/worksheets, cabinet, settings and help implementation/tests.
 - [x] Shell, home, onboarding, notifications and reference-led visual system.
 - [x] Integrated types/lint/test/build; fresh review and corrections.
-- [ ] Recovery copy + permanent upgrade, exact-commit production publication, real HTTPS verification.
-- [ ] Fresh reference comparison/screenshots and Desktop gallery; final evidence and clean Git.
+- [x] Recovery copy + permanent upgrade, exact-commit production publication, real HTTPS verification.
+- [x] Fresh reference comparison/screenshots and Desktop gallery; final evidence and clean Git.
 
 Verification: actual primary flows through API to PostgreSQL and reload. Test missing/legacy data, invalid inputs, revoked shares, direct private-kind grants, conflicts/retries, changed appointments, Algiers midnight, responsive360/390/430/768/1440, three languages/two themes, keyboard/focus, reduced motion, physical devices only if accessible. No silent skips. Keep previous Desktop gallery untouched.

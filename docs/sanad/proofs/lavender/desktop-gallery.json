@@ -1,0 +1,20 @@
+{
+  "path": "C:\\Users\\ABC Informatique\\Desktop\\MindCare Aftercare - Lavender - 2026-11-16",
+  "images": 129,
+  "video": {
+    "durationSeconds": 40,
+    "width": 390,
+    "height": 844
+  },
+  "hashesVerified": true,
+  "oldGalleryModified": false,
+  "htmlChecks": {
+    "renderedImages": 129,
+    "search": true,
+    "groupFilter": true,
+    "fullResolutionViewer": true,
+    "escape": true,
+    "mobileNoOverflow": true,
+    "pageErrors": 0
+  }
+}

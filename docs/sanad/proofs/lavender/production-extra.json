@@ -1,0 +1,18 @@
+{
+  "base": "https://sanad-mindcare.vercel.app",
+  "screenshots": [
+    "light-tool-grounding.png",
+    "light-tool-sleep.png",
+    "light-tool-prepare.png",
+    "night-tool-grounding.png",
+    "night-tool-sleep.png",
+    "night-tool-prepare.png",
+    "studio-favorites-filter.png",
+    "conversation-scenario-response.png",
+    "unsaved-input-guard.png"
+  ],
+  "pageErrors": [],
+  "externalRequests": [],
+  "status": "PASS",
+  "finishedAt": "2026-11-16T16:08:16.134Z"
+}

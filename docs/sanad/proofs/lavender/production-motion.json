@@ -1,0 +1,64 @@
+{
+  "base": "https://sanad-mindcare.vercel.app",
+  "startedAt": "2026-11-16T16:08:02.886Z",
+  "clock": "Real elapsed time; no timer acceleration",
+  "credentialEntryRecorded": false,
+  "steps": [
+    {
+      "screen": "01-live-light-home",
+      "at": "2026-11-16T16:08:09.201Z"
+    },
+    {
+      "screen": "02-live-quick-add",
+      "at": "2026-11-16T16:08:11.847Z"
+    },
+    {
+      "screen": "03-live-journey",
+      "at": "2026-11-16T16:08:13.713Z"
+    },
+    {
+      "screen": "04-live-studio",
+      "at": "2026-11-16T16:08:15.379Z"
+    },
+    {
+      "screen": "05-live-exercise-paused",
+      "at": "2026-11-16T16:08:23.248Z"
+    },
+    {
+      "screen": "06-live-private-worksheet",
+      "at": "2026-11-16T16:08:35.837Z"
+    },
+    {
+      "screen": "07-live-cabinet",
+      "at": "2026-11-16T16:08:37.574Z"
+    },
+    {
+      "screen": "08-live-night-home",
+      "at": "2026-11-16T16:08:39.544Z"
+    },
+    {
+      "screen": "09-live-arabic-night",
+      "at": "2026-11-16T16:08:41.718Z"
+    }
+  ],
+  "commandRequests": 1,
+  "commandResponses": [
+    200
+  ],
+  "pageErrors": [],
+  "externalRequests": [],
+  "exerciseMotion": {
+    "name": "mc-breathe",
+    "duration": "10s"
+  },
+  "lightProgressAccent": "rgb(108, 92, 231)",
+  "nightProgressAccent": "rgb(184, 164, 255)",
+  "timer": {
+    "before": "00:20",
+    "after": "00:26",
+    "realWaitMs": 6500
+  },
+  "status": "PASS",
+  "video": "mindcare-aftercare-walkthrough.webm",
+  "finishedAt": "2026-11-16T16:08:46.758Z"
+}

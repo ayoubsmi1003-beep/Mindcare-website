@@ -1,0 +1,71 @@
+{
+  "recordedAt": "2026-11-16T16:12:46.462Z",
+  "project": "mindcare-website",
+  "deploymentId": "dpl_G2Kn4ZqhsnYLbBmMixbsNVyfQ3fX",
+  "target": "production",
+  "state": "READY",
+  "sourceCommit": "ab7cc9dcbaff18c31b3befcafe350c4dba57a723",
+  "sourceBranch": "codex/aftercare-lavender",
+  "permanentUrl": "https://sanad-mindcare.vercel.app/",
+  "aliasVerified": true,
+  "temporaryAccessUsed": false,
+  "productionProtectionChanged": false,
+  "sourceFrozenAfterNativeProgressAccent": true,
+  "database": {
+    "project": "morning-recipe-93493444",
+    "branch": "br-dark-term-ba1trh4g",
+    "database": "sanad_portal",
+    "mode": "synthetic",
+    "version": 4,
+    "checksum": "2fa3b400db3a6e87915dfb87903db30f985408b7abc33d30bca42cace5143f87",
+    "profiles": 1,
+    "records": 48,
+    "revisions": 86,
+    "shares": 6,
+    "profileCountVerifiedAfterUiRuns": true,
+    "newPermanentProfiles": 0,
+    "credentialsChanged": false,
+    "reseeded": false
+  },
+  "verification": {
+    "automatedTests": {
+      "passed": 100,
+      "failed": 0,
+      "skipped": 0
+    },
+    "responsiveCases": 600,
+    "finalExerciseFollowup": 30,
+    "localFunctional": 17,
+    "productionFunctional": 17,
+    "productionExtraScreens": 9,
+    "browserPageErrors": 0,
+    "externalModelRequests": 0,
+    "accessibilityFollowups": 4,
+    "largeTextViews": 15,
+    "offlineLanguages": 3,
+    "httpsChecks": 4,
+    "existingWebsiteLinkAuthenticated": true,
+    "nativeProgressAccentVerifiedInBothThemes": true,
+    "motion": "Real clock, CSS animation mc-breathe and persisted elapsed time"
+  },
+  "screenshots": {
+    "gallery": "Desktop/MindCare Aftercare - Lavender - 2026-11-16/OPEN-GALLERY.html",
+    "images": 129,
+    "videoSeconds": 40,
+    "allCopiedImageHashesVerified": true,
+    "previousGalleryChanged": false
+  },
+  "notRun": [
+    "Physical phones",
+    "Screen-reader runtime",
+    "Clinical validation",
+    "Live snapshot restore"
+  ],
+  "outOfScope": [
+    "Real patient activation",
+    "Clinic transport/integration",
+    "External patient AI",
+    "Background push",
+    "Original Namecheap domain repair"
+  ]
+}

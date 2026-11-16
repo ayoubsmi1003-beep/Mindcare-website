@@ -1,0 +1,244 @@
+{
+  "base": "https://sanad-mindcare.vercel.app",
+  "startedAt": "2026-11-16T16:06:22.032Z",
+  "checks": [
+    {
+      "name": "first-use orientation saves explicit choices and server-dated acknowledgements",
+      "status": "PASS",
+      "onboardingVersion": 1
+    },
+    {
+      "name": "quick-add sheet traps focus and Escape returns to its trigger",
+      "status": "PASS",
+      "focusRestored": true
+    },
+    {
+      "name": "skippable checkin guards unsaved input, retains network failure, saves actual observations",
+      "status": "PASS",
+      "recordId": "ea4e45b6-cc00-4153-bf8e-d117c3e12443",
+      "version": 4
+    },
+    {
+      "name": "new emotional observations and 30-day history display without manufactured trends",
+      "status": "PASS",
+      "days": 30,
+      "categorical": true
+    },
+    {
+      "name": "journal draft persists, edits the same record, and sharing withdrawal is revision-specific",
+      "status": "PASS",
+      "sameRecord": true,
+      "sharedVersion": 2
+    },
+    {
+      "name": "thought worksheet draft resumes the same revision and completes privately",
+      "status": "PASS",
+      "sameRecord": true,
+      "version": 2
+    },
+    {
+      "name": "weekly reflection reuses the weeklyReview record through draft and completion",
+      "status": "PASS",
+      "sameWeeklyRecord": true
+    },
+    {
+      "name": "timed exercise uses URL history, guards elapsed progress, and resumes saved seconds",
+      "status": "PASS",
+      "seconds": 20,
+      "urlBack": true
+    },
+    {
+      "name": "appointment preparation previews only selected sources and pins appointment revision",
+      "status": "PASS",
+      "bound": true,
+      "explicitSources": 1
+    },
+    {
+      "name": "messages save a draft then a simulated sent receipt with the same identity",
+      "status": "PASS",
+      "simulated": true
+    },
+    {
+      "name": "authorized document preview and actual download remain private",
+      "status": "PASS",
+      "downloaded": true
+    },
+    {
+      "name": "notification read state and appearance persist through reload and SSR",
+      "status": "PASS",
+      "theme": "night",
+      "serverRendered": true
+    },
+    {
+      "name": "urgent help is always reachable without a model or unverified phone number",
+      "status": "PASS",
+      "deterministic": true
+    },
+    {
+      "name": "personal goals and activity changes persist without modifying prescribed goals",
+      "status": "PASS",
+      "goalId": "2b86d086-20e5-48d5-909e-0605fbfa7dab",
+      "activityId": "f0b0fba7-e038-4b82-94c9-3b9899c332b2"
+    },
+    {
+      "name": "current session survives ending other sessions and JSON export is owner-only",
+      "status": "PASS",
+      "othersRevoked": 2,
+      "exported": true
+    },
+    {
+      "name": "logout clears private views and private endpoints reject unauthenticated access",
+      "status": "PASS",
+      "privateStateStatus": 401
+    },
+    {
+      "name": "no private browser storage, page exceptions, or external model/provider requests",
+      "status": "PASS",
+      "publicCachedAssets": 5
+    }
+  ],
+  "screenshots": [
+    "01-login.png",
+    "03-home.png",
+    "04-quick-add.png",
+    "05-checkin-emotion.png",
+    "06-checkin-context.png",
+    "07-checkin-sleep.png",
+    "08-checkin-reloaded.png",
+    "09-journey-history.png",
+    "10-journal-shared.png",
+    "11-journal-withdrawn.png",
+    "12-thought-record.png",
+    "13-weekly-reflection.png",
+    "14-exercise-resumed.png",
+    "15-preparation-preview.png",
+    "16-message-receipt.png",
+    "17-document.png",
+    "18-settings-theme.png",
+    "19-urgent-help.png",
+    "21-personal-program.png",
+    "22-sessions-export.png",
+    "20-logged-out.png"
+  ],
+  "mutations": [
+    {
+      "action": "save",
+      "kind": "checkin",
+      "id": "ea4e45b6-cc00-4153-bf8e-d117c3e12443",
+      "version": 4,
+      "expectedVersion": 3
+    },
+    {
+      "action": "save",
+      "kind": "journal",
+      "id": "a2b62584-6937-41c0-84ed-34d4737a7844",
+      "version": 1
+    },
+    {
+      "action": "save",
+      "kind": "journal",
+      "id": "a2b62584-6937-41c0-84ed-34d4737a7844",
+      "version": 2,
+      "expectedVersion": 1
+    },
+    {
+      "action": "share"
+    },
+    {
+      "action": "share"
+    },
+    {
+      "action": "save",
+      "kind": "thoughtRecord",
+      "id": "bd9d9cba-45fd-4ebf-a591-13d536bc2687",
+      "version": 1
+    },
+    {
+      "action": "save",
+      "kind": "thoughtRecord",
+      "id": "bd9d9cba-45fd-4ebf-a591-13d536bc2687",
+      "version": 2,
+      "expectedVersion": 1
+    },
+    {
+      "action": "save",
+      "kind": "weeklyReview",
+      "id": "2448de5d-ea6d-4ae0-98ac-e22e026c436c",
+      "version": 4,
+      "expectedVersion": 3
+    },
+    {
+      "action": "save",
+      "kind": "weeklyReview",
+      "id": "2448de5d-ea6d-4ae0-98ac-e22e026c436c",
+      "version": 5,
+      "expectedVersion": 4
+    },
+    {
+      "action": "save",
+      "kind": "exerciseProgress",
+      "id": "aadb9fdf-7061-4708-a621-4954e9f71558",
+      "version": 7,
+      "expectedVersion": 6
+    },
+    {
+      "action": "save",
+      "kind": "preparation",
+      "id": "8dda7b8c-70f7-4460-941c-b129561b8f2c",
+      "version": 2,
+      "expectedVersion": 1
+    },
+    {
+      "action": "save",
+      "kind": "message",
+      "id": "30d92e22-baf4-43c7-bb41-5630afdb09e1",
+      "version": 1
+    },
+    {
+      "action": "save",
+      "kind": "message",
+      "id": "30d92e22-baf4-43c7-bb41-5630afdb09e1",
+      "version": 2,
+      "expectedVersion": 1
+    },
+    {
+      "action": "save",
+      "kind": "goal",
+      "id": "2b86d086-20e5-48d5-909e-0605fbfa7dab",
+      "version": 1
+    },
+    {
+      "action": "save",
+      "kind": "goal",
+      "id": "2b86d086-20e5-48d5-909e-0605fbfa7dab",
+      "version": 2,
+      "expectedVersion": 1
+    },
+    {
+      "action": "save",
+      "kind": "goal",
+      "id": "2b86d086-20e5-48d5-909e-0605fbfa7dab",
+      "version": 3,
+      "expectedVersion": 2
+    },
+    {
+      "action": "save",
+      "kind": "activity",
+      "id": "f0b0fba7-e038-4b82-94c9-3b9899c332b2",
+      "version": 1
+    },
+    {
+      "action": "save",
+      "kind": "activity",
+      "id": "f0b0fba7-e038-4b82-94c9-3b9899c332b2",
+      "version": 2,
+      "expectedVersion": 1
+    },
+    {
+      "action": "revokeOtherSessions"
+    }
+  ],
+  "pageErrors": [],
+  "externalRequests": [],
+  "finishedAt": "2026-11-16T16:07:22.542Z"
+}

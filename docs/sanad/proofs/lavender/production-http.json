@@ -1,0 +1,45 @@
+{
+  "checkedAt": "2026-11-16T16:06:24.720Z",
+  "deployment": "dpl_G2Kn4ZqhsnYLbBmMixbsNVyfQ3fX",
+  "sourceCommit": "ab7cc9dcbaff18c31b3befcafe350c4dba57a723",
+  "tlsCertificateVerification": true,
+  "checks": [
+    {
+      "name": "permanent root",
+      "url": "https://sanad-mindcare.vercel.app/",
+      "status": 307,
+      "location": "/sanad"
+    },
+    {
+      "name": "Aftercare page",
+      "url": "https://sanad-mindcare.vercel.app/sanad",
+      "status": 200,
+      "location": null
+    },
+    {
+      "name": "original website",
+      "url": "https://mindcare-website-eight.vercel.app/",
+      "status": 200,
+      "location": null
+    },
+    {
+      "name": "private state without session",
+      "url": "https://sanad-mindcare.vercel.app/api/sanad/state",
+      "status": 401,
+      "location": null
+    }
+  ],
+  "existingWebsiteLinksToAftercare": true,
+  "manifest": {
+    "name": "MindCare Aftercare",
+    "theme": "#f7f5ff"
+  },
+  "publicCacheVersion": 3,
+  "websiteLinkedPortal": {
+    "website": "https://mindcare-website-eight.vercel.app",
+    "link": "/sanad",
+    "signIn": 200,
+    "authenticatedState": 200,
+    "signOut": 200
+  }
+}
