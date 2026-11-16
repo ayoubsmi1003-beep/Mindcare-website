@@ -27,3 +27,4 @@
 .mc-section-tabs button[aria-current=page]{background:var(--mc-primary);color:var(--mc-primary-ink)}
 .sn-app .sn-text-button[aria-pressed=true]{background:var(--mc-soft);border-radius:12px;padding-inline:12px}
 @media(max-width:700px){.mc-focus-card{padding-block:21px}.mc-focus-copy h2{font-size:calc(22px * var(--mc-size))}.mc-focus-copy p{line-height:1.5}.mc-home-stats>*>span:not(.mc-stat-icon){font-size:calc(11px * var(--mc-size))}.mc-home-stats small{font-size:calc(10px * var(--mc-size))}.sn-bottom-nav>span>button:not(.mc-plus){font-size:calc(11px * var(--mc-size))}.mc-greeting>div>span,.mc-task-row small,.mc-mini-studio small{font-size:calc(12px * var(--mc-size))}}
+.sn-app progress{accent-color:var(--mc-primary)}
