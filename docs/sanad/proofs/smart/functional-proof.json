@@ -1,0 +1,138 @@
+{
+  "base": "http://localhost:43862",
+  "startedAt": "2026-11-16T00:32:33.504Z",
+  "browser": "Chromium 1234",
+  "runtime": "compiled local server",
+  "clock": "Playwright browser clock; no API responses mocked",
+  "checks": [
+    {
+      "name": "login theme light and night persist through server HTML and reload",
+      "status": "PASS",
+      "cookie": "sanad_appearance=light|night; Path=/sanad",
+      "serverHtml": true,
+      "reload": true
+    },
+    {
+      "name": "authenticated theme light and night persist through server HTML and reload",
+      "status": "PASS",
+      "serverHtml": true,
+      "reload": true
+    },
+    {
+      "name": "public private state uses no-store",
+      "status": "PASS",
+      "recordCount": 12
+    },
+    {
+      "name": "healing controls start pause resume end and finish at 30 seconds",
+      "status": "PASS",
+      "timing": "accelerated Playwright clock",
+      "autoStopAtSeconds": 30
+    },
+    {
+      "name": "reduced motion changes dynamically and keeps healing controls functional",
+      "status": "PASS",
+      "dynamic": true,
+      "transform": "none"
+    },
+    {
+      "name": "real exercise UI saves a partial session and smart recommendation matches saved data",
+      "status": "PASS",
+      "id": "aadb9fdf-7061-4708-a621-4954e9f71558",
+      "version": 1,
+      "seconds": 2
+    },
+    {
+      "name": "smart exercise action reopens and resumes the same saved id and version",
+      "status": "PASS",
+      "id": "aadb9fdf-7061-4708-a621-4954e9f71558",
+      "beforeVersion": 1,
+      "afterVersion": 2,
+      "seconds": 4
+    },
+    {
+      "name": "expanded recap and actual download match factual counts and exclude saved private strings",
+      "status": "PASS",
+      "recordedDays": 2,
+      "sleepSamples": 2,
+      "averageSleep": 3.75,
+      "pendingRequests": 2,
+      "privateValuesChecked": 8,
+      "download": "recap-2026-11-16.txt"
+    },
+    {
+      "name": "browser does not persist health data in localStorage or service worker caches",
+      "status": "PASS",
+      "localStorageEntries": 0,
+      "cached": [
+        {
+          "cache": "sanad-public-v2",
+          "path": "/sanad/offline.html"
+        },
+        {
+          "cache": "sanad-public-v2",
+          "path": "/sanad/offline.js"
+        },
+        {
+          "cache": "sanad-public-v2",
+          "path": "/sanad/icon.svg"
+        },
+        {
+          "cache": "sanad-public-v2",
+          "path": "/sanad/icon-192.png"
+        },
+        {
+          "cache": "sanad-public-v2",
+          "path": "/sanad/icon-512.png"
+        }
+      ]
+    },
+    {
+      "name": "no unexpected page exceptions or external service requests",
+      "status": "PASS",
+      "pageErrors": 0,
+      "externalRequests": 0
+    }
+  ],
+  "screenshots": [
+    "login-light.png",
+    "login-night.png",
+    "today-light.png",
+    "exercise-resumed.png",
+    "recap-expanded.png"
+  ],
+  "mutations": [
+    {
+      "channel": "public API",
+      "kind": "checkin",
+      "id": "ea4e45b6-cc00-4153-bf8e-d117c3e12443",
+      "version": 1
+    },
+    {
+      "channel": "public API",
+      "kind": "preparation",
+      "id": "c3cdf015-3f70-470f-8b3d-e35dd266ed36",
+      "version": 1
+    },
+    {
+      "channel": "UI",
+      "kind": "exerciseProgress",
+      "id": "aadb9fdf-7061-4708-a621-4954e9f71558",
+      "version": 1,
+      "seconds": 2
+    },
+    {
+      "channel": "UI",
+      "kind": "exerciseProgress",
+      "id": "aadb9fdf-7061-4708-a621-4954e9f71558",
+      "version": 2,
+      "expectedVersion": 1,
+      "seconds": 4
+    }
+  ],
+  "externalRequests": [],
+  "pageErrors": [],
+  "today": "2026-11-16",
+  "finishedAt": "2026-11-16T00:32:50.398Z",
+  "screenshotVerification": "Recaptured read-only with real wall time and normal visible clicks; see visible-proof.json and visible-capture.cjs"
+}

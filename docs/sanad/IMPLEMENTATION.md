@@ -1,6 +1,6 @@
-# Sanad Jardin — démonstration privée
+# Sanad — espace patient
 
-État du 15 novembre 2026. Le portail `/sanad` est une démonstration persistante
+État du 16 novembre 2026. Adresse permanente : [Sanad](https://sanad-mindcare.vercel.app/). La racine de ce nouvel hôte ouvre directement `/sanad`, dans le projet du site existant. Les modes clair/nuit, la pause cœur/souffle et les outils personnels sont décrits dans [SMART-RELEASE.md](SMART-RELEASE.md). La refonte Glass remplace Jardin : [REDESIGN.md](REDESIGN.md). Les anciens visuels sont des preuves historiques. Le portail `/sanad` est une démonstration persistante
 pour testeurs autorisés, avec un seul compte fictif livré. Le site
 public et son chatbot restent distincts. Cette livraison ne raccorde aucun
 cabinet et n'est pas qualifiée pour de vrais patients.
@@ -112,8 +112,8 @@ L'utilisateur a explicitement autorisé la publication en production le 15 novem
 2026. Sanad est publié dans le projet Vercel existant, sans autre application :
 [site](https://mindcare-website-eight.vercel.app/) → « Espace patient / Sanad » →
 [portail](https://mindcare-website-eight.vercel.app/sanad).
-Le déploiement `dpl_EgtCCGhnjESqA1aUR5x7TbFzY7zm` est READY, cible production,
-commit `d9dfe1a83ed8dbe1d2344ae5f13f2a4d36a92c1f`. Les quatre variables Sanad et
+Le déploiement `dpl_GNM2gD7zewpVbDU8wbAyrKWXtin3` est READY, cible production,
+commit `53d819a056d2645eca5c931175cf7e3cf82c4b5d`. Les quatre variables Sanad et
 l'option `SANAD_PUBLISH_FICTIONAL_TEST=true` y sont configurées. Les variables
 existantes du site et ses protections Vercel sont conservées ; aucun DNS modifié.
 
@@ -122,8 +122,8 @@ et journal enregistrés, conversation scénarisée, partage puis retrait, demand
 en attente, document privé, reconnexion et données retrouvées, déconnexion avec
 accès privé refusé, arabe RTL 360 et anglais desktop. Le cookie est Secure,
 HttpOnly, SameSite Strict ; les réponses privées sont no-store. Le service worker
-activé ne conserve que sept ressources publiques ; localStorage est vide.
-[Preuve complète](proofs/production-https.json). Les accès du seul testeur sont
+activé ne conserve que cinq ressources publiques ; localStorage est vide.
+[Preuve complète](proofs/glass/production-https.json). Les accès du seul testeur sont
 conservés hors dépôt dans le fichier privé remis à l'utilisateur.
 
 La preview protégée demeure séparée de l'URL permanente. Aucun lien temporaire

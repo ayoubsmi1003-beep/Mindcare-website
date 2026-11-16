@@ -2,6 +2,7 @@
 
 import {createContext, useContext, type ReactNode} from 'react';
 import {type CopyKey, type Locale} from '@/lib/sanad/i18n';
+export type ResourceId = 'breathing' | 'grounding' | 'sleep' | 'prepare';
 export type Body = Record<string, unknown>;
 export type SanadRecord = {id: string; kind: string; body: Body; version: number; createdAt: string; updatedAt: string};
 export type Share = {id: string; recordId: string; recordVersion: number; sharedAt: string; revokedAt: string | null};
@@ -9,6 +10,7 @@ export type PatientState = {profile: {id: string; displayName: string; locale: L
 export type Screen = 'today' | 'followup' | 'chat' | 'resources' | 'space' | 'checkin' | 'treatment' | 'appointments' | 'messages' | 'help';
 export type SanadContext = {
   state: PatientState; locale: Locale; setLocale: (locale: Locale) => void; t: (key: CopyKey) => string;
+  openResource?: (resourceId: ResourceId) => void;
   go: (screen: Screen) => void; busy: boolean;
   save: (kind: string, body: Body, record?: SanadRecord) => Promise<SanadRecord | null>;
   command: (body: Body) => Promise<Body | null>;

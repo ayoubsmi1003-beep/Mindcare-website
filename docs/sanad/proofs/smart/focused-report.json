@@ -1,0 +1,386 @@
+[
+  {
+    "width": 360,
+    "appearance": "light",
+    "sticky": {
+      "actual": 10,
+      "expected": 10
+    },
+    "button": {
+      "top": 410.28125,
+      "bottom": 454.28125,
+      "left": 48,
+      "right": 206
+    },
+    "header": {
+      "top": 10,
+      "bottom": 144,
+      "left": 14,
+      "right": 346
+    },
+    "dock": {
+      "top": 760,
+      "bottom": 832,
+      "left": 14,
+      "right": 346
+    },
+    "phase": {
+      "top": 353.28125,
+      "bottom": 373.28125,
+      "left": 140.84375,
+      "right": 219.15625
+    },
+    "heart": {
+      "top": 212.93643188476562,
+      "bottom": 317.2122802734375,
+      "left": 118.0137939453125,
+      "right": 241.9862060546875
+    },
+    "focused": true,
+    "focusCovered": false,
+    "phaseOverlapsHeart": false,
+    "meta": {
+      "actual": "#f6f4ef",
+      "expected": "#f6f4ef",
+      "matches": true
+    },
+    "serverInitialTheme": "light",
+    "serverThemeMatches": true
+  },
+  {
+    "width": 360,
+    "appearance": "night",
+    "sticky": {
+      "actual": 10,
+      "expected": 10
+    },
+    "button": {
+      "top": 410.28125,
+      "bottom": 454.28125,
+      "left": 48,
+      "right": 206
+    },
+    "header": {
+      "top": 10,
+      "bottom": 144,
+      "left": 14,
+      "right": 346
+    },
+    "dock": {
+      "top": 760,
+      "bottom": 832,
+      "left": 14,
+      "right": 346
+    },
+    "phase": {
+      "top": 353.28125,
+      "bottom": 373.28125,
+      "left": 140.84375,
+      "right": 219.15625
+    },
+    "heart": {
+      "top": 212.93643188476562,
+      "bottom": 317.2122802734375,
+      "left": 118.0137939453125,
+      "right": 241.9862060546875
+    },
+    "focused": true,
+    "focusCovered": false,
+    "phaseOverlapsHeart": false,
+    "meta": {
+      "actual": "#090c12",
+      "expected": "#090c12",
+      "matches": true
+    },
+    "serverInitialTheme": "night",
+    "serverThemeMatches": true
+  },
+  {
+    "width": 390,
+    "appearance": "light",
+    "sticky": {
+      "actual": 10,
+      "expected": 10
+    },
+    "button": {
+      "top": 409.96875,
+      "bottom": 453.96875,
+      "left": 63,
+      "right": 221
+    },
+    "header": {
+      "top": 10,
+      "bottom": 144,
+      "left": 14,
+      "right": 376
+    },
+    "dock": {
+      "top": 760,
+      "bottom": 832,
+      "left": 14,
+      "right": 376
+    },
+    "phase": {
+      "top": 352.96875,
+      "bottom": 372.96875,
+      "left": 155.84375,
+      "right": 234.15625
+    },
+    "heart": {
+      "top": 203.31356811523438,
+      "bottom": 315.0377197265625,
+      "left": 128.58621215820312,
+      "right": 261.4137878417969
+    },
+    "focused": true,
+    "focusCovered": false,
+    "phaseOverlapsHeart": false,
+    "meta": {
+      "actual": "#f6f4ef",
+      "expected": "#f6f4ef",
+      "matches": true
+    },
+    "serverInitialTheme": "light",
+    "serverThemeMatches": true
+  },
+  {
+    "width": 390,
+    "appearance": "night",
+    "sticky": {
+      "actual": 10,
+      "expected": 10
+    },
+    "button": {
+      "top": 409.96875,
+      "bottom": 453.96875,
+      "left": 63,
+      "right": 221
+    },
+    "header": {
+      "top": 10,
+      "bottom": 144,
+      "left": 14,
+      "right": 376
+    },
+    "dock": {
+      "top": 760,
+      "bottom": 832,
+      "left": 14,
+      "right": 376
+    },
+    "phase": {
+      "top": 352.96875,
+      "bottom": 372.96875,
+      "left": 155.84375,
+      "right": 234.15625
+    },
+    "heart": {
+      "top": 203.31356811523438,
+      "bottom": 315.0377197265625,
+      "left": 128.58621215820312,
+      "right": 261.4137878417969
+    },
+    "focused": true,
+    "focusCovered": false,
+    "phaseOverlapsHeart": false,
+    "meta": {
+      "actual": "#090c12",
+      "expected": "#090c12",
+      "matches": true
+    },
+    "serverInitialTheme": "night",
+    "serverThemeMatches": true
+  },
+  {
+    "width": 768,
+    "appearance": "light",
+    "sticky": {
+      "actual": 12,
+      "expected": 12
+    },
+    "button": {
+      "top": 451,
+      "bottom": 495,
+      "left": 455.5,
+      "right": 599.5
+    },
+    "header": {
+      "top": 12,
+      "bottom": 80,
+      "left": 20,
+      "right": 748
+    },
+    "dock": {
+      "top": 928,
+      "bottom": 1000,
+      "left": 74.5,
+      "right": 693.5
+    },
+    "phase": {
+      "top": 394,
+      "bottom": 414,
+      "left": 529.84375,
+      "right": 608.15625
+    },
+    "heart": {
+      "top": 252.10345458984375,
+      "bottom": 357.6206970214844,
+      "left": 506.27587890625,
+      "right": 631.72412109375
+    },
+    "focused": true,
+    "focusCovered": false,
+    "phaseOverlapsHeart": false,
+    "meta": {
+      "actual": "#f6f4ef",
+      "expected": "#f6f4ef",
+      "matches": true
+    },
+    "serverInitialTheme": "light",
+    "serverThemeMatches": true
+  },
+  {
+    "width": 768,
+    "appearance": "night",
+    "sticky": {
+      "actual": 12,
+      "expected": 12
+    },
+    "button": {
+      "top": 451,
+      "bottom": 495,
+      "left": 455.5,
+      "right": 599.5
+    },
+    "header": {
+      "top": 12,
+      "bottom": 80,
+      "left": 20,
+      "right": 748
+    },
+    "dock": {
+      "top": 928,
+      "bottom": 1000,
+      "left": 74.5,
+      "right": 693.5
+    },
+    "phase": {
+      "top": 394,
+      "bottom": 414,
+      "left": 529.84375,
+      "right": 608.15625
+    },
+    "heart": {
+      "top": 252.10345458984375,
+      "bottom": 357.6206970214844,
+      "left": 506.27587890625,
+      "right": 631.72412109375
+    },
+    "focused": true,
+    "focusCovered": false,
+    "phaseOverlapsHeart": false,
+    "meta": {
+      "actual": "#090c12",
+      "expected": "#090c12",
+      "matches": true
+    },
+    "serverInitialTheme": "night",
+    "serverThemeMatches": true
+  },
+  {
+    "width": 1440,
+    "appearance": "light",
+    "sticky": {
+      "actual": 18,
+      "expected": 18
+    },
+    "button": {
+      "top": 468.25,
+      "bottom": 512.25,
+      "left": 909.59375,
+      "right": 1065.59375
+    },
+    "header": {
+      "top": 18,
+      "bottom": 94,
+      "left": 36,
+      "right": 1404
+    },
+    "dock": {
+      "top": 904,
+      "bottom": 976,
+      "left": 363.5,
+      "right": 1076.5
+    },
+    "phase": {
+      "top": 411.25,
+      "bottom": 431.25,
+      "left": 999.4375,
+      "right": 1077.75
+    },
+    "heart": {
+      "top": 236.76724243164062,
+      "bottom": 368.35345458984375,
+      "left": 960.373046875,
+      "right": 1116.814453125
+    },
+    "focused": true,
+    "focusCovered": false,
+    "phaseOverlapsHeart": false,
+    "meta": {
+      "actual": "#f6f4ef",
+      "expected": "#f6f4ef",
+      "matches": true
+    },
+    "serverInitialTheme": "light",
+    "serverThemeMatches": true
+  },
+  {
+    "width": 1440,
+    "appearance": "night",
+    "sticky": {
+      "actual": 18,
+      "expected": 18
+    },
+    "button": {
+      "top": 468.25,
+      "bottom": 512.25,
+      "left": 909.59375,
+      "right": 1065.59375
+    },
+    "header": {
+      "top": 18,
+      "bottom": 94,
+      "left": 36,
+      "right": 1404
+    },
+    "dock": {
+      "top": 904,
+      "bottom": 976,
+      "left": 363.5,
+      "right": 1076.5
+    },
+    "phase": {
+      "top": 411.25,
+      "bottom": 431.25,
+      "left": 999.4375,
+      "right": 1077.75
+    },
+    "heart": {
+      "top": 236.76724243164062,
+      "bottom": 368.35345458984375,
+      "left": 960.373046875,
+      "right": 1116.814453125
+    },
+    "focused": true,
+    "focusCovered": false,
+    "phaseOverlapsHeart": false,
+    "meta": {
+      "actual": "#090c12",
+      "expected": "#090c12",
+      "matches": true
+    },
+    "serverInitialTheme": "night",
+    "serverThemeMatches": true
+  }
+]

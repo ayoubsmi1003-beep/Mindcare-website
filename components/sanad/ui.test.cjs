@@ -127,8 +127,8 @@ function hookRun(Component,props,context) {
 test('a paused exercise can save again after resuming and updates the same session record',async()=>{
   const original={setInterval:global.setInterval,clearInterval:global.clearInterval,now:Date.now};let clock=100000;let tick;const saves=[];
   global.setInterval=callback=>{tick=callback;return 1;};global.clearInterval=()=>{tick=undefined;};Date.now=()=>clock;
-  const resource={id:'breathing',title:'breathingTitle',category:'breathing',instructions:'breathingInstructions',seconds:180,art:'garden'};
-  const context={t:key=>translate('fr',key),busy:false,save:async(kind,body,record)=>{saves.push({kind,body,record});return {id:profile.id,kind,body,version:saves.length,createdAt:'2026-01-01T12:00:00Z',updatedAt:'2026-01-01T12:00:00Z'};}};
+  const resource={id:'breathing',title:'breathingTitle',category:'breathing',instructions:'breathingInstructions',seconds:180};
+  const context={state:{profile,records:[],shares:[]},t:key=>translate('fr',key),busy:false,save:async(kind,body,record)=>{saves.push({kind,body,record});return {id:profile.id,kind,body,version:saves.length,createdAt:'2026-01-01T12:00:00Z',updatedAt:'2026-01-01T12:00:00Z'};}};
   const runner=hookRun(Exercise,{resource,onBack(){}},context);
   try {
     let tree=runner.render();button(tree,'Commencer').props.onClick();tree=runner.render();clock+=2000;tick();tree=runner.render();button(tree,'Pause').props.onClick();tree=runner.render();
@@ -167,4 +167,21 @@ test('withdrawn sharing cannot offer a forbidden reshare and a new revision rema
     assert.doesNotMatch(next,/<button[^>]+disabled=""/);
     assert.ok(next.includes(translate(locale,'share')));
   }
+});
+
+test('a saved unfinished exercise reopens at its actual elapsed time and preserves its revision',async()=>{
+  const record={id:profile.id,kind:'exerciseProgress',version:7,body:{resourceId:'breathing',seconds:20,completed:false},createdAt:'2026-01-01T12:00:00Z',updatedAt:'2026-01-01T12:00:00Z'};
+  const saves=[];
+  const context={state:{profile,records:[record],shares:[]},t:key=>translate('fr',key),busy:false,save:async(kind,body,existing)=>{saves.push({kind,body,existing});return {...record,body,version:8};}};
+  const resource={id:'breathing',title:'breathingTitle',category:'breathing',instructions:'breathingInstructions',seconds:180};
+  const runner=hookRun(Exercise,{resource,onBack(){}},context);
+  try{const tree=runner.render();assert.match(flatten(tree),/00:20/);assert.ok(button(tree,'Reprendre'));await button(tree,'Garder cette séance').props.onClick();assert.equal(saves[0].body.seconds,20);assert.equal(saves[0].existing.id,record.id);assert.equal(saves[0].existing.version,7);}finally{runner.close();}
+});
+
+test('the personal recap excludes private journal, chat, memory and effects text in every language',()=>{
+  const {SmartCompanion}=require('./SmartCompanion.tsx');
+  const stamp=day()+'T00:00:00+01:00';
+  const base={version:1,createdAt:stamp,updatedAt:stamp};
+  const rows=[{...base,id:'checkin',kind:'checkin',body:{date:day(),sleepHours:0,effects:'PRIVATE_EFFECTS'}},...['journal','conversation','memory'].map(kind=>({...base,id:kind,kind,body:{text:'PRIVATE_'+kind,situation:'PRIVATE_'+kind,messages:[{text:'PRIVATE_'+kind}]}}))];
+  for(const locale of locales){const html=render(SmartCompanion,locale,rows);assert.doesNotMatch(html,/PRIVATE_/);assert.ok(html.includes(translate(locale,'smartRecapPrivacy')));assert.ok(html.includes(translate(locale,'smartSleepSamples')));assert.ok(html.includes('sn-week-strip'));}
 });

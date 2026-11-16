@@ -199,3 +199,27 @@ La démonstration intégrée au site est livrée avec sa recette HTTPS. L'ouvert
 aux vrais patients reste bloquée par les validations d'identité, sécurité, mineurs,
 contenu, exploitation et raccordement ; aucune donnée clinique n'est nécessaire
 pour poursuivre les essais synthétiques.
+
+## Refonte Glass — publication du 15 novembre 2026
+
+La demande de refonte remplace Jardin. Production dpl_GNM2gD7zewpVbDU8wbAyrKWXtin3, source 53d819a056d2645eca5c931175cf7e3cf82c4b5d : READY, alias permanent confirmé. Les anciennes captures ci-dessus sont historiques. Aucun changement de base, API, mot de passe ou nombre de comptes.
+
+PASS : 195 nouveaux cas navigateur FR/AR/EN, cinq largeurs, 13 écrans ; aucun contrôle débordant ou sans label. Verre au pointeur, dock à ressort, transitions et vrai minuteur enregistrés en [vidéo](proofs/glass/sanad-glass-motion.webm). Préférence de mouvement modifiée en direct : RED puis GREEN. Lien d’évitement dégagé du header desktop/mobile ; contrastes échantillonnés 17,91:1 et 8,70:1. Exercice contrôlé après vrai rechargement hors ligne. [Accessibilité](proofs/glass/accessibility.json), [matrice](proofs/glass/browser-matrix.json).
+
+PASS : build optimisé (178 kB au premier chargement Sanad), typecheck, lint ciblé, 19 tests UI/commandes/SW existants puis test de migration du cache RED→GREEN (3/3 SW). Aucune dépendance ajoutée. Quatre images Jardin/nuit supprimées ; aucun appel réseau vers elles. Cache v2 limité à cinq ressources publiques, purge uniquement des anciennes versions Sanad.
+
+PASS : recette HTTPS du redesign : connexion, cookie sécurisé, bilan/journal sauvegardés puis relus, chat scénarisé, partage/retrait, demande pending, document privé et refus après déconnexion. [Preuve actuelle](proofs/glass/production-https.json), [FR](proofs/glass/production-fr-390.png), [AR](proofs/glass/production-ar-360.png).
+
+DOMAINE NON RÉPARÉ : délégation vers verify-contact-details.namecheap.com / failed-whois-verification.namecheap.com et parking 198.54.117.242. Domaine vérifié dans Vercel ; /sanad répond 200 en HTTPS à son adresse Vercel avec TLS normal. Accès Namecheap non établi : aucun navigateur ouvert, lancement bloqué par expiration d’approbation Computer Use. Le connecteur Namecheap ne gère pas les comptes/DNS. Aucun DNS/mail/TXT modifié. [Diagnostic](proofs/glass/domain.json), [procédure Namecheap](https://www.namecheap.com/support/knowledgebase/article.aspx/10698/46/what-to-do-if-my-domain-was-suspended-due-to-whois-verification-process/). La vérification du titulaire doit être terminée dans ce compte, puis les DNS restaurés contrôlés. Statut interne du compte non vérifié.
+
+Téléphones physiques, lecteur d’écran réel et push fermé : NOT RUN. Raccordement clinique et modèle réel restent hors de cette livraison fictive.
+
+## Healing, light/night and smart tools — 16 novembre 2026
+
+Nouvel hôte permanent demandé : [sanad-mindcare.vercel.app](https://sanad-mindcare.vercel.app/), domaine Vercel vérifié attaché au projet existant. Aucun lien temporaire ni contournement de protection. Même base Neon permanente et unique compte fictif ; aucun schéma, rôle ou mot de passe modifié.
+
+PASS local final : 38 tests ciblés, TypeScript, ESLint ciblé et build optimisé (18,8 kB / 181 kB premier chargement). Matrice réelle 390/390, 13 écrans × trois langues × cinq largeurs × deux thèmes ; 16 cas de chat court, huit cas de géométrie/focus, thèmes serveur/client vérifiés. Dix vérifications fonctionnelles et trois vérifications visuelles en temps réel : thème persistant, pause finie, reprise réelle de la même révision d’exercice et export personnel excluant les textes privés. [Détails et preuves](SMART-RELEASE.md).
+
+Le nouveau cœur/souffle remplace le symbole 3D. Les suggestions reposent sur des règles expliquées et les saisies existantes ; aucun score clinique, donnée manquante imputée ou appel modèle. Le récapitulatif téléchargé n’est pas transmis au cabinet.
+
+Ancien domaine personnalisé : la délégation publique Namecheap reste le blocage décrit plus haut. Nouvelle vérification navigateur : la page du registrar demande une connexion, aucune session de compte disponible. Aucun paramètre de registrar n’a été modifié. Le nouvel hôte Vercel est la voie d’accès permanente demandée, pas une preuve de réparation de mindcare-centre.com.

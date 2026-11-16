@@ -1,7 +1,7 @@
 'use client';
 import {useEffect,useRef,useState} from 'react';
 import {ArrowLeft,ArrowRight,Bookmark,Check,Pause,Play,Square,Wind} from 'lucide-react';
-import {Empty,Title,useRecords,useSanad,str,yes,type SanadRecord} from './core';
+import {Empty,Title,useRecords,useSanad,str,yes,type SanadRecord,type ResourceId} from './core';
 import type {CopyKey} from '@/lib/sanad/i18n';
 
 const resources: {id:string; title:CopyKey; category:CopyKey; instructions:CopyKey; seconds:number}[] = [
@@ -10,8 +10,8 @@ const resources: {id:string; title:CopyKey; category:CopyKey; instructions:CopyK
   {id:'sleep',title:'sleepTitle',category:'sleepCategory',instructions:'sleepInstructions',seconds:180},
   {id:'prepare',title:'relaxationTitle',category:'relaxation',instructions:'relaxationInstructions',seconds:120},
 ];
-export function Resources() {
-  const {t,save,busy}=useSanad();const favorites=useRecords('favorite');const [filter,setFilter]=useState<CopyKey>('all');const [selected,setSelected]=useState<string|null>(null);
+export function Resources({initialResource}:{initialResource?:ResourceId} = {}) {
+  const {t,save,busy}=useSanad();const favorites=useRecords('favorite');const [filter,setFilter]=useState<CopyKey>('all');const [selected,setSelected]=useState<string|null>(initialResource??null);
   const active=resources.find(resource=>resource.id===selected);
   function isFavorite(id:string){return favorites.find(record=>str(record.body,'resourceId')===id);}
   async function favorite(id:string){const existing=isFavorite(id);await save('favorite',{resourceId:id,active:!existing || !yes(existing.body,'active')},existing);}
@@ -20,7 +20,10 @@ export function Resources() {
   return <><Title eyebrow={t('resources')}>{t('resourceTitle')}</Title><span className="sn-tag sn-tag-coral">{t('reviewRequired')}</span><section className="sn-resource-feature"><button type="button" onClick={()=>setSelected('breathing')} className="sn-resource-image" aria-label={t('breathingTitle')}><span className="sn-resource-art sn-art-breathing" aria-hidden="true"><span className="sn-art-ring"/><span className="sn-art-ring"/><span className="sn-art-ring"/></span></button><div><div><span className="sn-eyebrow">{t('breathing')} · 3 {t('minutes')}</span><h2>{t('breathingTitle')}</h2></div><button type="button" className="sn-button" onClick={()=>setSelected('breathing')}>{t('discover')}<ArrowRight size={18}/></button></div></section><div className="sn-resource-filters" role="group" aria-label={t('category')}>{(['all','grounding','sleepCategory','relaxation','favorites'] as const).map(key=><button type="button" key={key} aria-pressed={filter===key} onClick={()=>setFilter(key)}>{t(key)}</button>)}</div><div className="sn-resource-list">{list.map(resource=><article key={resource.id}><button type="button" className="sn-resource-open" onClick={()=>setSelected(resource.id)}><span className="sn-resource-thumb"><span className={`sn-resource-art sn-art-${resource.id}`} aria-hidden="true"><span className="sn-art-ring"/><span className="sn-art-ring"/><span className="sn-art-ring"/></span></span><span><small>{t(resource.category)} · {resource.seconds/60} {t('minutes')}</small><h3>{t(resource.title)}</h3><span className="sn-small">{t('reviewRequired')}</span></span></button><button type="button" className="sn-icon-button" aria-label={t(yes(isFavorite(resource.id)?.body||{},'active')?'unfavorite':'favorite')} aria-pressed={yes(isFavorite(resource.id)?.body||{},'active')} disabled={busy} onClick={()=>favorite(resource.id)}><Bookmark size={23} fill={yes(isFavorite(resource.id)?.body||{},'active')?'currentColor':'none'}/></button></article>)}</div>{list.length===0 && <Empty>{t('noResults')}</Empty>}</>;
 }
 export function Exercise({resource,onBack}:{resource:typeof resources[number];onBack:()=>void}) {
-  const {t,save,busy}=useSanad();const [elapsed,setElapsed]=useState(0);const [running,setRunning]=useState(false);const [staticArt,setStaticArt]=useState(false);const [saved,setSaved]=useState(false);const [savedRecord,setSavedRecord]=useState<SanadRecord|undefined>(undefined);const startedAt=useRef(0);const prior=useRef(0);const heading=useRef<HTMLHeadingElement>(null);
+  const {t,save,busy}=useSanad();
+  const unfinished=useRecords('exerciseProgress').find(record=>str(record.body,'resourceId')===resource.id&&record.body.completed===false&&typeof record.body.seconds==='number'&&Number.isInteger(record.body.seconds)&&record.body.seconds>0&&record.body.seconds<resource.seconds);
+  const initialElapsed=unfinished?Number(unfinished.body.seconds):0;
+  const [elapsed,setElapsed]=useState(initialElapsed);const [running,setRunning]=useState(false);const [staticArt,setStaticArt]=useState(false);const [saved,setSaved]=useState(false);const [savedRecord,setSavedRecord]=useState<SanadRecord|undefined>(unfinished);const startedAt=useRef(0);const prior=useRef(initialElapsed);const heading=useRef<HTMLHeadingElement>(null);
   useEffect(()=>{heading.current?.focus({preventScroll:true});},[]);
   useEffect(()=>{if(!running)return;startedAt.current=Date.now();const timer=setInterval(()=>{const seconds=Math.min(resource.seconds,prior.current+Math.floor((Date.now()-startedAt.current)/1000));setElapsed(seconds);if(seconds>=resource.seconds){setRunning(false);prior.current=resource.seconds;}},250);return()=>clearInterval(timer);},[running,resource.seconds]);
   function pause(){prior.current=elapsed;setRunning(false);}

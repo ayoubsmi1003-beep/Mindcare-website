@@ -1,0 +1,36 @@
+{
+  "completed": 390,
+  "total": 390,
+  "failedCases": 0,
+  "counts": {},
+  "loginPhonePositions": [
+    {
+      "width": 1440,
+      "appearance": "night",
+      "phoneTop": 526,
+      "height": 1000
+    },
+    {
+      "width": 1440,
+      "appearance": "light",
+      "phoneTop": 526,
+      "height": 1000
+    },
+    {
+      "width": 390,
+      "appearance": "night",
+      "phoneTop": 391,
+      "height": 844
+    },
+    {
+      "width": 390,
+      "appearance": "light",
+      "phoneTop": 391,
+      "height": 844
+    }
+  ],
+  "shortChatCovered": 0,
+  "shortChatCases": 16,
+  "browserErrors": 0,
+  "blockedBusinessWrites": 0
+}

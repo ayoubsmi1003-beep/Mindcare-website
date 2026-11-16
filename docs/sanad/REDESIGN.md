@@ -20,3 +20,10 @@ Scope files: app/sanad/sanad.css; components/sanad/{SanadApp,GlassSculpture,Reso
 Stop condition: published new design works and domain issue resolved or precisely evidenced as requiring unavailable owner capability. Do not describe an unfixed domain as repaired.
 
 Implementation evidence\n- 195 real browser cases PASS: 13 screens x 3 languages x 5 widths, no horizontal overflow, labelled fields and RTL. Check-in saved to the same permanent Neon account and retrieved after reload.\n- Pointer-responsive glass, spring dock, screen entrances and working exercise timer recorded in proofs/glass/sanad-glass-motion.webm. No garden network requests; public cache v2 contains five static resources only.\n- Live reduced-motion change: RED reproduced a nonzero main translation, GREEN returned transform:none. Preference now subscribes to matchMedia changes; skip-link has a sticky-header offset.\n- 19 existing UI/command/SW tests passed; added public-cache migration test observed RED then GREEN (3/3 SW). Typecheck, targeted lint and optimized build PASS; Sanad first load 178 kB, using existing Motion dependency.\n- Source review performed independently for visual modules and accessibility; both identified issues corrected. Four garden/night binaries removed, no database/API/clinical changes.\n- Physical devices and assistive screen-reader runtime are not verified; the short chat viewport is a keyboard approximation.\n
+Published result
+- Production READY dpl_GNM2gD7zewpVbDU8wbAyrKWXtin3, source 53d819a056d2645eca5c931175cf7e3cf82c4b5d; stable alias confirmed. Authenticated HTTPS acceptance PASS.
+- Keyboard skip target, live motion preference and offline controls PASS; sampled contrasts 17.91:1 / 8.70:1.
+- Domain blocked: Vercel TLS/routing healthy, public delegation on Namecheap verification servers. Registrar login unavailable; Computer Use approval timed out. No DNS changed. See proofs/glass/domain.json.
+
+
+Évolution du 16 novembre 2026 : modes clair/nuit, cœur/souffle et outils personnels ; voir [SMART-RELEASE.md](SMART-RELEASE.md). Les preuves Glass précédentes restent historiques.

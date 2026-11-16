@@ -2,6 +2,9 @@ import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  async redirects() {
+    return [{source:'/',has:[{type:'host',value:'sanad-mindcare.vercel.app'}],destination:'/sanad',permanent:false}];
+  },
   async headers() {
     return [{source:'/sanad/sw.js',headers:[
       {key:'Service-Worker-Allowed',value:'/sanad'},

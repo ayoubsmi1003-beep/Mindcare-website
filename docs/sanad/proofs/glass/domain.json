@@ -1,0 +1,28 @@
+{
+  "date": "2026-11-15",
+  "domain": "mindcare-centre.com",
+  "nameservers": [
+    "verify-contact-details.namecheap.com",
+    "failed-whois-verification.namecheap.com"
+  ],
+  "aValues": [
+    "198.54.117.242"
+  ],
+  "misconfigured": true,
+  "configuredBy": null,
+  "recommendedIPv4": [
+    "216.198.79.1",
+    "64.29.17.1"
+  ],
+  "recommendedCNAME": "ad1c027a156e3717.vercel-dns-017.com.",
+  "vercelDirectHttps": {
+    "domain": "www.mindcare-centre.com",
+    "path": "/sanad",
+    "ip": "216.198.79.1",
+    "status": 200,
+    "certificateValidation": "normal",
+    "dnsChanges": false
+  },
+  "registrarAccess": "No browser windows; Computer Use app approval timed out; authenticated Namecheap account not reached",
+  "repairApplied": false
+}

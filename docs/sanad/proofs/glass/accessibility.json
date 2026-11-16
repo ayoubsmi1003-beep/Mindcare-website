@@ -1,0 +1,19 @@
+{
+  "at": "2026-11-15T19:15:56.452Z",
+  "skipLinkDesktop": {
+    "mainTop": 94,
+    "headerBottom": 94,
+    "focused": "sn-content"
+  },
+  "skipLinkMobile": {
+    "mainTop": 74,
+    "headerBottom": 74
+  },
+  "dynamicReducedMotion": "PASS",
+  "sampledContrastRatios": {
+    "body": 17.91047214270877,
+    "secondary": 8.6996943585801
+  },
+  "realOfflineExerciseControls": "PASS",
+  "screenReaderRuntime": "NOT RUN"
+}

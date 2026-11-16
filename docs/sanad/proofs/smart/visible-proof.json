@@ -1,0 +1,24 @@
+{
+  "capturedAt": "2026-11-16T00:35:06.477Z",
+  "clock": "real wall time, no virtual clock installed",
+  "checks": [
+    {
+      "name": "live visible authenticated smart screen",
+      "status": "PASS",
+      "clock": "real wall time"
+    },
+    {
+      "name": "visible smart route opens persisted four-second session",
+      "status": "PASS",
+      "clock": "real wall time",
+      "forceClick": false,
+      "seconds": 4
+    },
+    {
+      "name": "visible expanded recap shows factual current values",
+      "status": "PASS",
+      "clock": "real wall time",
+      "forceClick": false
+    }
+  ]
+}

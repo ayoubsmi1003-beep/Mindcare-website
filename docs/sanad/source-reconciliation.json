@@ -1,6 +1,6 @@
 {
   "deployment": "dpl_3PvJMyiTujLuY7smjozcRTq6zg7t",
-  "generatedAtUtc": "2026-11-15T11:27:28.8173038Z",
+  "generatedAtUtc": "2026-11-16T00:39:56.119Z",
   "algorithm": "SHA-1 of raw file bytes, not Git blob IDs",
   "sourceFiles": 85,
   "verifiedOriginalFiles": 84,
@@ -816,9 +816,9 @@
       "initialTargetSha1": "200679f23155c09bce6069f52a24ad6fcc8cba27",
       "recoveredOriginalSha1": "200679f23155c09bce6069f52a24ad6fcc8cba27",
       "origin": "Complete native Vercel file response, raw SHA1 verified",
-      "currentTargetSha1": "83d6552d8c095263fd473daddc46d519ab7ae4d3",
+      "currentTargetSha1": "08d2cbc438888775db96fd5c06686e4965797748",
       "matchesDeployment": false,
-      "intentionalDifference": "Sanad service worker allowed scope header"
+      "intentionalDifference": "Sanad service worker scope header and root redirect restricted to the dedicated Sanad Vercel hostname"
     },
     {
       "path": "package-lock.json",
