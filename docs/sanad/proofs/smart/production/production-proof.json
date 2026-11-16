@@ -1,0 +1,152 @@
+{
+  "base": "https://sanad-mindcare.vercel.app",
+  "startedAt": "2026-11-16T06:53:45.221Z",
+  "clock": "real wall time; no virtual clock installed",
+  "checks": [
+    {
+      "name": "production root redirects to Sanad and has no Vercel SSO",
+      "status": "PASS",
+      "rootStatus": 307,
+      "destination": "/sanad",
+      "vercelSso": false
+    },
+    {
+      "name": "login light and night cookie server HTML theme-color and reload agree",
+      "status": "PASS",
+      "appearances": [
+        "light",
+        "night"
+      ],
+      "serverHtml": true,
+      "themeColor": true,
+      "reload": true
+    },
+    {
+      "name": "new production SmartCompanion and HealingPresence load with private no-store state",
+      "status": "PASS",
+      "recordCount": 15,
+      "smart": true,
+      "healing": true
+    },
+    {
+      "name": "authenticated light and night cookie server HTML theme-color and reload agree",
+      "status": "PASS",
+      "appearances": [
+        "light",
+        "night"
+      ],
+      "serverHtml": true,
+      "themeColor": true,
+      "reload": true
+    },
+    {
+      "name": "real-clock walkthrough records theme toggle seven-second voluntary pause and recap",
+      "status": "PASS",
+      "video": {
+        "file": "production-walkthrough.webm",
+        "clock": "real wall time; no virtual clock",
+        "breathingElapsed": 7,
+        "breathingWallTimeMs": 7524
+      }
+    },
+    {
+      "name": "real partial exercise UI save preserves current record identity and version",
+      "status": "PASS",
+      "id": "aadb9fdf-7061-4708-a621-4954e9f71558",
+      "previousVersion": 2,
+      "version": 3,
+      "seconds": 6
+    },
+    {
+      "name": "smart reason matches unfinished session and reopens persisted seconds",
+      "status": "PASS",
+      "id": "aadb9fdf-7061-4708-a621-4954e9f71558",
+      "version": 3,
+      "seconds": 6
+    },
+    {
+      "name": "recap download matches current facts and omits actual private fields",
+      "status": "PASS",
+      "recordedDays": 2,
+      "sleepSamples": 2,
+      "averageSleep": 3.75,
+      "pendingRequests": 2,
+      "privateValuesChecked": 8,
+      "download": "production-recap-2026-11-16.txt"
+    },
+    {
+      "name": "production localStorage is empty and SW caches only public assets",
+      "status": "PASS",
+      "localStorageEntries": 0,
+      "cached": [
+        {
+          "cache": "sanad-public-v2",
+          "path": "/sanad/offline.html",
+          "query": ""
+        },
+        {
+          "cache": "sanad-public-v2",
+          "path": "/sanad/offline.js",
+          "query": ""
+        },
+        {
+          "cache": "sanad-public-v2",
+          "path": "/sanad/icon.svg",
+          "query": ""
+        },
+        {
+          "cache": "sanad-public-v2",
+          "path": "/sanad/icon-192.png",
+          "query": ""
+        },
+        {
+          "cache": "sanad-public-v2",
+          "path": "/sanad/icon-512.png",
+          "query": ""
+        }
+      ]
+    },
+    {
+      "name": "logout returns to login and private state API returns 401",
+      "status": "PASS",
+      "privateApiStatus": 401,
+      "loginRestored": true
+    },
+    {
+      "name": "no page exceptions or external provider requests",
+      "status": "PASS",
+      "pageErrors": 0,
+      "externalRequests": 0
+    }
+  ],
+  "mutations": [
+    {
+      "channel": "UI",
+      "kind": "exerciseProgress",
+      "id": "aadb9fdf-7061-4708-a621-4954e9f71558",
+      "version": 3,
+      "expectedVersion": 2,
+      "seconds": 6
+    }
+  ],
+  "screenshots": [
+    "production-login-light.png",
+    "production-login-night.png",
+    "production-today-light.png",
+    "production-walkthrough-recap.png",
+    "production-exercise-saved.png",
+    "production-exercise-reopened.png",
+    "production-recap.png",
+    "production-logged-out.png"
+  ],
+  "externalRequests": [],
+  "pageErrors": [],
+  "today": "2026-11-16",
+  "video": {
+    "file": "production-walkthrough.webm",
+    "clock": "real wall time; no virtual clock",
+    "breathingElapsed": 7,
+    "breathingWallTimeMs": 7524
+  },
+  "finishedAt": "2026-11-16T06:54:34.994Z"
+}

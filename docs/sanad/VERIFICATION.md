@@ -223,3 +223,11 @@ PASS local final : 38 tests ciblés, TypeScript, ESLint ciblé et build optimis�
 Le nouveau cœur/souffle remplace le symbole 3D. Les suggestions reposent sur des règles expliquées et les saisies existantes ; aucun score clinique, donnée manquante imputée ou appel modèle. Le récapitulatif téléchargé n’est pas transmis au cabinet.
 
 Ancien domaine personnalisé : la délégation publique Namecheap reste le blocage décrit plus haut. Nouvelle vérification navigateur : la page du registrar demande une connexion, aucune session de compte disponible. Aucun paramètre de registrar n’a été modifié. Le nouvel hôte Vercel est la voie d’accès permanente demandée, pas une preuve de réparation de mindcare-centre.com.
+
+## PASS — nouvelle adresse Sanad en production
+
+Publication dpl_Ea9sbmvnk1HngFfH1pMEmF2NsWyS, commit 4173cd282a9b1e5ab60bb6b68c7e5dcaa013e36d : READY. Alias permanent [Sanad](https://sanad-mindcare.vercel.app/) confirmé sur ce déploiement ; racine 307 vers /sanad, portail 200 privé no-store et site public d'origine 200.
+
+11/11 vérifications Chromium HTTPS PASS, temps réel, sans réponse API simulée : thème serveur/client et reload, session sécurisée, reprise d’exercice avec même identifiant et version attendue, récapitulatif réellement téléchargé et exclusions privées, cache public uniquement et refus après déconnexion. [Preuve HTTPS](proofs/smart/production/production-proof.json), [identité du déploiement et unique profil](proofs/smart/production/deployment.json), [vidéo réelle](proofs/smart/production/sanad-healing-motion.webm).
+
+L'accès de test fort est inchangé ; son fichier privé pointe vers la nouvelle adresse. La livraison demandée est publiée. Limites inchangées : modèle scénarisé, aucun raccordement clinique, pas de téléphone physique ni lecteur d’écran réel vérifié. L’ancien domaine Namecheap reste bloqué au registrar ; aucune réparation de sa délégation n’est revendiquée.

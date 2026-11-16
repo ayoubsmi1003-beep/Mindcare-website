@@ -1,0 +1,16 @@
+{
+  "verifiedAt": "2026-11-16T06:53:51Z",
+  "projectId": "prj_I4CaXYL5C3GdV0aXgDPSaXhiWA4e",
+  "deploymentId": "dpl_Ea9sbmvnk1HngFfH1pMEmF2NsWyS",
+  "sourceCommit": "4173cd282a9b1e5ab60bb6b68c7e5dcaa013e36d",
+  "state": "READY",
+  "target": "production",
+  "domain": "sanad-mindcare.vercel.app",
+  "nativeAliasMatchesDeployment": true,
+  "root": {"status": 307, "location": "/sanad"},
+  "portal": {"status": 200, "cacheControl": "private, no-cache, no-store, max-age=0, must-revalidate"},
+  "originalWebsiteRoot": {"url": "https://mindcare-website-eight.vercel.app/", "status": 200},
+  "https": "normal certificate validation; no bypass or temporary share link",
+  "database": {"project": "morning-recipe-93493444", "branch": "br-dark-term-ba1trh4g", "name": "sanad_portal", "mode": "synthetic", "totalProfiles": 1, "enabledProfiles": 1},
+  "oldCustomDomain": {"name": "mindcare-centre.com", "status": "not repaired", "blocker": "registrar verification delegation; no authenticated Namecheap account session"}
+}
