@@ -16,10 +16,15 @@ const {Context,day,ShareControl}=require('./core.tsx');
 const tracking=require('./Tracking.tsx');
 const spaces=require('./Spaces.tsx');
 const {Resources,Exercise}=require('./Resources.tsx');
+const {Studio}=require('./Studio.tsx');
 const {CommandSchema}=require('../../lib/sanad/commands.ts');
 const {adherenceBody}=require('./adherence.ts');
 const profile={id:'a5afefb1-f6d4-4c7e-b4fb-99efe8fe0c77',displayName:'Profil fictif',locale:'fr'};
 function render(Component,locale='fr',records=[],busy=false){const value={state:{profile,records,shares:[]},locale,t:key=>translate(locale,key),go(){},busy,save:async()=>null,command:async()=>null,password:async()=>true,signOut:async()=>{},reload:async()=>{},setLocale(){}};return renderToStaticMarkup(React.createElement(Context.Provider,{value},React.createElement(Component)));}
+
+test('a timed Studio screen opens directly on its exercise without a second hero illustration',()=>{
+  for(const locale of locales){const html=render(()=>React.createElement(Studio,{initialResource:'breathing'}),locale);assert.match(html,/sn-exercise-stage/);assert.match(html,/sn-exercise-controls/);assert.doesNotMatch(html,/class="mc-tool-art /);assert.equal((html.match(/class="sn-back"/g)||[]).length,1);}
+});
 
 test('every translation has French, English and Arabic content without fallback',()=>{
   assert.ok(translationKeys.length>180);

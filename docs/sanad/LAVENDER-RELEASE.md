@@ -17,17 +17,17 @@ Migration `004_lavender.sql` is additive; applied migrations 001–003 remain un
 
 Before the permanent upgrade, a native Neon manual recovery snapshot was created and listed. Migration 004 then ran in one transaction with instance verification, table locks and equal before/after full-row fingerprints for environment, profiles, records, revisions and shares. One profile, 33 records, 47 revisions and four share records were preserved. No reset, reseed or password change occurred. See [database-upgrade.json](proofs/lavender/database-upgrade.json). The snapshot itself was not restored; populated-database recovery behavior was exercised only in the isolated tests.
 
-Fresh independent review found four P2 issues: local-only tool selection, incomplete dirty-form coverage, a missing optional effects field and a UTC day comparison. All four were corrected. Root review added emotion-only chart coverage and corrected the repeated Arabic Cancel touch target. Regression checks observed the relevant failures before their fixes.
+Fresh independent review found four P2 issues: local-only tool selection, incomplete dirty-form coverage, a missing optional effects field and a UTC day comparison. All four were corrected. Root review added emotion-only chart coverage, corrected the repeated Arabic Cancel touch target and removed duplicate navigation/illustration from the active exercise screen. Regression checks observed the relevant failures before their fixes.
 
 ## Verification
 
 Observed against the final implementation before publication:
 
-- **99/99 automated tests**, zero failures or skips, including real isolated PostgreSQL gates and populated upgrade tests.
+- **100/100 automated tests**, zero failures or skips, including real isolated PostgreSQL gates and populated upgrade tests.
 - **One complete HTTP integration test** through the compiled Next server to a disposable PostgreSQL database: authentication, persistence/revisions, privacy, preparation, sessions and password revocation.
 - **17/17 functional Chromium checks** through real UI → HTTP → PostgreSQL, including offline failure retention, drafts, selected-source preparation, sharing withdrawal, exercise resume, downloads, theme reload, export and revocation.
 - Scoped ESLint, TypeScript and optimized Next build passed. `/sanad` is 48.7 kB, 208 kB first-load JavaScript in the observed local build. No dependencies added.
-- **600/600 responsive cases**: 20 screens × five widths (360/390/430/768/1440) × three languages × two themes. No document/control overflow, unnamed fields, undersized targets, RTL mismatch, replacement characters or page errors. See [responsive-matrix.json](proofs/lavender/responsive-matrix.json).
+- **600/600 responsive cases**: 20 screens × five widths (360/390/430/768/1440) × three languages × two themes. No document/control overflow, unnamed fields, undersized targets, RTL mismatch, replacement characters or page errors. See [responsive-matrix.json](proofs/lavender/responsive-matrix.json). After the final exercise layout simplification, **30/30 additional cases** verify the changed screen in all width/language/theme combinations, including exactly one Back button; [follow-up proof](proofs/lavender/exercise-followup.json), [final screen](proofs/lavender/screens/390-fr-light-breathing.png).
 - **Four accessibility follow-ups** passed: 15 large-text views at 360 pixels, saved reduced motion after reload, keyboard focus containment/return, short chat viewport and actual offline navigation with three languages and functional exercise controls. The short chat viewport approximates a keyboard; it is not physical-device evidence. See [accessibility.json](proofs/lavender/accessibility.json).
 - Production evidence is stored separately under [proofs/lavender](proofs/lavender). Screenshots are observations of those exact runs; old gallery images remain historical.
 
