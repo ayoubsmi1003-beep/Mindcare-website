@@ -1,0 +1,166 @@
+{
+  "base": "http://localhost:43862",
+  "checks": [
+    {
+      "name": "Large text and saved reduced motion survive reload; 15 small-screen views have no overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "Quick-add keyboard focus cycles inside the dialog and returns on Escape",
+      "status": "PASS"
+    },
+    {
+      "name": "Short chat viewport keeps focused composer visible (keyboard approximation)",
+      "status": "PASS",
+      "viewport": {
+        "width": 360,
+        "height": 440
+      }
+    },
+    {
+      "name": "Actual offline navigation, three languages, breathing pause/stop and no private localStorage",
+      "status": "PASS"
+    }
+  ],
+  "pageErrors": [],
+  "largeTextViews": [
+    {
+      "lang": "fr",
+      "screen": "home",
+      "width": 360,
+      "document": 360,
+      "heading": 31.05,
+      "overflow": []
+    },
+    {
+      "lang": "fr",
+      "screen": "journey",
+      "width": 360,
+      "document": 360,
+      "heading": 32.2,
+      "overflow": []
+    },
+    {
+      "lang": "fr",
+      "screen": "studio",
+      "width": 360,
+      "document": 360,
+      "heading": 32.2,
+      "overflow": []
+    },
+    {
+      "lang": "fr",
+      "screen": "cabinet",
+      "width": 360,
+      "document": 360,
+      "heading": 32.2,
+      "overflow": []
+    },
+    {
+      "lang": "fr",
+      "screen": "settings",
+      "width": 360,
+      "document": 360,
+      "heading": 32.2,
+      "overflow": []
+    },
+    {
+      "lang": "ar",
+      "screen": "home",
+      "width": 360,
+      "document": 360,
+      "heading": 31.05,
+      "overflow": []
+    },
+    {
+      "lang": "ar",
+      "screen": "journey",
+      "width": 360,
+      "document": 360,
+      "heading": 32.2,
+      "overflow": []
+    },
+    {
+      "lang": "ar",
+      "screen": "studio",
+      "width": 360,
+      "document": 360,
+      "heading": 32.2,
+      "overflow": []
+    },
+    {
+      "lang": "ar",
+      "screen": "cabinet",
+      "width": 360,
+      "document": 360,
+      "heading": 32.2,
+      "overflow": []
+    },
+    {
+      "lang": "ar",
+      "screen": "settings",
+      "width": 360,
+      "document": 360,
+      "heading": 32.2,
+      "overflow": []
+    },
+    {
+      "lang": "en",
+      "screen": "home",
+      "width": 360,
+      "document": 360,
+      "heading": 31.05,
+      "overflow": []
+    },
+    {
+      "lang": "en",
+      "screen": "journey",
+      "width": 360,
+      "document": 360,
+      "heading": 32.2,
+      "overflow": []
+    },
+    {
+      "lang": "en",
+      "screen": "studio",
+      "width": 360,
+      "document": 360,
+      "heading": 32.2,
+      "overflow": []
+    },
+    {
+      "lang": "en",
+      "screen": "cabinet",
+      "width": 360,
+      "document": 360,
+      "heading": 32.2,
+      "overflow": []
+    },
+    {
+      "lang": "en",
+      "screen": "settings",
+      "width": 360,
+      "document": 360,
+      "heading": 32.2,
+      "overflow": []
+    }
+  ],
+  "offlineViews": [
+    {
+      "lang": "fr",
+      "width": 390,
+      "document": 390
+    },
+    {
+      "lang": "ar",
+      "width": 390,
+      "document": 390
+    },
+    {
+      "lang": "en",
+      "width": 390,
+      "document": 390
+    }
+  ],
+  "finishedAt": "2026-11-16T15:41:11.065Z"
+}

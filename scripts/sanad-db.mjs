@@ -1,5 +1,6 @@
 // Operator only: never imported by a public route, never reads .env files.
 import pg from 'pg';
+import { upgradeSanad } from './sanad-upgrade.mjs';
 import { readFile } from 'node:fs/promises';
 import { randomUUID } from 'node:crypto';
 import { hashPassword, normalizePhone } from '../lib/sanad/server/crypto.mjs';
@@ -23,11 +24,14 @@ try {
     for(const file of ['001_synthetic.sql','002_function_privileges.sql','003_clinic_replies.sql'])
       await client.query(await readFile(new URL(`../db/sanad/${file}`, import.meta.url),'utf8'));
     await client.query('insert into sanad.environment(id,instance_id,mode) values(true,$1,$2)',[instance,'synthetic']);
+    await upgradeSanad(client,instance);
     // Identifier is fixed; PostgreSQL cannot bind a role password as a query parameter.
     await client.query(`alter role sanad_runtime login password '${password.replaceAll("'","''")}'`);
   } else {
     await client.query('select sanad.assert_environment($1)',[instance]);
-    if (command === 'seed') {
+    if (command === 'upgrade') {
+      await upgradeSanad(client,instance);
+    } else if (command === 'seed') {
       const profiles = [['+447700900001','Lina fictive','fr','01011990']];
       if(process.argv.includes('--test-fixtures')) {
         if(!['127.0.0.1','localhost'].includes(url.hostname)) throw new Error('FORBIDDEN');

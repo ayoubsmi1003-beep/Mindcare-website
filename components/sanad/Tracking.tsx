@@ -1,6 +1,7 @@
 'use client';
 
 import {useEffect,useState,type FormEvent} from 'react';
+import {useUnsavedChanges} from './useUnsavedChanges';
 import {ArrowRight,BookHeart,CalendarDays,Check,CheckCircle2,Clock,Focus,Heart,Pill,Plus,ShieldCheck,Target} from 'lucide-react';
 import {dateLabel,day,Empty,Field,num,Options,ShareControl,str,Submit,Title,useRecords,useSanad,yes,type Body,type SanadRecord} from './core';
 import type {CopyKey} from '@/lib/sanad/i18n';
@@ -74,6 +75,7 @@ function TreatmentItem({record}:{record:SanadRecord}) {
   const [effect,setEffect]=useState('');
   const scheduledAt=time ? `${day()}T${time}:00+01:00` : undefined;
   const existing=scheduledAt ? declarations.find(item=>str(item.body,'scheduledAt')===scheduledAt) : undefined;
+  useUnsavedChanges(Boolean(effect.trim())||(reason!==null&&reason!==(existing?str(existing.body,'reason'):'')));
   const validFrom=Date.parse(str(record.body,'validFrom'));
   const validUntil=str(record.body,'validUntil');
   const valid=Number.isFinite(validFrom) && validFrom<=now && (!validUntil || Date.parse(validUntil)>=now);
@@ -139,6 +141,7 @@ function TreatmentHistory() {
 export function HistoricalCorrection({record,onSaved}:{record:SanadRecord;onSaved:()=>void}) {
   const {t,save,busy}=useSanad();
   const [reason,setReason]=useState(str(record.body,'reason'));
+  useUnsavedChanges(reason!==str(record.body,'reason'));
   const treatmentVersion=num(record.body,'treatmentVersion');
   if(!Number.isInteger(treatmentVersion) || !treatmentVersion || treatmentVersion<1) return <p className="sn-small">{t('historicalVersionMissing')}</p>;
   async function correct(status:AdherenceStatus) {

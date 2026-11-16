@@ -49,6 +49,7 @@ export function command(request:NextRequest) { return safe(async()=>{
   requireSameOrigin(request,process.env.NODE_ENV==='development');
   const current=token(request);
   const input=CommandSchema.parse(await readJson(request));
+  if (input.action==='revokeOtherSessions') return json(await database.revokeOtherSessions(current,input.idempotencyKey));
   if (input.action==='share') return json({share:await database.setShare(current,input)});
   if (input.action==='save') return json({record:await database.saveRecord(current,input)});
   // Patient data never reaches an SDK or network provider. The environment cannot enable one.
@@ -57,7 +58,7 @@ export function command(request:NextRequest) { return safe(async()=>{
   if (prior) {
     const messages=Array.isArray(prior.body.messages)?prior.body.messages:[];
     const previous=messages.at(-2);
-    if(prior.kind!=='conversation' || previous?.role!=='user' || previous.text!==input.text ||
+    if(prior.kind!=='conversation' || previous?.role!=='user' || previous.text!==input.text || (input.locale!==undefined && previous.locale!==input.locale) ||
       (input.conversationId ? input.conversationId!==prior.id || prior.version===1 : prior.version!==1)) throw new Error('CONFLICT');
     return json({record:prior});
   }
@@ -66,9 +67,9 @@ export function command(request:NextRequest) { return safe(async()=>{
   if (input.conversationId && !conversation) throw new Error('FORBIDDEN');
   const history=Array.isArray(conversation?.body.messages) ? conversation.body.messages : [];
   if (history.length>=100) throw new Error('RATE_LIMITED');
-  const reply=await scenarioReply(input.text,{signal:request.signal,locale:snapshot.profile.locale,timeoutMs:5000});
+  const reply=await scenarioReply(input.text,{signal:request.signal,locale:input.locale ?? snapshot.profile.locale,timeoutMs:5000});
   const at=new Date().toISOString();
-  const body={scenario:true,messages:[...history,{role:'user',text:input.text,at},{role:'assistant',text:reply.text,at}],origin:reply.origin};
+  const body={scenario:true,messages:[...history,{role:'user',text:input.text,at,locale:input.locale ?? snapshot.profile.locale},{role:'assistant',text:reply.text,at}],origin:reply.origin};
   const record=await database.saveRecord(current,{kind:'conversation',id:conversation?.id,expectedVersion:conversation?.version,idempotencyKey:input.idempotencyKey,body});
   return json({record});
 }); }

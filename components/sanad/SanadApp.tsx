@@ -1,147 +1,74 @@
 'use client';
-
-import {useCallback,useEffect,useRef,useState, type FormEvent} from 'react';
-import Link from 'next/link';
+import {useCallback,useEffect,useRef,useState,type FormEvent} from 'react';
 import {motion} from 'motion/react';
-import {useMotionPreference} from './motionPreference';
-import {HealingPresence} from './HealingPresence';
-import {AppearanceControl} from './AppearanceControl';
-import {SmartCompanion} from './SmartCompanion';
-import {ArrowRight,BookOpen,CalendarDays,ChevronLeft,ClipboardList,HelpCircle,Home,AudioLines,MessageCircle,Pill,ShieldCheck,Fingerprint,UserRound,Wind,CircleGauge} from 'lucide-react';
+import {ArrowRight,ArrowLeft,Home,ChartNoAxesCombined,BookOpen,MessageCircle,Plus,Bell,LifeBuoy,UserRound,Eye,EyeOff,ShieldCheck,ClipboardCheck,BookHeart,Wind,CalendarDays} from 'lucide-react';
 import {languageNames,locales,translate,type CopyKey,type Locale} from '@/lib/sanad/i18n';
-import {Context,day,dateLabel,str,useSanad,type Body,type PatientState,type SanadRecord,type Screen,type ResourceId} from './core';
-import {Checkin,Followup,Treatment} from './Tracking';
-import {Resources} from './Resources';
-import {Appointments,Chat,Help,Messages,Settings} from './Spaces';
-
-const tabs = [{key:'today',Icon:Home},{key:'followup',Icon:ClipboardList},{key:'chat',Icon:AudioLines},{key:'resources',Icon:BookOpen},{key:'space',Icon:UserRound}] as const;
-class ApiError extends Error { constructor(public status: number, public code: string) { super(code); } }
-async function api(path: string, body?: Body, signal?: AbortSignal) {
-  const controller=new AbortController();
-  const abort=()=>controller.abort();
-  if(signal?.aborted)controller.abort();else signal?.addEventListener('abort',abort,{once:true});
-  const timeout=setTimeout(abort,20000);
-  try {
-  const response = await fetch(`/api/sanad/${path}`, {method:body ? 'POST' : 'GET',credentials:'same-origin',cache:'no-store',headers:body ? {'Content-Type':'application/json'} : undefined,body:body ? JSON.stringify(body) : undefined,signal:controller.signal});
-  const data = await response.json().catch(() => ({}));
-  if (!response.ok) throw new ApiError(response.status, data.error || 'error');
-  return data;
-  } finally {clearTimeout(timeout);signal?.removeEventListener('abort',abort);}
+import {productText} from '@/lib/sanad/i18n/product';
+import {readRoute,routeQuery,routeFor,activeTab,updateDirty,type ProductRoute} from '@/lib/sanad/navigation';
+import {buildNotices} from '@/lib/sanad/notices';
+import {Context,day,type Body,type PatientState,type SanadRecord,type Screen,type ResourceId} from './core';
+import {useMotionPreference} from './motionPreference';
+import {AppearanceControl} from './AppearanceControl';
+import {BrandMark,JourneyLandscape} from './ProductArt';
+import {ProductDialog} from './ProductDialog';
+import {ProductHome} from './ProductHome';
+import {ProductOrientation} from './ProductOrientation';
+import {ProductNotices} from './ProductNotices';
+import {CheckinFlow} from './CheckinFlow';
+import {Journey} from './Journey';
+import {Studio} from './Studio';
+import {Cabinet,PatientSettings,PatientHelp} from './CareSpaces';
+import {Chat} from './Spaces';
+const tabs=[{screen:'today',label:'home',Icon:Home},{screen:'followup',label:'journey',Icon:ChartNoAxesCombined},{screen:'resources',label:'studio',Icon:BookOpen},{screen:'appointments',label:'cabinet',Icon:MessageCircle}] as const;
+class ApiError extends Error{constructor(public status:number,public code:string){super(code);}}
+async function api(path:string,body?:Body,signal?:AbortSignal){
+ const controller=new AbortController(),abort=()=>controller.abort();if(signal?.aborted)controller.abort();else signal?.addEventListener('abort',abort,{once:true});const timeout=setTimeout(abort,20000);
+ try{const response=await fetch(`/api/sanad/${path}`,{method:body?'POST':'GET',credentials:'same-origin',cache:'no-store',headers:body?{'Content-Type':'application/json'}:undefined,body:body?JSON.stringify(body):undefined,signal:controller.signal});const data=await response.json().catch(()=>({}));if(!response.ok)throw new ApiError(response.status,data.error||'error');return data;}finally{clearTimeout(timeout);signal?.removeEventListener('abort',abort);}
 }
-export function SanadApp({initialAppearance='night'}:{initialAppearance?:'light'|'night'} = {}) {
-  const [appearance,setAppearanceState]=useState<'light'|'night'>(initialAppearance);
-  const [initialResource,setInitialResource]=useState<ResourceId|undefined>();
-  function changeAppearance(next:'light'|'night') {
-    setAppearanceState(next);
-    document.cookie=`sanad_appearance=${next}; Path=/sanad; Max-Age=31536000; SameSite=Lax${location.protocol==='https:'?'; Secure':''}`;
-  }
-  useEffect(()=>{
-    document.querySelector('meta[name="theme-color"]')?.setAttribute('content',appearance==='light'?'#f6f4ef':'#090c12');
-  },[appearance]);
-  const reducedMotion=useMotionPreference();
-  const [state,setState] = useState<PatientState | null>(null);
-  const [locale,setLocale] = useState<Locale>('fr');
-  const [screen,setScreen] = useState<Screen>('today');
-  const [auth,setAuth] = useState(false);
-  const [loading,setLoading] = useState(true);
-  const [busy,setBusy] = useState(false);
-  const [notice,setNotice] = useState<CopyKey | null>(null);
-  const [error,setError] = useState<CopyKey | null>(null);
-  const [offline,setOffline] = useState(false);
-  const main = useRef<HTMLElement>(null);
-  const requestLock = useRef(false);
-  const pendingKeys = useRef(new Map<string,string>());
-  const commandAbort = useRef<AbortController | null>(null);
-  const t = useCallback((key: CopyKey) => translate(locale,key),[locale]);
-  function handleError(error: unknown) {
-    setNotice(null);
-    if (error instanceof ApiError) {
-      if (error.status === 401) {pendingKeys.current.clear();setState(null);setAuth(false);setError('sessionExpired');}
-      else setError(error.status === 403 ? 'denied' : error.status === 409 ? 'conflict' : error.status === 429 ? 'rateLimited' : error.status === 503 ? 'unavailable' : 'error');
-    } else setError(navigator.onLine ? 'error' : 'offline');
-  }
-  const load = useCallback(async () => {
-    try { const data = await api('state') as PatientState; setState(data);setAuth(true); return data; }
-    catch(error) { handleError(error); return null; }
-  },[]);
-  useEffect(() => { let active = true; api('state').then((data: PatientState) => {if(active){setState(data);setAuth(true);setLocale(locales.includes(data.profile.locale) ? data.profile.locale : 'fr');}}).catch(error => {if(active && !(error instanceof ApiError && error.status === 401)) handleError(error);}).finally(() => {if(active) setLoading(false);}); return () => {active = false;}; },[]);
-  useEffect(() => { const update = () => setOffline(!navigator.onLine);update();window.addEventListener('online',update);window.addEventListener('offline',update);return () => {window.removeEventListener('online',update);window.removeEventListener('offline',update);}; },[]);
-  useEffect(() => {if('serviceWorker' in navigator) void navigator.serviceWorker.register('/sanad/sw.js',{scope:'/sanad'}).catch(()=>{/* The app remains usable without offline installation. */});},[]);
-  function openResource(resourceId:ResourceId) {go('resources');setInitialResource(resourceId);}
-  function go(next: Screen) {setInitialResource(undefined);setScreen(next);setNotice(null);setError(null);window.scrollTo({top:0,behavior:'instant'});requestAnimationFrame(() => main.current?.focus({preventScroll:true}));}
-  async function command(body: Body) {
-    if (requestLock.current) return null;
-    if(!navigator.onLine){setError('offline');return null;}
-    requestLock.current = true;setBusy(true);setError(null);setNotice(null);
-    const signature=JSON.stringify(body);
-    const key=pendingKeys.current.get(signature)||crypto.randomUUID();
-    pendingKeys.current.set(signature,key);
-    commandAbort.current=new AbortController();
-    try {const data = await api('command',{...body,idempotencyKey:key},commandAbort.current.signal);commandAbort.current=null;pendingKeys.current.delete(signature);const fresh = await load();if(fresh) setNotice('saved');return data as Body;}
-    catch(error) {handleError(error);return null;} finally {commandAbort.current=null;requestLock.current=false;setBusy(false);}
-  }
-  async function save(kind: string,body: Body,record?: SanadRecord) { const result = await command({action:'save',kind,body,...(record ? {id:record.id,expectedVersion:record.version} : {})});return result?.record as SanadRecord | undefined || null; }
-  async function password(currentPassword: string,newPassword: string) {if(requestLock.current)return false;requestLock.current=true;setBusy(true);setError(null);try {await api('password',{currentPassword,newPassword});pendingKeys.current.clear();setState(null);setAuth(false);setScreen('today');setNotice('passwordChanged');return true;}catch(error){handleError(error);return false;}finally{requestLock.current=false;setBusy(false);}}
-  async function signOut() {if(requestLock.current)return;requestLock.current=true;setBusy(true);try{await api('sign-out',{});pendingKeys.current.clear();setState(null);setAuth(false);setScreen('today');setError(null);setNotice(null);}catch(error){handleError(error);}finally{requestLock.current=false;setBusy(false);}}
-  async function login(event: FormEvent<HTMLFormElement>) {event.preventDefault();if(requestLock.current)return;requestLock.current=true;setBusy(true);setError(null);const fields = new FormData(event.currentTarget);try{await api('sign-in',{phone:fields.get('phone'),password:fields.get('password')});const fresh = await load();if(fresh){setScreen('today');setLocale(locales.includes(fresh.profile.locale) ? fresh.profile.locale : 'fr');}}catch(error){if(error instanceof ApiError&&error.status===401)setError('authError');else handleError(error);}finally{requestLock.current=false;setBusy(false);}}
-  const localePicker = <label className="sn-language"><span className="sn-sr-only">{t('language')}</span><select value={locale} onChange={event => setLocale(event.target.value as Locale)}>{locales.map(value => <option key={value} value={value}>{languageNames[value]}</option>)}</select></label>;
-  const status = <>{offline && <div className="sn-banner sn-warning" role="status">{t('offline')}</div>}{error && <div className="sn-banner sn-error" role="alert">{t(error)}{auth && <button type="button" onClick={() => {setError(null);void load();}}>{t('reload')}</button>}</div>}{notice && <div className="sn-banner sn-success" role="status">{t(notice)}</div>}</>;
-  if(loading) return <div className="sn-app sn-loading" data-theme={appearance} lang={locale} dir={locale==='ar'?'rtl':'ltr'}><AudioLines size={42} aria-hidden="true"/><p role="status">{t('loading')}</p></div>;
-  if(!auth || !state) return <div className="sn-app sn-login" data-theme={appearance} lang={locale} dir={locale==='ar'?'rtl':'ltr'}>
-    <main className="sn-login-main"><div className="sn-login-top"><Link href="/" className="sn-wordmark">sanad</Link><AppearanceControl appearance={appearance} onChange={changeAppearance} locale={locale}/>{localePicker}</div>
-      <span className="sn-tag">{t('demo')}</span><h1>{t('welcome')}</h1><p className="sn-lead">{t('loginIntro')}</p>{status}
-      <form onSubmit={login} className="sn-form">
-        <label className="sn-field"><span>{t('phone')}</span><input dir="ltr" name="phone" type="tel" autoComplete="username" required maxLength={30}/></label>
-        <label className="sn-field"><span>{t('password')}</span><input name="password" type="password" autoComplete="current-password" required maxLength={256}/></label>
-        <button type="submit" className="sn-button" disabled={busy || offline}>{busy ? t('loading') : t('signIn')}<ArrowRight size={19}/></button>
-      </form>
-      <p className="sn-small sn-login-help"><ShieldCheck size={20}/>{t('loginHelp')}</p><p className="sn-small">{t('demoNote')}</p>
-    </main>
-    <section className="sn-login-art">
-      <div className="sn-wordmark"><Fingerprint/>sanad</div><HealingPresence locale={locale}/>
-      <div className="sn-login-art-copy"><p>{t('loginStatement')}</p><span>{t('todayIntro')}</span></div>
-    </section>
-  </div>;
-  const activeTab = ['checkin','treatment'].includes(screen) ? 'followup' : ['messages','appointments','help'].includes(screen) ? '' : screen;
-  return <Context.Provider value={{state,locale,setLocale,t,go,openResource,busy,save,command,cancelCommand:()=>commandAbort.current?.abort(),password,signOut,reload:async()=>{await load();}}}>
-    <div className="sn-app" data-theme={appearance} lang={locale} dir={locale==='ar'?'rtl':'ltr'}>
-      <a href="#sn-content" className="sn-skip">{t('skipContent')}</a>
-      <div className="sn-workspace">
-        <header className="sn-topbar">
-          <a href="/sanad" className="sn-wordmark sn-mobile-brand"><Fingerprint/>sanad<small>{t('yourSpace')}</small></a>
-          <span className="sn-desktop-label">{t('demo')}</span>
-          <div className="sn-top-actions"><AppearanceControl appearance={appearance} onChange={changeAppearance} locale={locale}/>{localePicker}
-            <button type="button" className="sn-icon-button" onClick={()=>go('appointments')} aria-label={t('appointments')}><CalendarDays size={21}/></button>
-            <button type="button" className="sn-icon-button sn-help-button" onClick={()=>go('help')} aria-label={t('help')}><HelpCircle size={21}/><span>{t('help')}</span></button>
-          </div>
-        </header>
-        <motion.main key={screen} id="sn-content" ref={main} tabIndex={-1} className={`sn-main sn-screen-${screen}`}
-          initial={reducedMotion?false:{opacity:0,y:12}} animate={{opacity:1,y:0}} transition={{duration:reducedMotion?0:.4,ease:[.16,1,.3,1]}}>
-          <div className="sn-status">{status}</div>
-          {!tabs.some(tab=>tab.key===screen) && <button type="button" className="sn-back" onClick={()=>go(screen==='checkin'||screen==='treatment'?'followup':'today')}><ChevronLeft size={18}/>{t('back')}</button>}
-          {screen==='today' && <Today/>}{screen==='followup' && <Followup/>}{screen==='checkin' && <Checkin/>}{screen==='treatment' && <Treatment/>}{screen==='resources' && <Resources initialResource={initialResource}/>}{screen==='chat' && <Chat/>}{screen==='appointments' && <Appointments/>}{screen==='messages' && <Messages/>}{screen==='help' && <Help/>}{screen==='space' && <Settings/>}
-        </motion.main>
-      </div>
-      <nav className="sn-bottom-nav" aria-label={t('space')}>
-        {tabs.map(({key,Icon})=><button key={key} type="button" aria-current={activeTab===key?'page':undefined} onClick={()=>go(key)}>
-          {activeTab===key&&<motion.span className="sn-nav-active" layoutId="sanad-active-tab" transition={reducedMotion?{duration:0}:{type:'spring',stiffness:360,damping:32}}/>}
-          <Icon size={22}/><span>{t(key)}</span></button>)}
-      </nav>
-    </div></Context.Provider>;
+export function SanadApp({initialAppearance='light'}:{initialAppearance?:'light'|'night'}={}){
+ const [appearance,setAppearance]=useState(initialAppearance),[state,setState]=useState<PatientState|null>(null),[locale,setLocale]=useState<Locale>('fr');
+ const [auth,setAuth]=useState(false),[loading,setLoading]=useState(true),[busy,setBusy]=useState(false),[notice,setNotice]=useState<CopyKey|null>(null),[error,setError]=useState<CopyKey|null>(null),[offline,setOffline]=useState(false);
+ const [route,setRoute]=useState<ProductRoute>({screen:'today'}),[quick,setQuick]=useState(false),[urgent,setUrgent]=useState(false),[orientationDismissed,setOrientationDismissed]=useState(false),[showPassword,setShowPassword]=useState(false),[pending,setPending]=useState<(()=>void)|null>(null);
+ const dirtySources=useRef(new Set<string>()),dirty=useRef(false),main=useRef<HTMLElement>(null),requestLock=useRef(false),pendingKeys=useRef(new Map<string,string>()),commandAbort=useRef<AbortController|null>(null),url=useRef('');
+ const systemReduced=useMotionPreference(),preferences=state?.records.find(r=>r.kind==='preferences')?.body||{},reduced=systemReduced||preferences.motion==='reduced';
+ const t=useCallback((key:CopyKey)=>translate(locale,key),[locale]),p=useCallback((key:Parameters<typeof productText>[1])=>productText(locale,key),[locale]);
+ function changeAppearance(value:'light'|'night'){setAppearance(value);document.cookie=`sanad_appearance=${value}; Path=/sanad; Max-Age=31536000; SameSite=Lax${location.protocol==='https:'?'; Secure':''}`;}
+ useEffect(()=>{document.querySelector('meta[name="theme-color"]')?.setAttribute('content',appearance==='light'?'#f7f5ff':'#12111c');},[appearance]);
+ useEffect(()=>{const lang=document.documentElement.lang,dir=document.documentElement.dir;document.documentElement.lang=locale;document.documentElement.dir=locale==='ar'?'rtl':'ltr';return()=>{document.documentElement.lang=lang;document.documentElement.dir=dir;};},[locale]);
+ const handleError=useCallback((failure:unknown)=>{setNotice(null);if(failure instanceof ApiError){if(failure.status===401){pendingKeys.current.clear();setState(null);setAuth(false);dirty.current=false;dirtySources.current.clear();setError('sessionExpired');}else setError(failure.status===403?'denied':failure.status===409?'conflict':failure.status===429?'rateLimited':failure.status===503?'unavailable':'error');}else setError(navigator.onLine?'error':'offline');},[]);
+ const load=useCallback(async()=>{try{const data=await api('state') as PatientState;setState(data);setAuth(true);return data;}catch(failure){handleError(failure);return null;}},[handleError]);
+ useEffect(()=>{let active=true;api('state').then((data:PatientState)=>{if(active){setRoute(readRoute(new URLSearchParams(location.search)));setState(data);setAuth(true);setLocale(locales.includes(data.profile.locale)?data.profile.locale:'fr');}}).catch(failure=>{if(active&&!(failure instanceof ApiError&&failure.status===401))handleError(failure);}).finally(()=>{if(active)setLoading(false);});return()=>{active=false;};},[handleError]);
+ useEffect(()=>{const update=()=>setOffline(!navigator.onLine);update();window.addEventListener('online',update);window.addEventListener('offline',update);return()=>{window.removeEventListener('online',update);window.removeEventListener('offline',update);};},[]);
+ useEffect(()=>{if('serviceWorker' in navigator)void navigator.serviceWorker.register('/sanad/sw.js',{scope:'/sanad'}).catch(()=>{});},[]);
+ useEffect(()=>{
+  url.current=location.pathname+location.search;
+  const changed=(e:Event)=>{dirty.current=updateDirty(dirtySources.current,(e as CustomEvent).detail);};const unload=(e:BeforeUnloadEvent)=>{if(dirty.current){e.preventDefault();e.returnValue='';}};
+  const pop=()=>{const target=location.pathname+location.search;const apply=()=>{dirty.current=false;dirtySources.current.clear();history.replaceState(history.state,'',target);url.current=target;setRoute(readRoute(new URLSearchParams(new URL(target,location.origin).search)));setError(null);setNotice(null);};if(dirty.current){history.pushState(history.state,'',url.current);setPending(()=>apply);}else apply();};
+  window.addEventListener('sanad-dirty',changed);window.addEventListener('beforeunload',unload);window.addEventListener('popstate',pop);return()=>{window.removeEventListener('sanad-dirty',changed);window.removeEventListener('beforeunload',unload);window.removeEventListener('popstate',pop);};
+ },[]);
+ useEffect(()=>{window.scrollTo({top:0,behavior:'instant'});main.current?.focus({preventScroll:true});},[route,auth]);
+ function guarded(work:()=>void){if(requestLock.current)return;if(dirty.current)setPending(()=>work);else work();}
+ function navigate(next:ProductRoute){guarded(()=>{dirty.current=false;dirtySources.current.clear();const target=`/sanad?${routeQuery(next)}`;history.pushState(history.state,'',target);url.current=target;setRoute(next);setNotice(null);setError(null);setQuick(false);});}
+ function go(screen:Screen){navigate(routeFor(screen));}function openResource(resource:ResourceId){navigate({screen:'resources',resource});}
+ async function command(body:Body){if(requestLock.current)return null;if(!navigator.onLine){setError('offline');return null;}requestLock.current=true;setBusy(true);setError(null);setNotice(null);const signature=JSON.stringify(body),key=pendingKeys.current.get(signature)||crypto.randomUUID();pendingKeys.current.set(signature,key);commandAbort.current=new AbortController();try{const data=await api('command',{...body,idempotencyKey:key},commandAbort.current.signal);commandAbort.current=null;pendingKeys.current.delete(signature);if(await load())setNotice('saved');return data as Body;}catch(failure){handleError(failure);return null;}finally{commandAbort.current=null;requestLock.current=false;setBusy(false);}}
+ async function save(kind:string,body:Body,record?:SanadRecord){const result=await command({action:'save',kind,body,...(record?{id:record.id,expectedVersion:record.version}:{})});return result?.record as SanadRecord|undefined||null;}
+ async function password(currentPassword:string,newPassword:string){if(requestLock.current)return false;requestLock.current=true;setBusy(true);setError(null);try{await api('password',{currentPassword,newPassword});pendingKeys.current.clear();dirty.current=false;dirtySources.current.clear();setState(null);setAuth(false);setNotice('passwordChanged');return true;}catch(failure){handleError(failure);return false;}finally{requestLock.current=false;setBusy(false);}}
+ async function doSignOut(){if(requestLock.current)return;requestLock.current=true;setBusy(true);try{await api('sign-out',{});pendingKeys.current.clear();dirty.current=false;dirtySources.current.clear();setState(null);setAuth(false);setNotice(null);setError(null);setOrientationDismissed(false);}catch(failure){handleError(failure);}finally{requestLock.current=false;setBusy(false);}}
+ async function signOut(){guarded(()=>{void doSignOut();});}
+ async function login(event:FormEvent<HTMLFormElement>){event.preventDefault();if(requestLock.current)return;requestLock.current=true;setBusy(true);setError(null);const fields=new FormData(event.currentTarget);try{await api('sign-in',{phone:fields.get('phone'),password:fields.get('password')});const fresh=await load();if(fresh){setRoute(readRoute(new URLSearchParams(location.search)));setLocale(locales.includes(fresh.profile.locale)?fresh.profile.locale:'fr');}}catch(failure){if(failure instanceof ApiError&&failure.status===401)setError('authError');else handleError(failure);}finally{requestLock.current=false;setBusy(false);}}
+ const localePicker=<label className="sn-language"><span className="sn-sr-only">{t('language')}</span><select value={locale} onChange={e=>setLocale(e.target.value as Locale)}>{locales.map(value=><option key={value} value={value}>{languageNames[value]}</option>)}</select></label>;
+ const status=<>{offline&&<div className="sn-banner sn-warning" role="status">{t('offline')}</div>}{error&&<div className="sn-banner sn-error" role="alert">{t(error)}{auth&&<button type="button" onClick={()=>{setError(null);void load();}}>{t('reload')}</button>}</div>}{notice&&<div className="sn-banner sn-success" role="status">{t(notice)}</div>}</>;
+ const brand=<><BrandMark/><span>MindCare<small>AFTERCARE</small></span></>;
+ if(loading)return <div className="sn-app mc-loading" data-theme={appearance} lang={locale} dir={locale==='ar'?'rtl':'ltr'}><div className="mc-loading-brand">{brand}</div><p role="status">{p('loading')}</p><div className="mc-skeleton"/><div className="mc-skeleton mc-skeleton-short"/><div className="mc-skeleton"/></div>;
+ if(!auth||!state)return <div className="sn-app sn-login" data-theme={appearance} lang={locale} dir={locale==='ar'?'rtl':'ltr'}><main className="sn-login-main"><div className="sn-login-top"><span className="mc-brand">{brand}</span><div><AppearanceControl appearance={appearance} onChange={changeAppearance} locale={locale}/>{localePicker}</div></div><div className="mc-login-form"><span className="sn-tag">{p('demoShort')}</span><h1>{p('loginTitle')}</h1><p className="sn-lead">{p('loginIntro')}</p>{status}<form onSubmit={login} className="sn-form"><label className="sn-field"><span>{t('phone')}</span><input dir="ltr" name="phone" type="tel" autoComplete="username" required maxLength={30} disabled={busy}/></label><label className="sn-field"><span>{t('password')}</span><span className="mc-password-field"><input name="password" type={showPassword?'text':'password'} autoComplete="current-password" required maxLength={256} disabled={busy}/><button type="button" className="sn-icon-button" aria-label={p(showPassword?'hidePassword':'showPassword')} aria-pressed={showPassword} onClick={()=>setShowPassword(!showPassword)}>{showPassword?<EyeOff size={19}/>:<Eye size={19}/>}</button></span></label><button type="submit" className="sn-button" disabled={busy||offline}>{busy?t('loading'):t('signIn')}<ArrowRight size={19}/></button></form><p className="mc-login-privacy"><ShieldCheck size={18}/>{p('loginNote')}</p><button type="button" className="sn-text-button" onClick={()=>setUrgent(true)}><LifeBuoy size={18}/>{p('urgent')}</button></div></main><aside className="sn-login-art"><span className="mc-login-kicker">MindCare Aftercare</span><JourneyLandscape large/><h2>{p('welcome')}</h2><ul>{(['loginFeatureOne','loginFeatureTwo','loginFeatureThree'] as const).map(key=><li key={key}><ShieldCheck size={17}/>{p(key)}</li>)}</ul></aside>{urgent&&<ProductDialog title={p('urgent')} locale={locale} onClose={()=>setUrgent(false)}><PublicHelp locale={locale}/></ProductDialog>}</div>;
+ const time=new Intl.DateTimeFormat('en-GB',{hour:'2-digit',minute:'2-digit',hourCycle:'h23',timeZone:'Africa/Algiers'}).format(new Date()),unread=buildNotices(state.records,day(),time,preferences).filter(n=>!Array.isArray(preferences.readNoticeKeys)||!preferences.readNoticeKeys.includes(n.key)).length;
+ const selected=activeTab(route.screen),onboarding=!orientationDismissed&&preferences.onboardingVersion!==1,showBack=['checkin','space','help','notifications','chat','thought','weekly'].includes(route.screen)||Boolean(route.resource);
+ return <Context.Provider value={{state,locale,setLocale,t,go,openResource,busy,save,command,cancelCommand:()=>commandAbort.current?.abort(),password,signOut,reload:async()=>{await load();}}}><div className="sn-app" data-theme={appearance} data-motion={reduced?'reduced':'full'} data-text-size={preferences.textSize==='large'?'large':'standard'} lang={locale} dir={locale==='ar'?'rtl':'ltr'}><a className="sn-skip" href="#sn-content">{t('skipContent')}</a><header className="sn-topbar"><button type="button" className="mc-brand" aria-label={p('home')} onClick={()=>go('today')}>{brand}</button><div className="mc-desktop-nav">{tabs.map(({screen,label,Icon},index)=><span key={screen}>{index===2&&<button type="button" className="mc-plus" aria-label={p('quick')} onClick={()=>setQuick(true)}><Plus size={23}/></button>}<button type="button" className={selected===(screen==='appointments'?'cabinet':screen)?'is-current':''} disabled={busy} onClick={()=>go(screen)}><Icon size={19}/>{p(label)}</button></span>)}</div><div className="sn-top-actions"><button type="button" className="sn-icon-button mc-bell" onClick={()=>go('notifications')} aria-label={`${p('noticeTitle')}${unread?` (${unread})`:''}`}><Bell size={21}/>{unread>0&&<span className="mc-unread-dot"/>}</button><button type="button" className="sn-icon-button sn-help-button" aria-label={p('urgent')} onClick={()=>setUrgent(true)}><LifeBuoy size={21}/></button><button type="button" className="sn-icon-button mc-avatar" aria-label={p('profile')} onClick={()=>go('space')}><UserRound size={21}/></button></div></header><div className="mc-demo-strip"><span/>{p('appDisclaimer')}</div>
+ <motion.main key={routeQuery(route)} ref={main} id="sn-content" tabIndex={-1} className={`sn-main sn-screen-${route.screen}`} initial={reduced?false:{opacity:0,y:8}} animate={{opacity:1,y:0}} transition={{duration:reduced?0:.24,ease:[.16,1,.3,1]}}><div className="sn-status">{status}</div>{showBack&&<button type="button" className="sn-back" onClick={()=>go(['space','help','notifications','checkin'].includes(route.screen)?'today':'resources')}><ArrowLeft size={17}/>{p('back')}</button>}
+ {route.screen==='today'&&<ProductHome/>}{route.screen==='checkin'&&<CheckinFlow/>}{(route.screen==='followup'||route.screen==='journal')&&<Journey section={route.screen==='journal'?'journal':route.section==='week'?'week':'overview'} onSectionChange={section=>navigate(section==='journal'?{screen:'journal'}:{screen:'followup',section})}/>}{['resources','thought','weekly'].includes(route.screen)&&<Studio initialResource={route.resource} worksheet={route.screen==='thought'?'thought':route.screen==='weekly'?'weekly':undefined}/>}{['appointments','messages','treatment'].includes(route.screen)&&<Cabinet section={route.screen==='messages'?'messages':route.screen==='treatment'?'treatment':route.section==='documents'?'documents':'appointments'} onSectionChange={section=>navigate({screen:section==='messages'?'messages':section==='treatment'?'treatment':'appointments',section})}/>}{route.screen==='space'&&<><div className="mc-appearance-settings"><AppearanceControl appearance={appearance} onChange={changeAppearance} locale={locale}/>{localePicker}</div><PatientSettings/></>}{route.screen==='help'&&<PatientHelp/>}{route.screen==='notifications'&&<ProductNotices/>}{route.screen==='chat'&&<><p className="mc-care-notice">{p('appDisclaimer')}</p><Chat/></>}
+ </motion.main><nav className="sn-bottom-nav" aria-label={p('personalSpace')}>{tabs.map(({screen,label,Icon},index)=><span key={screen}>{index===2&&<button type="button" className="mc-plus" aria-label={p('quick')} onClick={()=>setQuick(true)}><Plus size={27}/></button>}<button type="button" disabled={busy} aria-current={selected===(screen==='appointments'?'cabinet':screen)?'page':undefined} onClick={()=>go(screen)}><Icon size={22}/><span>{p(label)}</span></button></span>)}</nav>
+ {quick&&<ProductDialog title={p('quick')} locale={locale} onClose={()=>setQuick(false)}><div className="mc-quick-grid">{([{screen:'checkin',title:'dailyPoint',hint:'optionalPoint',Icon:ClipboardCheck},{screen:'journal',title:'write',hint:'writeHint',Icon:BookHeart},{screen:'resources',title:'exercise',hint:'exerciseHint',Icon:Wind},{screen:'appointments',title:'question',hint:'questionHint',Icon:CalendarDays}] as const).map(({screen,title,hint,Icon})=><button key={screen} type="button" onClick={()=>{setQuick(false);go(screen);}}><span className="mc-stat-icon"><Icon size={23}/></span><span><strong>{p(title)}</strong><small>{p(hint)}</small></span><ArrowRight size={18}/></button>)}</div></ProductDialog>}
+ {urgent&&<ProductDialog title={p('urgent')} locale={locale} onClose={()=>setUrgent(false)}><PatientHelp/></ProductDialog>}{onboarding&&!urgent&&<ProductOrientation onClose={()=>setOrientationDismissed(true)}/>}{pending&&<ProductDialog title={p('unsavedTitle')} locale={locale} onClose={()=>setPending(null)}><p>{p('unsavedBody')}</p><div className="sn-actions"><button type="button" className="sn-button" onClick={()=>setPending(null)}>{p('cancel')}</button><button type="button" className="sn-button sn-secondary" onClick={()=>{const work=pending;setPending(null);dirty.current=false;dirtySources.current.clear();work();}}>{p('leave')}</button></div></ProductDialog>}
+ </div></Context.Provider>;
 }
-function Today() {
-  const {state,t,go,openResource,locale}=useSanad();
-  const checkin=state.records.find(record=>record.kind==='checkin' && str(record.body,'date')===day());
-  const next=state.records.filter(record=>record.kind==='appointment' && str(record.body,'date')>=day() && str(record.body,'status')==='confirmed').sort((a,b)=>str(a.body,'date').localeCompare(str(b.body,'date')))[0];
-  const preferences=state.records.find(record=>record.kind==='preferences');
-  const name=(preferences && str(preferences.body,'displayName')) || state.profile.displayName;
-  return <>
-    <section className="sn-today-hero"><div className="sn-hero-copy"><span className="sn-eyebrow">{t('greeting')}, <bdi>{name}</bdi></span><p className="sn-date">{dateLabel(day(),locale,true)}</p><h1>{t('oneStep')}</h1><p>{t('todayIntro')}</p></div>
-      <div className="sn-hero-side"><HealingPresence locale={locale} onExplore={()=>openResource?.('breathing')}/><span className="sn-hero-caption">{t('yourSpace')}</span></div>
-    </section>
-    <div className="sn-today-grid"><section className="sn-checkin-prompt"><div className="sn-checkin-symbol" aria-hidden="true"><CircleGauge/></div><div><span className="sn-eyebrow">{t('today')}</span><h2>{t('dailyCheckin')}</h2><p>{t(checkin?'checkinDone':'checkinIntro')}</p><button type="button" className="sn-button" onClick={()=>go('checkin')}>{t(checkin?'editCheckin':'doCheckin')}<ArrowRight size={18}/></button></div></section>
-    <section className="sn-quick-links"><button type="button" onClick={()=>go('treatment')}><span className="sn-link-icon"><Pill/></span><span><strong>{t('treatment')}</strong><small>{t('treatmentHint')}</small></span><ArrowRight size={20}/></button><button type="button" onClick={()=>go('appointments')}><span className="sn-link-icon"><CalendarDays/></span><span><strong>{t('appointmentNext')}</strong><small>{next ? `${dateLabel(str(next.body,'date'),locale)} · ${str(next.body,'startTime')}` : t('noAppointment')}</small></span><ArrowRight size={20}/></button><button type="button" onClick={()=>go('resources')}><span className="sn-link-icon"><Wind/></span><span><strong>{t('breatheMoment')}</strong></span><ArrowRight size={20}/></button></section></div>
-    <SmartCompanion/><section className="sn-chat-invite"><span className="sn-orbit" aria-hidden="true"><AudioLines/></span><div><span className="sn-eyebrow">{t('scenario')}</span><h2>{t('talk')}</h2></div><button type="button" className="sn-round-arrow" aria-label={t('chat')} onClick={()=>go('chat')}><ArrowRight/></button></section>
-    <button type="button" className="sn-text-button sn-cabinet-link" onClick={()=>go('messages')}><MessageCircle size={18}/>{t('messages')}</button>
-  </>;
-}
+function PublicHelp({locale}:{locale:Locale}){const state:PatientState={profile:{id:'',displayName:'',locale},records:[],shares:[]};return <Context.Provider value={{state,locale,t:key=>translate(locale,key),setLocale(){},go(){},busy:false,save:async()=>null,command:async()=>null,cancelCommand(){},password:async()=>false,signOut:async()=>{},reload:async()=>{}}}><PatientHelp/></Context.Provider>;}

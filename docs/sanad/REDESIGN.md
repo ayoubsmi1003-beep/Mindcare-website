@@ -1,4 +1,8 @@
-# Sanad — Glass redesign
+# MindCare Aftercare — design releases
+
+Current direction: **Lavender**, approved and implemented on 16 November 2026. See [TRANSFORMATION.md](TRANSFORMATION.md) for the reference hierarchy and [LAVENDER-RELEASE.md](LAVENDER-RELEASE.md) for implementation and verification. Original landscape SVGs, a small healing-wave identity, compact lavender surfaces, four-tab navigation, light/night and reduced motion replace the earlier Glass/3D-heart experience. Historical proofs below remain unchanged.
+
+## Historical Glass release
 
 15 November 2026. User explicitly replaces Jardin and authorizes autonomous complete redesign, production delivery and domain repair without questions.
 

@@ -1,0 +1,31 @@
+{
+  "sourceProject": "morning-recipe-93493444",
+  "sourceBranch": "br-dark-term-ba1trh4g",
+  "database": "sanad_portal",
+  "mode": "synthetic",
+  "backup": {
+    "type": "Neon manual snapshot",
+    "id": "snap-wild-frost-batjey83",
+    "sourceBranchVerified": true,
+    "createdAt": "2026-11-16T14:53:39Z",
+    "sizeBytes": 31825920,
+    "listedAfterCreation": true,
+    "restoreExecuted": false
+  },
+  "migration": {
+    "version": 4,
+    "source": "004_lavender.sql",
+    "sha256": "2fa3b400db3a6e87915dfb87903db30f985408b7abc33d30bca42cace5143f87",
+    "appliedInOneTransaction": true,
+    "transport": "authenticated Neon database connector",
+    "reason": "Direct administrative endpoint was not reachable from the Windows client; no network or database security settings were changed.",
+    "instanceAndDatabaseVerified": true,
+    "protectedTablesLockedDuringUpgrade": true,
+    "beforeAfterFullRowFingerprintsEqual": ["environment", "profiles", "records", "revisions", "shares"],
+    "countsAfter": {"profiles": 1, "records": 33, "revisions": 47, "shares": 4},
+    "reseeded": false,
+    "credentialsChanged": false,
+    "earlierMigrationsEdited": false
+  },
+  "isolatedProof": "Populated PostgreSQL upgrade and rollback tests passed; the live snapshot itself was not restored during this release."
+}

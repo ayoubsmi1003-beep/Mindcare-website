@@ -116,14 +116,24 @@ function flatten(node){if(Array.isArray(node))return node.map(flatten).join('');
 
 // Exercise the real component handlers and effects without adding a DOM dependency.
 function hookRun(Component,props,context) {
-  const originals={useState:React.useState,useRef:React.useRef,useEffect:React.useEffect,useContext:React.useContext};
+  const originals={useState:React.useState,useRef:React.useRef,useEffect:React.useEffect,useContext:React.useContext,useId:React.useId};
   const slots=[];let cursor=0;let effects=[];
   React.useState=initial=>{const index=cursor++;if(!slots[index])slots[index]={value:typeof initial==='function'?initial():initial};return [slots[index].value,next=>{slots[index].value=typeof next==='function'?next(slots[index].value):next;}];};
   React.useRef=initial=>{const index=cursor++;if(!slots[index])slots[index]={value:{current:initial}};return slots[index].value;};
   React.useContext=()=>context;
+  React.useId=()=>`test-id-${cursor++}`;
   React.useEffect=(effect,deps)=>{const index=cursor++;const previous=slots[index];if(!previous||!deps||deps.some((value,i)=>!Object.is(value,previous.deps?.[i]))){effects.push(()=>{previous?.cleanup?.();slots[index]={deps,cleanup:effect()};});}};
   return {render(){cursor=0;effects=[];const tree=Component(props);effects.forEach(effect=>effect());return tree;},close(){slots.forEach(slot=>slot?.cleanup?.());Object.assign(React,originals);}};
 }
+
+test('dirty lifecycle identifies its own form and clears it after save and unmount',()=>{
+  const {useUnsavedChanges}=require('./useUnsavedChanges.ts');
+  const previous=global.window,events=[];global.window=new EventTarget();
+  global.window.addEventListener('sanad-dirty',event=>events.push(event.detail));
+  let dirty=true;const runner=hookRun(()=>{useUnsavedChanges(dirty);return null;},{},{});
+  try{runner.render();assert.equal(events.at(-1).dirty,true);const source=events.at(-1).source;dirty=false;runner.render();assert.equal(events.at(-1).dirty,false);assert.equal(events.at(-1).source,source);runner.close();assert.equal(events.at(-1).dirty,false);}
+  finally{global.window=previous;}
+});
 test('a paused exercise can save again after resuming and updates the same session record',async()=>{
   const original={setInterval:global.setInterval,clearInterval:global.clearInterval,now:Date.now};let clock=100000;let tick;const saves=[];
   global.setInterval=callback=>{tick=callback;return 1;};global.clearInterval=()=>{tick=undefined;};Date.now=()=>clock;

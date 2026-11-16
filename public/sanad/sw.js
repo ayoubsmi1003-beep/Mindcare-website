@@ -1,5 +1,5 @@
 /* Only this explicit public asset list may enter the cache. No API or patient page is stored. */
-const CACHE = 'sanad-public-v2';
+const CACHE = 'sanad-public-v3';
 const ASSETS = ['/sanad/offline.html','/sanad/offline.js','/sanad/icon.svg','/sanad/icon-192.png','/sanad/icon-512.png'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil(Promise.all([caches.keys().then(keys=>Promise.all(keys.filter(key=>key.startsWith('sanad-public-') && key!==CACHE).map(key=>caches.delete(key)))),self.clients.claim()])));

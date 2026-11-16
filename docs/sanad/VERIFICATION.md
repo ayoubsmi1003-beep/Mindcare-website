@@ -1,4 +1,8 @@
-# Vérification Sanad — 15 novembre 2026
+# Vérification Aftercare
+
+La livraison courante Lavender du 16 novembre 2026 et ses nouvelles vérifications sont décrites dans [LAVENDER-RELEASE.md](LAVENDER-RELEASE.md). Les preuves correspondantes sont dans [proofs/lavender](proofs/lavender). Les résultats ci-dessous concernent uniquement la livraison précédente et ne sont pas des réexécutions de Lavender.
+
+## Historique — 15 novembre 2026
 
 Ce rapport remplace le bilan de conception du 14 novembre. Les résultats
 ci-dessous concernent une démonstration avec données exclusivement fictives,

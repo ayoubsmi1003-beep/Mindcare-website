@@ -1,6 +1,6 @@
 # Base synthétique Sanad
 
-Ces migrations visent exclusivement une base **vide dédiée**, nommée `sanad_*`.
+La création initiale vise une base **vide dédiée**, nommée `sanad_*`. La mise à niveau 004 vise cette même base synthétique déjà peuplée.
 Aucun accès au cabinet et aucune reprise des variables PostgreSQL d'un autre produit.
 Le service refuse `VERCEL_ENV=production` par défaut. L'ouverture demandée du seul
 compte fictif sur le site exige l'option serveur `SANAD_PUBLISH_FICTIONAL_TEST=true`.
@@ -80,3 +80,29 @@ node --experimental-strip-types --test lib/sanad/server/crypto.test.mjs lib/sana
 Le test démarre son propre conteneur sur un port aléatoire loopback et supprime exclusivement
 ce conteneur dans finally. Aucun service existant n'est arrêté. Les conditions cloud,
 la protection Vercel et la qualification clinique ne sont pas établies par ces tests.
+
+
+## Mise à niveau 004 sans réinitialisation
+
+Après sauvegarde privée vérifiée, fournir les variables opérateur existantes
+`SANAD_ADMIN_DATABASE_URL`, `SANAD_DEMO_INSTANCE_ID`, `SANAD_MODE=synthetic`, puis :
+
+```powershell
+node scripts/sanad-db.mjs upgrade --synthetic
+```
+
+Ne pas lancer `seed`, `reset` ou `migrate` sur une base existante. `upgrade` ne
+nécessite pas `SANAD_RUNTIME_PASSWORD` et ne change aucun identifiant, compte,
+mot de passe, contenu, révision ou partage existant. Il vérifie le marqueur de
+l'instance et la présence de 003, prend un verrou de migration, applique 004 dans
+une transaction et conserve son SHA-256 dans `sanad.schema_migrations` inaccessible
+au rôle web. Une nouvelle exécution est sans effet ; une empreinte différente
+échoue avec `CONFLICT` et annule la transaction. 001–003 restent immuables.
+Les nouvelles installations via `migrate` incluent 004 automatiquement.
+
+004 ajoute les fiches privées `thoughtRecord` et `consent`, les validations SQL,
+la préparation liée à la version courante d'un rendez-vous confirmé partagé,
+le résumé des sessions sans jetons et la révocation idempotente des autres
+sessions. Seuls journal et conversation acceptent de nouveaux partages ; le
+propriétaire peut toujours révoquer un partage historique d'un autre type.
+L'horodatage `consent.body.recordedAt` est exclusivement produit par SQL.

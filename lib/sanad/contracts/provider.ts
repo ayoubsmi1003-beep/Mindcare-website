@@ -10,6 +10,14 @@ const replies = {
   en: 'Scripted demonstration: I can help you find words for your next conversation. What would you like to express today?',
 };
 
+const urgentReplies = {
+  fr: 'Message de sécurité prédéfini : si vous êtes en danger immédiat ou pensez vous faire du mal, contactez les urgences locales ou rendez-vous aux urgences les plus proches. Si possible, restez avec une personne de confiance et éloignez-vous de ce qui pourrait vous blesser. Cette démonstration ne surveille pas les messages et ne contacte pas les secours.',
+  en: 'Preset safety message: if you are in immediate danger or thinking of harming yourself, contact local emergency services or go to the nearest emergency department. If possible, stay with someone you trust and move away from anything you could use to hurt yourself. This demonstration does not monitor messages or contact emergency services.',
+  ar: 'رسالة سلامة محددة مسبقًا: إذا كنت في خطر فوري أو تفكر في إيذاء نفسك، اتصل بخدمات الطوارئ المحلية أو اذهب إلى أقرب قسم للطوارئ. إن أمكن، ابق مع شخص تثق به وابتعد عما قد يؤذيك. هذا العرض التجريبي لا يراقب الرسائل ولا يتصل بخدمات الطوارئ.',
+};
+// Keyword routing is only a deterministic help shortcut; it never establishes safety or scores risk.
+const urgentWording = /suicid|kill\s+myself|hurt\s+myself|harm\s+myself|end\s+my\s+life|want\s+to\s+die|me\s+tuer|me\s+faire\s+du\s+mal|veux\s+mourir|danger\s+imm[eé]diat|immediate\s+danger|انتحار|أقتل\s+نفسي|اقتل\s+نفسي|إيذاء\s+نفسي|ايذاء\s+نفسي|أريد\s+الموت|اريد\s+الموت|خطر\s+فوري/iu;
+
 export async function scenarioReply(text: string, options: ScenarioOptions = {}): Promise<ScenarioResponse> {
   z.string().trim().min(1).max(12000).parse(text);
   if (options.signal?.aborted) throw new DOMException('Aborted', 'AbortError');
@@ -18,7 +26,7 @@ export async function scenarioReply(text: string, options: ScenarioOptions = {})
   if ((options.timeoutMs ?? 5000) <= 0) throw new Error('provider-timeout');
   await Promise.resolve();
   if (options.signal?.aborted) throw new DOMException('Aborted', 'AbortError');
-  return ScenarioResponseSchema.parse({ text: replies[options.locale ?? 'fr'], scenario: true, origin: 'scripted-demo' });
+  return ScenarioResponseSchema.parse({ text: (urgentWording.test(text.normalize('NFKC')) ? urgentReplies : replies)[options.locale ?? 'fr'], scenario: true, origin: 'scripted-demo' });
 }
 
 const SourceSchema = BindingSchema.extend({

@@ -1,6 +1,6 @@
-# Sanad — espace patient
+# MindCare Aftercare — espace patient
 
-État du 16 novembre 2026. Adresse permanente : [Sanad](https://sanad-mindcare.vercel.app/). La racine de ce nouvel hôte ouvre directement `/sanad`, dans le projet du site existant. Les modes clair/nuit, la pause cœur/souffle et les outils personnels sont décrits dans [SMART-RELEASE.md](SMART-RELEASE.md). La refonte Glass remplace Jardin : [REDESIGN.md](REDESIGN.md). Les anciens visuels sont des preuves historiques. Le portail `/sanad` est une démonstration persistante
+État du 16 novembre 2026. Adresse permanente : [Aftercare](https://sanad-mindcare.vercel.app/). La transformation Lavender est décrite dans [LAVENDER-RELEASE.md](LAVENDER-RELEASE.md), avec le plan approuvé dans [TRANSFORMATION.md](TRANSFORMATION.md). Elle remplace les interfaces Glass/Jardin et le symbole 3D. Les anciens rapports et visuels sont conservés comme preuves historiques. La racine de cet hôte ouvre directement `/sanad`, dans le projet du site existant. Le portail `/sanad` est une démonstration persistante
 pour testeurs autorisés, avec un seul compte fictif livré. Le site
 public et son chatbot restent distincts. Cette livraison ne raccorde aucun
 cabinet et n'est pas qualifiée pour de vrais patients.

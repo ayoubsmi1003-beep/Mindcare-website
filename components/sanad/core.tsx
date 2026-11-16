@@ -6,8 +6,8 @@ export type ResourceId = 'breathing' | 'grounding' | 'sleep' | 'prepare';
 export type Body = Record<string, unknown>;
 export type SanadRecord = {id: string; kind: string; body: Body; version: number; createdAt: string; updatedAt: string};
 export type Share = {id: string; recordId: string; recordVersion: number; sharedAt: string; revokedAt: string | null};
-export type PatientState = {profile: {id: string; displayName: string; locale: Locale}; records: SanadRecord[]; shares: Share[]};
-export type Screen = 'today' | 'followup' | 'chat' | 'resources' | 'space' | 'checkin' | 'treatment' | 'appointments' | 'messages' | 'help';
+export type PatientState = {profile: {id: string; displayName: string; locale: Locale}; records: SanadRecord[]; shares: Share[];sessionSummary?:{activeCount:number;otherCount:number;currentExpiresAt:string}};
+export type Screen = 'today' | 'followup' | 'chat' | 'resources' | 'space' | 'checkin' | 'treatment' | 'appointments' | 'messages' | 'help' | 'journal' | 'weekly' | 'thought' | 'notifications';
 export type SanadContext = {
   state: PatientState; locale: Locale; setLocale: (locale: Locale) => void; t: (key: CopyKey) => string;
   openResource?: (resourceId: ResourceId) => void;

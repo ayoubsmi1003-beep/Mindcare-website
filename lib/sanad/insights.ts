@@ -66,15 +66,15 @@ export function nextStep(records: readonly InsightRecord[], today: string): Next
   requireDay(today);
   const rows = currentRecords(records, today);
   if (!rows.some(record => record.kind === 'checkin' && record.body.date === today)) return {kind: 'checkin', screen: 'checkin'};
-  const upcoming = rows.some(record => {
+  const upcoming = rows.filter(record => {
     if (record.kind !== 'appointment' || record.body.shared !== true || record.body.status !== 'confirmed') return false;
     const {startsAt, date} = record.body;
     const time = typeof startsAt === 'string' ? timestamp(startsAt) : NaN;
     const appointmentDay = startsAt !== undefined ? Number.isFinite(time) ? algiers.format(time) : null : isDay(date) ? date : null;
     return appointmentDay !== null && appointmentDay >= today && appointmentDay <= offsetDay(today, 6);
   });
-  const prepared = rows.some(record => record.kind === 'preparation' && typeof record.body.questions === 'string' && record.body.questions.trim().length > 0);
-  if (upcoming && !prepared) return {kind: 'prepare', screen: 'appointments'};
+  const unprepared = upcoming.some(appointment => !rows.some(record => record.kind === 'preparation' && record.body.appointmentId === appointment.id && record.body.appointmentVersion === appointment.version && typeof record.body.questions === 'string' && record.body.questions.trim().length > 0));
+  if (unprepared) return {kind: 'prepare', screen: 'appointments'};
   for (const record of rows) {
     const {resourceId, seconds, completed} = record.body;
     if (record.kind === 'exerciseProgress' && completed === false && typeof resourceId === 'string' && Object.hasOwn(durations, resourceId) && typeof seconds === 'number' && Number.isInteger(seconds) && seconds > 0 && seconds < durations[resourceId as ResourceId]) return {kind: 'continue', screen: 'resources', resourceId: resourceId as ResourceId};

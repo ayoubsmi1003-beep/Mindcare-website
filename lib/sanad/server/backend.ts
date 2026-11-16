@@ -69,7 +69,7 @@ export async function changePassword(token: string, currentPassword: string, new
   const hash = await hashPassword(newPassword);
   await gate('change_password', [tokenHash(token), candidate.revision, hash]);
 }
-export async function getState(token: string): Promise<{ profile: Profile; records: RecordRow[]; shares: ShareRow[] }> { return gate('get_state', [tokenHash(token)]); }
+export async function getState(token: string): Promise<{ profile: Profile; records: RecordRow[]; shares: ShareRow[]; sessionSummary: {activeCount:number;otherCount:number;currentExpiresAt:string} }> { return gate('get_state', [tokenHash(token)]); }
 export async function getReceipt(token: string, idempotencyKey: string): Promise<RecordRow | null> { return gate('get_receipt', [tokenHash(token), idempotencyKey]); }
 export async function saveRecord(token: string, input: SaveInput): Promise<RecordRow> {
   return gate('save_record', [tokenHash(token), input.kind, input.id ?? null, input.expectedVersion ?? null, input.idempotencyKey, JSON.stringify(input.body)]);
@@ -78,3 +78,5 @@ export async function setShare(token: string, input: { id: string; version: numb
   return gate('set_share', [tokenHash(token), input.id, input.version, input.shared, input.idempotencyKey]);
 }
 export async function closeDatabase(): Promise<void> { await pool?.end(); pool = undefined; poolUrl = undefined; }
+
+export async function revokeOtherSessions(token:string,idempotencyKey:string):Promise<{ok:true;revokedCount:number}> { return gate('revoke_other_sessions',[tokenHash(token),idempotencyKey]); }

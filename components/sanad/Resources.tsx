@@ -1,5 +1,6 @@
 'use client';
 import {useEffect,useRef,useState} from 'react';
+import {useUnsavedChanges} from './useUnsavedChanges';
 import {ArrowLeft,ArrowRight,Bookmark,Check,Pause,Play,Square,Wind} from 'lucide-react';
 import {Empty,Title,useRecords,useSanad,str,yes,type SanadRecord,type ResourceId} from './core';
 import type {CopyKey} from '@/lib/sanad/i18n';
@@ -24,6 +25,7 @@ export function Exercise({resource,onBack}:{resource:typeof resources[number];on
   const unfinished=useRecords('exerciseProgress').find(record=>str(record.body,'resourceId')===resource.id&&record.body.completed===false&&typeof record.body.seconds==='number'&&Number.isInteger(record.body.seconds)&&record.body.seconds>0&&record.body.seconds<resource.seconds);
   const initialElapsed=unfinished?Number(unfinished.body.seconds):0;
   const [elapsed,setElapsed]=useState(initialElapsed);const [running,setRunning]=useState(false);const [staticArt,setStaticArt]=useState(false);const [saved,setSaved]=useState(false);const [savedRecord,setSavedRecord]=useState<SanadRecord|undefined>(unfinished);const startedAt=useRef(0);const prior=useRef(initialElapsed);const heading=useRef<HTMLHeadingElement>(null);
+  useUnsavedChanges(running||(!saved&&elapsed>initialElapsed));
   useEffect(()=>{heading.current?.focus({preventScroll:true});},[]);
   useEffect(()=>{if(!running)return;startedAt.current=Date.now();const timer=setInterval(()=>{const seconds=Math.min(resource.seconds,prior.current+Math.floor((Date.now()-startedAt.current)/1000));setElapsed(seconds);if(seconds>=resource.seconds){setRunning(false);prior.current=resource.seconds;}},250);return()=>clearInterval(timer);},[running,resource.seconds]);
   function pause(){prior.current=elapsed;setRunning(false);}
