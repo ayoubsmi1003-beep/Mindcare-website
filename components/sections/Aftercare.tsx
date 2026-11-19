@@ -1,14 +1,27 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
-import { motion } from "motion/react";
+import React, { useRef, useState } from "react";
+import { motion, useScroll, useMotionValueEvent, useReducedMotion } from "motion/react";
 import { Lock } from "lucide-react";
 import { useAppContext } from "@/lib/app-context";
 
 export function Aftercare() {
-  const { language, t } = useAppContext();
+  const { language } = useAppContext();
   const containerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const shouldReduceMotion = useReducedMotion();
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  });
+
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    const newIndex = Math.min(3, Math.max(0, Math.floor(latest * 4 * 0.99)));
+    if (newIndex !== activeIndex) {
+      setActiveIndex(newIndex);
+    }
+  });
 
   const aftercarePhases = language === "ar"
     ? [
@@ -91,25 +104,11 @@ export function Aftercare() {
     ? "“Care does not stop at the door of the clinic.”"
     : "« Le soin ne s'arrête pas à la porte du cabinet. »";
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!containerRef.current) return;
-      const { top, height } = containerRef.current.getBoundingClientRect();
-      const viewportHeight = window.innerHeight;
-      const scrollRatio = Math.max(0, Math.min(1, (-top) / (height - viewportHeight)));
-      const newIndex = Math.min(3, Math.floor(scrollRatio * 4));
-      setActiveIndex(newIndex);
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
     <section
       id="aftercare"
       ref={containerRef}
-      className="relative w-full bg-gradient-to-b from-[#10201F] via-[#1A2E2C] to-[#2E4B47] text-[#FCFAF6] py-28 sm:py-36 px-4 sm:px-8 overflow-hidden"
+      className="relative w-full bg-gradient-to-b from-[#10201F] via-[#1A2E2C] to-[#2E4B47] text-[#FCFAF6] py-28 sm:py-36 px-4 sm:px-8 overflow-x-clip"
     >
       {/* Background Orbs */}
       <div className="pointer-events-none absolute w-[600px] h-[600px] rounded-full bg-[radial-gradient(circle,rgba(127,181,171,0.18)_0%,transparent_70%)] top-1/4 left-1/4 filter blur-[120px] animate-orb" aria-hidden="true" />
@@ -118,25 +117,27 @@ export function Aftercare() {
       <div className="max-w-6xl mx-auto space-y-16 relative z-10">
         {/* Section Header - Centered */}
         <div className="text-center space-y-4 max-w-3xl mx-auto">
-          <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.06] border border-white/10 text-[11px] font-medium tracking-[0.2em] text-[#7FB5AB] uppercase">
-            MindCare Aftercare
+          <span className="inline-flex items-center justify-center gap-3 text-[11px] font-semibold tracking-[0.22em] text-[#7FB5AB] uppercase">
+            <span className="w-5 h-px bg-[#C8A46B]" aria-hidden="true" />
+            <span>MindCare Aftercare</span>
+            <span className="w-5 h-px bg-[#C8A46B]" aria-hidden="true" />
           </span>
 
-          <h2 className="font-serif-display text-3xl sm:text-4xl lg:text-5xl text-white font-normal leading-tight text-center">
+          <h2 className="font-serif-display text-3xl sm:text-4xl lg:text-5xl text-white font-normal leading-tight text-center [text-wrap:balance]">
             {headlineText}
           </h2>
         </div>
 
         {/* Desktop Sticky Split Layout */}
-        <div className="hidden lg:grid grid-cols-12 gap-12 items-start relative min-h-[1600px]">
+        <div className="hidden lg:grid grid-cols-12 gap-12 items-start relative min-h-[1450px]">
           {/* Left Sticky Indicator Column */}
-          <div className="col-span-5 sticky top-32 h-[450px] flex flex-col justify-between p-8 rounded-3xl bg-[#10201F]/70 backdrop-blur-md border border-[#7FB5AB]/20 shadow-2xl">
+          <div className="col-span-5 sticky top-28 h-[460px] flex flex-col justify-between p-8 rounded-3xl bg-[#10201F]/75 backdrop-blur-xl border border-[#7FB5AB]/25 shadow-2xl">
             <div className="space-y-4">
               <span className="text-xs uppercase tracking-[0.25em] text-[#7FB5AB]">
                 {language === "ar" ? "المتابعة المستمرة" : language === "en" ? "Continuous Care" : "Accompagnement Continu"}
               </span>
 
-              <div className="flex items-baseline gap-2">
+              <div className="flex items-baseline gap-2 tabular-nums">
                 <span className="font-serif-display text-7xl font-extralight text-[#7FB5AB]">
                   {aftercarePhases[activeIndex].number}
                 </span>
@@ -152,9 +153,9 @@ export function Aftercare() {
             <div className="w-full h-32 flex items-center justify-center bg-[#1D3634]/60 rounded-2xl border border-[#7FB5AB]/15 p-4 overflow-hidden">
               {activeIndex === 0 && (
                 <div className="relative flex items-center justify-center">
-                  <div className="w-16 h-16 rounded-full border-2 border-[#7FB5AB] animate-ping opacity-40" />
-                  <div className="w-10 h-10 rounded-full bg-[#7FB5AB]/30 border border-[#7FB5AB] flex items-center justify-center text-xs font-semibold text-white">
-                    Presence
+                  <div className="w-16 h-16 rounded-full border-2 border-[#7FB5AB] animate-ping opacity-35" />
+                  <div className="w-12 h-12 rounded-full bg-[#7FB5AB]/25 border border-[#7FB5AB] flex items-center justify-center text-[11px] font-semibold text-white">
+                    24/7
                   </div>
                 </div>
               )}
@@ -166,7 +167,7 @@ export function Aftercare() {
                       key={i}
                       initial={{ height: 0 }}
                       animate={{ height: `${h}%` }}
-                      transition={{ duration: 0.5, delay: i * 0.08 }}
+                      transition={{ duration: 0.5, delay: i * 0.06 }}
                       className="w-3 rounded-t-sm bg-gradient-to-t from-[#4E7F77] to-[#7FB5AB]"
                     />
                   ))}
@@ -175,13 +176,17 @@ export function Aftercare() {
 
               {activeIndex === 2 && (
                 <div className="relative w-full flex items-center justify-between px-8">
-                  <div className="w-6 h-6 rounded-full bg-[#7FB5AB] flex items-center justify-center text-[10px] text-[#10201F] font-bold">
+                  <div className="w-7 h-7 rounded-full bg-[#7FB5AB] flex items-center justify-center text-[10px] text-[#10201F] font-bold">
                     IA
                   </div>
                   <div className="flex-1 mx-4 h-[2px] bg-gradient-to-r from-[#7FB5AB] via-[#C8A46B] to-[#7FB5AB] relative">
-                    <div className="absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-[#C8A46B] animate-pulse" />
+                    <motion.div
+                      animate={shouldReduceMotion ? undefined : { x: ["0%", "100%", "0%"] }}
+                      transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                      className="absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-[#C8A46B]"
+                    />
                   </div>
-                  <div className="w-6 h-6 rounded-full bg-[#C8A46B] flex items-center justify-center text-[10px] text-[#10201F] font-bold">
+                  <div className="w-7 h-7 rounded-full bg-[#C8A46B] flex items-center justify-center text-[10px] text-[#10201F] font-bold">
                     Dr
                   </div>
                 </div>
@@ -197,20 +202,22 @@ export function Aftercare() {
                     strokeLinecap="round"
                     initial={{ pathLength: 0 }}
                     animate={{ pathLength: 1 }}
-                    transition={{ duration: 1.2 }}
+                    transition={{ duration: 1.1 }}
                   />
-                  <circle cx="190" cy="10" r="4" fill="#C8A46B" />
+                  <circle cx="190" cy="10" r="4.5" fill="#C8A46B" />
                 </svg>
               )}
             </div>
 
-            {/* 4 Phase Progress Dots */}
-            <div className="flex items-center gap-3">
-              {aftercarePhases.map((_, i) => (
-                <div
+            {/* Interactive 4-Phase Step Selector */}
+            <div className="flex items-center gap-2.5">
+              {aftercarePhases.map((phase, i) => (
+                <button
                   key={i}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
-                    i === activeIndex ? "w-10 bg-[#7FB5AB]" : "w-3 bg-[#1D3634]"
+                  onClick={() => setActiveIndex(i)}
+                  aria-label={phase.title}
+                  className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
+                    i === activeIndex ? "w-10 bg-[#7FB5AB]" : "w-3 bg-[#1D3634] hover:bg-[#4E7F77]"
                   }`}
                 />
               ))}
@@ -218,40 +225,48 @@ export function Aftercare() {
           </div>
 
           {/* Right Scrolling Phases Column */}
-          <div className="col-span-7 space-y-36 pt-12">
-            {aftercarePhases.map((phase, idx) => (
-              <div
-                key={idx}
-                className="p-10 rounded-3xl bg-[#10201F]/60 border border-[#7FB5AB]/20 space-y-4 hover:border-[#7FB5AB]/40 transition-colors backdrop-blur-sm"
-              >
-                <span className="font-serif-display text-4xl text-[#7FB5AB] font-light">
-                  {phase.number}
-                </span>
+          <div className="col-span-7 space-y-28 pt-8">
+            {aftercarePhases.map((phase, idx) => {
+              const isCurrent = idx === activeIndex;
+              return (
+                <motion.div
+                  key={idx}
+                  onViewportEnter={() => setActiveIndex(idx)}
+                  viewport={{ margin: "-35% 0px -35% 0px" }}
+                  className={`p-10 rounded-3xl border space-y-4 transition-all duration-500 backdrop-blur-md ${
+                    isCurrent
+                      ? "bg-[#10201F]/80 border-[#7FB5AB]/45 shadow-2xl"
+                      : "bg-[#10201F]/45 border-[#7FB5AB]/15 opacity-75"
+                  }`}
+                >
+                  <span className="font-serif-display text-4xl text-[#7FB5AB] font-light tabular-nums">
+                    {phase.number}
+                  </span>
 
-                <h3 className="font-serif-display text-2xl text-white font-medium">
-                  {phase.title}
-                </h3>
+                  <h3 className="font-serif-display text-2xl text-white font-medium">
+                    {phase.title}
+                  </h3>
 
-                <p className="font-sans-body text-base text-[#C7E1DA] leading-relaxed">
-                  {phase.text}
-                </p>
-              </div>
-            ))}
+                  <p className="font-sans-body text-base text-[#C7E1DA] leading-relaxed">
+                    {phase.text}
+                  </p>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
 
         {/* Mobile Vertical Stack Layout */}
-        <div className="lg:hidden space-y-6">
+        <div className="lg:hidden space-y-5">
           {aftercarePhases.map((phase, idx) => (
             <div
               key={idx}
               className="p-6 rounded-2xl bg-[#10201F]/80 border border-[#7FB5AB]/20 space-y-3"
             >
               <div className="flex items-center justify-between">
-                <span className="font-serif-display text-3xl font-light text-[#7FB5AB]">
+                <span className="font-serif-display text-3xl font-light text-[#7FB5AB] tabular-nums">
                   {phase.number}
                 </span>
-                <span className="w-3 h-3 rounded-full bg-[#7FB5AB]/50" />
               </div>
 
               <h3 className="font-serif-display text-xl text-white font-medium">
@@ -265,10 +280,10 @@ export function Aftercare() {
           ))}
         </div>
 
-        {/* Privacy Reassurance Chip */}
+        {/* Privacy Reassurance Footer Note */}
         <div className="pt-8 flex justify-center">
           <div className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-[#10201F]/90 border border-[#7FB5AB]/30 text-xs font-medium text-[#C7E1DA]">
-            <Lock className="w-3.5 h-3.5 text-[#7FB5AB]" />
+            <Lock className="w-3.5 h-3.5 text-[#7FB5AB] shrink-0" />
             <span>{privacyNote}</span>
           </div>
         </div>

@@ -1,22 +1,17 @@
 "use client";
 
-import React, { useRef } from "react";
-import { motion, useScroll, useSpring } from "motion/react";
+import React, { useState } from "react";
+import { motion, useReducedMotion } from "motion/react";
 import { Reveal } from "../primitives/Reveal";
 import { WordReveal } from "../primitives/WordReveal";
+import { OliveSprigSvg, CalmWaveSvg } from "../primitives/BotanicalMotifs";
 import { Calendar, Heart, MessageSquare, Compass } from "lucide-react";
 import { useAppContext } from "@/lib/app-context";
 
 export function Journey() {
-  const { language, t } = useAppContext();
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start 70%", "end 80%"],
-  });
-
-  const pathLength = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
+  const { language, isRTL } = useAppContext();
+  const [activeIndex, setActiveIndex] = useState(0);
+  const shouldReduceMotion = useReducedMotion();
 
   const steps = language === "ar"
     ? [
@@ -109,14 +104,23 @@ export function Journey() {
 
   const highlightWord = language === "ar" ? "وآمنة.»" : language === "en" ? "simple.”" : "simple.";
 
+  const numeralColors = [
+    "text-[#3D655F] dark:text-[#7FB5AB]",
+    "text-[#4E7F77] dark:text-[#A5CEC4]",
+    "text-[#649C92] dark:text-[#7FB5AB]",
+    "text-[#C8A46B] dark:text-[#E2C08A]",
+  ];
+
   return (
-    <section ref={containerRef} className="w-full py-28 sm:py-36 px-4 sm:px-8 bg-gradient-to-b from-[#FCFAF6] via-[#EBF4F1] to-[#F7F2E9] dark:from-[#0A1312] dark:via-[#0E1A18] dark:to-[#111E1C] overflow-hidden relative transition-colors">
+    <section className="w-full py-28 sm:py-36 px-4 sm:px-8 bg-gradient-to-b from-[#FCFAF6] via-[#EBF4F1] to-[#F7F2E9] dark:from-[#0A1312] dark:via-[#0E1A18] dark:to-[#111E1C] overflow-hidden relative transition-colors">
       <div className="max-w-6xl mx-auto space-y-16 relative z-10">
         {/* Header - Centered */}
         <div className="text-center space-y-4 max-w-3xl mx-auto">
           <Reveal>
-            <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#10201F]/[0.04] dark:bg-white/[0.04] border border-[#10201F]/[0.08] dark:border-white/[0.08] text-[11px] font-medium tracking-[0.2em] text-[#3D655F] dark:text-[#A5CEC4] uppercase">
-              {tagText}
+            <span className="inline-flex items-center justify-center gap-3 text-[11px] font-semibold tracking-[0.22em] text-[#3D655F] dark:text-[#A5CEC4] uppercase">
+              <span className="w-5 h-px bg-[#C8A46B]" aria-hidden="true" />
+              <span>{tagText}</span>
+              <span className="w-5 h-px bg-[#C8A46B]" aria-hidden="true" />
             </span>
           </Reveal>
 
@@ -128,40 +132,127 @@ export function Journey() {
           />
         </div>
 
-        {/* 4 Steps Grid with Self-Drawing Connecting Line */}
-        <div className="relative pt-6">
-          {/* Connecting Line for Desktop */}
-          <div className="hidden lg:block absolute top-28 left-12 right-12 h-[2px] bg-[#EFE7DA] dark:bg-[#1E3530] pointer-events-none z-0">
-            <motion.div
-              style={{ scaleX: pathLength }}
-              className="h-full bg-gradient-to-r from-[#7FB5AB] via-[#4E7F77] to-[#C8A46B] origin-left shadow-xs"
-            />
-          </div>
+        {/* Desktop Petalyx-inspired Expanding Horizontal Panel Accordion */}
+        <div className="hidden lg:flex w-full h-[460px] rounded-3xl border border-[#EFE7DA] dark:border-[#1E3530] bg-[#FCFAF6]/80 dark:bg-[#0E1A18]/80 backdrop-blur-xl overflow-hidden shadow-[0_20px_56px_rgba(46,75,71,0.08)]">
+          {steps.map((step, idx) => {
+            const isActive = idx === activeIndex;
+            const isLast = idx === steps.length - 1;
+            const borderSideClass = isLast
+              ? ""
+              : isRTL
+              ? "border-l border-[#EFE7DA] dark:border-[#1E3530]"
+              : "border-r border-[#EFE7DA] dark:border-[#1E3530]";
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
-            {steps.map((step, idx) => (
-              <Reveal key={idx} delay={idx * 0.12}>
-                <div className="relative p-7 rounded-2xl bg-[#FCFAF6] dark:bg-[#0E1A18] border border-[#EFE7DA] dark:border-[#1E3530] hover:border-[#7FB5AB] shadow-xs hover:shadow-md transition-all duration-300 group">
-                  {/* Huge Numeral in Background */}
-                  <span className="absolute top-4 right-6 font-serif-display text-5xl font-light text-[#A5CEC4]/25 dark:text-[#2A423D]/50 select-none group-hover:text-[#7FB5AB]/50 transition-colors">
+            return (
+              <div
+                key={step.number}
+                role="button"
+                tabIndex={0}
+                aria-label={`${step.number}: ${step.title}`}
+                aria-expanded={isActive}
+                onMouseEnter={() => setActiveIndex(idx)}
+                onFocus={() => setActiveIndex(idx)}
+                onClick={() => setActiveIndex(idx)}
+                style={{
+                  flexGrow: isActive ? 3.2 : 0.75,
+                  transition: shouldReduceMotion
+                    ? "none"
+                    : "flex-grow 0.85s cubic-bezier(0.77, 0, 0.18, 1), background-color 0.4s ease",
+                }}
+                className={`relative flex-1 min-w-[96px] h-full overflow-hidden cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#4E7F77] ${borderSideClass} ${
+                  isActive
+                    ? "bg-[#F2F8F6]/70 dark:bg-[#132522]/85 cursor-default"
+                    : "hover:bg-[#F7F2E9]/70 dark:hover:bg-[#101F1D]"
+                }`}
+              >
+                {/* Floating Botanical Ornament when Active */}
+                <div
+                  aria-hidden="true"
+                  className={`pointer-events-none absolute top-7 ${
+                    isRTL ? "left-7" : "right-7"
+                  } transition-all duration-700 ${
+                    isActive ? "opacity-90 translate-y-0" : "opacity-0 -translate-y-4"
+                  }`}
+                >
+                  {idx % 2 === 0 ? (
+                    <OliveSprigSvg className="w-16 h-16 text-[#4E7F77] dark:text-[#7FB5AB]" />
+                  ) : (
+                    <CalmWaveSvg className="w-20 h-12 text-[#C8A46B]" />
+                  )}
+                </div>
+
+                {/* Inner Bottom-Anchored Layout */}
+                <div
+                  className={`absolute inset-x-6 bottom-8 flex items-end gap-6 ${
+                    isRTL ? "flex-row-reverse" : "flex-row"
+                  }`}
+                >
+                  {/* Giant Editorial Numeral */}
+                  <span
+                    className={`font-serif-display text-[110px] xl:text-[148px] font-semibold leading-[0.76] tracking-tighter tabular-nums select-none shrink-0 transition-transform duration-700 ${
+                      numeralColors[idx]
+                    } ${isActive ? "scale-100 opacity-100" : "scale-90 opacity-65"}`}
+                  >
                     {step.number}
                   </span>
 
-                  <div className="w-11 h-11 rounded-xl bg-[#F2F8F6] dark:bg-[#142523] border border-[#10201F]/5 dark:border-white/5 flex items-center justify-center mb-5 text-[#3D655F] dark:text-[#7FB5AB] group-hover:bg-[#E3F0EC] dark:group-hover:bg-[#1C3330] transition-colors relative z-10">
+                  {/* Step Content (Reveals smoothly with blur-to-crisp when active) */}
+                  <div
+                    style={{
+                      transition: shouldReduceMotion
+                        ? "none"
+                        : isActive
+                        ? "opacity 0.6s 0.25s ease, transform 0.7s 0.2s cubic-bezier(0.16, 1, 0.3, 1), filter 0.6s 0.25s ease"
+                        : "opacity 0.25s ease, transform 0.3s ease, filter 0.25s ease",
+                    }}
+                    className={`pb-2 min-w-[240px] max-w-sm space-y-3 ${
+                      isActive
+                        ? "opacity-100 translate-x-0 blur-0 pointer-events-auto"
+                        : `opacity-0 ${isRTL ? "translate-x-5" : "-translate-x-5"} blur-[6px] pointer-events-none`
+                    }`}
+                  >
+                    <div className="inline-flex p-2.5 rounded-xl bg-white/90 dark:bg-[#0E1A18]/90 border border-[#EFE7DA] dark:border-[#243B37] shadow-2xs">
+                      {step.icon}
+                    </div>
+
+                    <h3 className="font-serif-display text-2xl text-[#10201F] dark:text-white font-medium leading-snug">
+                      {step.title}
+                    </h3>
+
+                    <p className="font-sans-body text-sm text-[#3D5250] dark:text-[#B3CFC8] leading-relaxed">
+                      {step.text}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Mobile & Tablet Clean Stacked Layout */}
+        <div className="lg:hidden grid grid-cols-1 md:grid-cols-2 gap-6">
+          {steps.map((step, idx) => (
+            <Reveal key={idx} delay={idx * 0.1}>
+              <div className="relative p-7 rounded-2xl bg-[#FCFAF6] dark:bg-[#0E1A18] border border-[#EFE7DA] dark:border-[#1E3530] shadow-xs space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="w-11 h-11 rounded-xl bg-[#F2F8F6] dark:bg-[#142523] border border-[#10201F]/5 dark:border-white/5 flex items-center justify-center text-[#3D655F] dark:text-[#7FB5AB]">
                     {step.icon}
                   </div>
-
-                  <h3 className="font-serif-display text-xl text-[#10201F] dark:text-white font-medium mb-3 relative z-10 group-hover:text-[#3D655F] dark:group-hover:text-[#7FB5AB] transition-colors">
-                    {step.title}
-                  </h3>
-
-                  <p className="font-sans-body text-sm text-[#4A605E] dark:text-[#B3CFC8] leading-relaxed relative z-10">
-                    {step.text}
-                  </p>
+                  <span className={`font-serif-display text-4xl font-semibold tabular-nums ${numeralColors[idx]}`}>
+                    {step.number}
+                  </span>
                 </div>
-              </Reveal>
-            ))}
-          </div>
+
+                <h3 className="font-serif-display text-xl text-[#10201F] dark:text-white font-medium">
+                  {step.title}
+                </h3>
+
+                <p className="font-sans-body text-sm text-[#4A605E] dark:text-[#B3CFC8] leading-relaxed">
+                  {step.text}
+                </p>
+              </div>
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>

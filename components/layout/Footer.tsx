@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { motion, useReducedMotion } from "motion/react";
 import { LogoMark } from "./LogoMark";
 import { clinic } from "@/content/clinic";
 import { MapPin, Phone, MessageCircle, Clock } from "lucide-react";
@@ -8,6 +9,7 @@ import { useAppContext } from "@/lib/app-context";
 
 export function Footer() {
   const { language, t } = useAppContext();
+  const shouldReduceMotion = useReducedMotion();
 
   const motto = language === "ar"
     ? "«العناية بالصحة النفسية بذات الدقة والاهتمام كالجسد.»"
@@ -35,10 +37,32 @@ export function Footer() {
       <div className="max-w-6xl mx-auto">
         {/* Main Grid */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-[#1D3634]">
-          {/* Brand Info */}
+          {/* Brand Info with Petalyx-inspired Self-Drawing Outer Ring */}
           <div className="md:col-span-5 space-y-4">
-            <div className="flex items-center gap-3">
-              <LogoMark className="w-10 h-10 text-[#7FB5AB]" />
+            <div className="flex items-center gap-4">
+              <div className="relative w-14 h-14 flex items-center justify-center shrink-0">
+                <svg
+                  viewBox="0 0 80 80"
+                  fill="none"
+                  aria-hidden="true"
+                  className="absolute inset-0 w-full h-full -rotate-90"
+                >
+                  <motion.circle
+                    cx="40"
+                    cy="40"
+                    r="36"
+                    stroke="#7FB5AB"
+                    strokeWidth="2"
+                    strokeOpacity="0.8"
+                    initial={{ pathLength: shouldReduceMotion ? 1 : 0 }}
+                    whileInView={{ pathLength: 1 }}
+                    viewport={{ once: true, margin: "-40px" }}
+                    transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+                  />
+                </svg>
+                <LogoMark className="w-8 h-8 text-[#7FB5AB]" />
+              </div>
+
               <div>
                 <h2 className="font-serif-display text-xl font-medium tracking-wide text-white">
                   MindCare Center
@@ -109,7 +133,7 @@ export function Footer() {
               </div>
               <div className="flex items-center gap-2.5">
                 <Phone className="w-4 h-4 text-[#7FB5AB] shrink-0" />
-                <a href={clinic.phoneHref} className="hover:text-white transition-colors">
+                <a href={clinic.phoneHref} className="hover:text-white transition-colors tabular-nums">
                   {clinic.phone}
                 </a>
               </div>

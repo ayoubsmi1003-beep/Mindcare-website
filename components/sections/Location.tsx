@@ -5,11 +5,11 @@ import { Reveal } from "../primitives/Reveal";
 import { WordReveal } from "../primitives/WordReveal";
 import { LocationMap } from "@/components/ui/expand-map";
 import { clinic } from "@/content/clinic";
-import { MapPin, Phone, MessageCircle, Clock, ExternalLink, Compass } from "lucide-react";
+import { MapPin, Phone, MessageCircle, Clock, ExternalLink } from "lucide-react";
 import { useAppContext } from "@/lib/app-context";
 
 export function Location() {
-  const { language, t } = useAppContext();
+  const { language } = useAppContext();
   const [isOpenNow, setIsOpenNow] = useState<boolean>(false);
   const [statusLabel, setStatusLabel] = useState<string>("");
 
@@ -26,7 +26,6 @@ export function Location() {
 
       const isMonday = currentDay === 1;
       const isFriday = currentDay === 5;
-      const isClosedDay = isMonday || isFriday;
 
       if (language === "ar") {
         if (isMonday) {
@@ -100,13 +99,18 @@ export function Location() {
   const routeBtnText = language === "ar" ? "الاتجاهات على الخريطة" : language === "en" ? "Get Directions" : "Voir l'itinéraire";
 
   return (
-    <section id="location" className="w-full py-28 sm:py-36 px-4 sm:px-8 bg-gradient-to-b from-[#FCFAF6] via-[#F4EFE6] to-[#F2F8F6] dark:from-[#0A1312] dark:via-[#0E1A18] dark:to-[#111E1C] overflow-hidden transition-colors">
+    <section
+      id="location"
+      className="w-full py-28 sm:py-36 px-4 sm:px-8 bg-gradient-to-b from-[#FCFAF6] via-[#F4EFE6] to-[#F2F8F6] dark:from-[#0A1312] dark:via-[#0E1A18] dark:to-[#111E1C] overflow-hidden transition-colors"
+    >
       <div className="max-w-6xl mx-auto space-y-16">
         {/* Header - Centered */}
         <div className="text-center space-y-4 max-w-3xl mx-auto">
           <Reveal>
-            <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#10201F]/[0.04] dark:bg-white/[0.04] border border-[#10201F]/[0.08] dark:border-white/[0.08] text-[11px] font-medium tracking-[0.2em] text-[#3D655F] dark:text-[#A5CEC4] uppercase">
-              {tagText}
+            <span className="inline-flex items-center justify-center gap-3 text-[11px] font-semibold tracking-[0.22em] text-[#3D655F] dark:text-[#A5CEC4] uppercase">
+              <span className="w-5 h-px bg-[#C8A46B]" aria-hidden="true" />
+              <span>{tagText}</span>
+              <span className="w-5 h-px bg-[#C8A46B]" aria-hidden="true" />
             </span>
           </Reveal>
 
@@ -118,9 +122,9 @@ export function Location() {
           />
         </div>
 
-        {/* Split Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          {/* Left: 21st.dev Interactive Expandable Map (Clean, without outer rectangle wrapper) */}
+        {/* Balanced Split Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+          {/* Left: Interactive Expandable Map */}
           <Reveal className="lg:col-span-6 flex flex-col items-center justify-center min-h-[380px] py-4">
             <LocationMap
               location={
@@ -151,11 +155,11 @@ export function Location() {
 
           {/* Right: Contact & Hours */}
           <Reveal delay={0.15} className="lg:col-span-6 flex flex-col justify-between">
-            <div className="p-7 sm:p-8 rounded-3xl bg-[#FCFAF6] dark:bg-[#0E1A18] border border-[#EFE7DA] dark:border-[#1E3530] shadow-sm space-y-6 flex flex-col justify-between">
+            <div className="h-full p-7 sm:p-8 rounded-3xl bg-[#FCFAF6]/90 dark:bg-[#0E1A18]/90 backdrop-blur-md border border-[#EFE7DA] dark:border-[#1E3530] shadow-sm space-y-6 flex flex-col justify-between">
               <div className="space-y-6">
-                {/* Live Open Status Badge */}
-                <div className="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-[#10201F]/[0.03] dark:bg-white/[0.04] border border-[#10201F]/[0.08] dark:border-white/[0.08] text-xs font-medium text-[#10201F] dark:text-[#E3F0EC]">
-                  <span className={`w-2 h-2 rounded-full ${isOpenNow ? "bg-[#3D655F] dark:bg-[#7FB5AB] animate-pulse" : "bg-[#C8A46B]"}`} />
+                {/* Real-Time Clinic Status */}
+                <div className="inline-flex items-center gap-2.5 text-xs font-medium text-[#3D655F] dark:text-[#A5CEC4]">
+                  <Clock className="w-3.5 h-3.5 text-[#C8A46B] shrink-0" />
                   <span>{statusLabel}</span>
                 </div>
 
@@ -181,7 +185,7 @@ export function Location() {
                       </div>
                       <div>
                         <p className="font-medium text-[#10201F] dark:text-white">{language === "ar" ? "الهاتف" : language === "en" ? "Phone" : "Téléphone"}</p>
-                        <a href={clinic.phoneHref} className="text-[#3D655F] dark:text-[#7FB5AB] hover:underline font-semibold">
+                        <a href={clinic.phoneHref} className="text-[#3D655F] dark:text-[#7FB5AB] hover:underline font-semibold tabular-nums">
                           {clinic.phone}
                         </a>
                       </div>
@@ -218,11 +222,11 @@ export function Location() {
                 </div>
               </div>
 
-              {/* Direct Call Button */}
+              {/* Direct Action Buttons */}
               <div className="pt-2 flex flex-col sm:flex-row gap-3">
                 <a
                   href={clinic.phoneHref}
-                  className="flex-1 py-3 px-4 rounded-xl bg-gradient-to-r from-[#3D655F] to-[#2E4B47] text-white text-xs font-semibold text-center hover:opacity-95 active:scale-98 transition-all flex items-center justify-center gap-2"
+                  className="flex-1 py-3 px-4 rounded-xl bg-gradient-to-r from-[#3D655F] to-[#2E4B47] text-white text-xs font-semibold text-center hover:opacity-95 active:scale-98 transition-all flex items-center justify-center gap-2 whitespace-nowrap"
                 >
                   <Phone className="w-3.5 h-3.5" />
                   <span>{language === "ar" ? "اتصال بالعيادة" : language === "en" ? "Call Clinic" : "Appeler le cabinet"}</span>
@@ -231,7 +235,7 @@ export function Location() {
                   href={clinic.mapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="py-3 px-4 rounded-xl border border-[#EFE7DA] dark:border-[#1E3530] bg-white dark:bg-[#12201E] text-[#10201F] dark:text-white text-xs font-semibold text-center hover:bg-[#F2F8F6] dark:hover:bg-[#162825] active:scale-98 transition-all flex items-center justify-center gap-2"
+                  className="py-3 px-4 rounded-xl border border-[#EFE7DA] dark:border-[#1E3530] bg-white dark:bg-[#12201E] text-[#10201F] dark:text-white text-xs font-semibold text-center hover:bg-[#F2F8F6] dark:hover:bg-[#162825] active:scale-98 transition-all flex items-center justify-center gap-2 whitespace-nowrap"
                 >
                   <span>{routeBtnText}</span>
                   <ExternalLink className="w-3.5 h-3.5 text-[#3D655F] dark:text-[#7FB5AB]" />

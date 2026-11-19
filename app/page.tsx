@@ -3,10 +3,12 @@
 import React, { useState } from "react";
 import { AppProvider } from "@/lib/app-context";
 import { GrainOverlay } from "@/components/primitives/GrainOverlay";
+import { SmoothScrollShell } from "@/components/primitives/SmoothScrollShell";
 import { Nav } from "@/components/layout/Nav";
 import { Hero } from "@/components/sections/Hero";
 import { Reassurance } from "@/components/sections/Reassurance";
 import { Familiar } from "@/components/sections/Familiar";
+import { ManifestoRibbon } from "@/components/sections/ManifestoRibbon";
 import { WhyUs } from "@/components/sections/WhyUs";
 import { Doctor } from "@/components/sections/Doctor";
 import { Services } from "@/components/sections/Services";
@@ -32,89 +34,82 @@ function MainApp() {
   };
 
   return (
-    <div className="min-h-[100dvh] w-full bg-[#FCFAF6] dark:bg-[#07100F] text-[#10201F] dark:text-[#F2F8F6] font-sans-body relative selection:bg-[#E3F0EC] selection:text-[#10201F] transition-colors duration-300">
-      {/* SVG Micro-Noise Grain Overlay */}
-      <GrainOverlay opacity={0.035} />
+    <SmoothScrollShell isModalOpen={isBookingOpen || isChatOpen}>
+      <div className="min-h-[100dvh] w-full bg-[#FCFAF6] dark:bg-[#07100F] text-[#10201F] dark:text-[#F2F8F6] font-sans-body relative selection:bg-[#E3F0EC] selection:text-[#10201F] transition-colors duration-300">
+        {/* SVG Micro-Noise Grain Overlay */}
+        <GrainOverlay opacity={0.035} />
 
-      {/* Dynamic Navigation */}
-      <Nav
-        onOpenBooking={() => handleOpenBooking()}
-        onOpenChat={() => setIsChatOpen(true)}
-      />
-
-      {/* Main Content Sections */}
-      <main id="main-content" className="relative z-10 overflow-x-hidden">
-        <Hero
+        {/* Dynamic Navigation */}
+        <Nav
           onOpenBooking={() => handleOpenBooking()}
           onOpenChat={() => setIsChatOpen(true)}
         />
 
-        <Reassurance />
+        {/* Main Content Sections (overflow-x-clip preserves position: sticky) */}
+        <main id="main-content" className="relative z-10 overflow-x-clip">
+          <Hero
+            onOpenBooking={() => handleOpenBooking()}
+            onOpenChat={() => setIsChatOpen(true)}
+          />
 
-        <div className="w-full h-px bg-gradient-to-r from-transparent via-[#10201F]/[0.08] dark:via-white/[0.08] to-transparent" aria-hidden="true" />
+          <Reassurance />
 
-        <Familiar />
+          <div className="w-full h-px bg-gradient-to-r from-transparent via-[#10201F]/[0.08] dark:via-white/[0.08] to-transparent" aria-hidden="true" />
 
-        <div className="w-full h-px bg-gradient-to-r from-transparent via-[#10201F]/[0.08] dark:via-white/[0.08] to-transparent" aria-hidden="true" />
+          <Familiar />
 
-        <WhyUs />
+          <ManifestoRibbon />
 
-        <div className="w-full h-px bg-gradient-to-r from-transparent via-[#10201F]/[0.08] dark:via-white/[0.08] to-transparent" aria-hidden="true" />
+          <WhyUs />
 
-        <Doctor />
+          <div className="w-full h-px bg-gradient-to-r from-transparent via-[#10201F]/[0.08] dark:via-white/[0.08] to-transparent" aria-hidden="true" />
 
-        <div className="w-full h-px bg-gradient-to-r from-transparent via-[#10201F]/[0.08] dark:via-white/[0.08] to-transparent" aria-hidden="true" />
+          <Doctor />
 
-        <Services />
+          <Services />
 
-        <div className="w-full h-px bg-gradient-to-r from-transparent via-[#10201F]/[0.08] dark:via-white/[0.08] to-transparent" aria-hidden="true" />
+          <Journey />
 
-        <Journey />
+          <Aftercare />
 
-        <div className="w-full h-px bg-gradient-to-r from-transparent via-[#10201F]/[0.08] dark:via-white/[0.08] to-transparent" aria-hidden="true" />
+          {/* Untouched Testimonials Section */}
+          <Testimonials />
 
-        <Aftercare />
+          <div className="w-full h-px bg-gradient-to-r from-transparent via-[#10201F]/[0.08] dark:via-white/[0.08] to-transparent" aria-hidden="true" />
 
-        <div className="w-full h-px bg-gradient-to-r from-transparent via-[#10201F]/[0.08] dark:via-white/[0.08] to-transparent" aria-hidden="true" />
+          <Faq />
 
-        <Testimonials />
+          <div className="w-full h-px bg-gradient-to-r from-transparent via-[#10201F]/[0.08] dark:via-white/[0.08] to-transparent" aria-hidden="true" />
 
-        <div className="w-full h-px bg-gradient-to-r from-transparent via-[#10201F]/[0.08] dark:via-white/[0.08] to-transparent" aria-hidden="true" />
+          <Location />
 
-        <Faq />
+          <BookingSection
+            onOpenBooking={() => handleOpenBooking()}
+            onOpenChat={() => setIsChatOpen(true)}
+          />
+        </main>
 
-        <div className="w-full h-px bg-gradient-to-r from-transparent via-[#10201F]/[0.08] dark:via-white/[0.08] to-transparent" aria-hidden="true" />
+        {/* Comprehensive Footer */}
+        <Footer />
 
-        <Location />
-
-        <div className="w-full h-px bg-gradient-to-r from-transparent via-[#10201F]/[0.08] dark:via-white/[0.08] to-transparent" aria-hidden="true" />
-
-        <BookingSection
-          onOpenBooking={() => handleOpenBooking()}
-          onOpenChat={() => setIsChatOpen(true)}
+        {/* Standalone 5-Step Booking Flow */}
+        <BookingFlow
+          isOpen={isBookingOpen}
+          onClose={() => setIsBookingOpen(false)}
+          initialMotif={initialMotif}
         />
-      </main>
 
-      {/* Comprehensive Footer */}
-      <Footer />
-
-      {/* Standalone 5-Step Booking Flow */}
-      <BookingFlow
-        isOpen={isBookingOpen}
-        onClose={() => setIsBookingOpen(false)}
-        initialMotif={initialMotif}
-      />
-
-      {/* Multilingual Gemini Chat Drawer */}
-      <ChatDrawer
-        isOpen={isChatOpen}
-        onClose={() => setIsChatOpen(false)}
-        onOpenBooking={() => {
-          setIsChatOpen(false);
-          handleOpenBooking();
-        }}
-      />
-    </div>
+        {/* Multilingual Gemini Chat Drawer */}
+        <ChatDrawer
+          isOpen={isChatOpen}
+          onClose={() => setIsChatOpen(false)}
+          onOpenBooking={() => {
+            setIsChatOpen(false);
+            handleOpenBooking();
+          }}
+        />
+      </div>
+    </SmoothScrollShell>
   );
 }
 

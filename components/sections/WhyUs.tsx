@@ -1,13 +1,14 @@
 "use client";
 
 import React from "react";
+import { motion, useReducedMotion } from "motion/react";
 import { WordReveal } from "../primitives/WordReveal";
 import { Reveal } from "../primitives/Reveal";
 import { Marquee } from "../primitives/Marquee";
 import { Ear, Clock, HeartHandshake, Users, Eye } from "lucide-react";
 import { useAppContext } from "@/lib/app-context";
 
-const ICON_MAP: Record<string, React.ReactNode> = {
+const ICON_MAP: Record<number, React.ReactNode> = {
   0: <Ear className="w-5 h-5" strokeWidth={1.75} />,
   1: <Clock className="w-5 h-5" strokeWidth={1.75} />,
   2: <HeartHandshake className="w-5 h-5" strokeWidth={1.75} />,
@@ -17,6 +18,7 @@ const ICON_MAP: Record<string, React.ReactNode> = {
 
 export function WhyUs() {
   const { language, t } = useAppContext();
+  const shouldReduceMotion = useReducedMotion();
 
   const philosophyTag = language === "ar" ? "فلسفتنا" : language === "en" ? "Our Philosophy" : "Notre Philosophie";
 
@@ -96,8 +98,10 @@ export function WhyUs() {
         {/* Header - Centered */}
         <div className="text-center space-y-4 max-w-3xl mx-auto">
           <Reveal>
-            <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#10201F]/[0.04] dark:bg-white/[0.04] border border-[#10201F]/[0.08] dark:border-white/[0.08] text-[11px] font-medium tracking-[0.2em] text-[#3D655F] dark:text-[#A5CEC4] uppercase">
-              {philosophyTag}
+            <span className="inline-flex items-center justify-center gap-3 text-[11px] font-semibold tracking-[0.22em] text-[#3D655F] dark:text-[#A5CEC4] uppercase">
+              <span className="w-5 h-px bg-[#C8A46B]" aria-hidden="true" />
+              <span>{philosophyTag}</span>
+              <span className="w-5 h-px bg-[#C8A46B]" aria-hidden="true" />
             </span>
           </Reveal>
 
@@ -115,56 +119,52 @@ export function WhyUs() {
           </Reveal>
         </div>
 
-        {/* 3 Marquee Rows */}
+        {/* 3 Marquee Rows (Inner Unspoken Questions) */}
         <div className="space-y-3 py-4">
-          <Marquee items={marqueeRows[0]} direction={language === "ar" ? "left" : "right"} speed={42} />
-          <Marquee items={marqueeRows[1]} direction={language === "ar" ? "right" : "left"} speed={55} />
-          <Marquee items={marqueeRows[2]} direction={language === "ar" ? "left" : "right"} speed={48} />
+          <Marquee variant="card" items={marqueeRows[0]} direction={language === "ar" ? "left" : "right"} speed={42} />
+          <Marquee variant="card" items={marqueeRows[1]} direction={language === "ar" ? "right" : "left"} speed={55} />
+          <Marquee variant="card" items={marqueeRows[2]} direction={language === "ar" ? "left" : "right"} speed={48} />
         </div>
 
-        {/* 5 Pillars Grid */}
-        <div className="pt-8 space-y-8">
-          {/* Row 1: 3 Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {pillarsList.slice(0, 3).map((pillar, idx) => (
-              <Reveal key={idx} delay={idx * 0.1}>
-                <div className="group h-full p-7 rounded-2xl bg-[#FCFAF6] dark:bg-[#0E1A18] border border-[#EFE7DA] dark:border-[#1E3530] hover:border-[#7FB5AB] shadow-xs hover:shadow-md transition-all duration-300">
-                  <div className="w-11 h-11 rounded-xl bg-[#F2F8F6] dark:bg-[#142523] border border-[#10201F]/5 dark:border-white/5 flex items-center justify-center mb-5 text-[#3D655F] dark:text-[#7FB5AB] group-hover:bg-[#E3F0EC] dark:group-hover:bg-[#1C3330] transition-colors">
-                    {ICON_MAP[idx]}
+        {/* Asymmetric Bento Grid of 5 Pillars */}
+        <div className="pt-6 grid grid-cols-1 md:grid-cols-6 gap-6">
+          {pillarsList.map((pillar, idx) => {
+            const spanClass = idx < 2 ? "md:col-span-3" : "md:col-span-2";
+            return (
+              <Reveal key={idx} delay={idx * 0.08} className={spanClass}>
+                <motion.div
+                  whileHover={shouldReduceMotion ? undefined : { y: -4 }}
+                  transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                  className="group relative h-full p-7 sm:p-8 rounded-3xl bg-[#FCFAF6]/90 dark:bg-[#0E1A18]/90 backdrop-blur-md border border-[#EFE7DA] dark:border-[#1E3530] hover:border-[#7FB5AB] shadow-[0_8px_24px_rgba(46,75,71,0.05)] hover:shadow-[0_18px_40px_rgba(46,75,71,0.12)] transition-all duration-300 flex flex-col justify-between overflow-hidden"
+                >
+                  {/* Soft ambient highlight on hover */}
+                  <div
+                    aria-hidden="true"
+                    className="pointer-events-none absolute -top-12 -right-12 w-36 h-36 rounded-full bg-[radial-gradient(circle,rgba(127,181,171,0.16)_0%,transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  />
+
+                  <div className="space-y-5 relative z-10">
+                    <div className="flex items-center justify-between">
+                      <div className="w-11 h-11 rounded-xl bg-[#F2F8F6] dark:bg-[#142523] border border-[#10201F]/5 dark:border-white/5 flex items-center justify-center text-[#3D655F] dark:text-[#7FB5AB] group-hover:bg-[#E3F0EC] dark:group-hover:bg-[#1C3330] transition-colors">
+                        {ICON_MAP[idx]}
+                      </div>
+                      <span className="font-serif-display text-sm text-[#C8A46B] tabular-nums">
+                        0{idx + 1}
+                      </span>
+                    </div>
+
+                    <h3 className="font-serif-display text-xl sm:text-2xl text-[#10201F] dark:text-white font-medium group-hover:text-[#3D655F] dark:group-hover:text-[#7FB5AB] transition-colors">
+                      {pillar.title}
+                    </h3>
+
+                    <p className="font-sans-body text-sm text-[#4A605E] dark:text-[#B3CFC8] leading-relaxed">
+                      {pillar.description}
+                    </p>
                   </div>
-
-                  <h3 className="font-serif-display text-xl text-[#10201F] dark:text-white font-medium mb-3 group-hover:text-[#3D655F] dark:group-hover:text-[#7FB5AB] transition-colors">
-                    {pillar.title}
-                  </h3>
-
-                  <p className="font-sans-body text-sm text-[#4A605E] dark:text-[#B3CFC8] leading-relaxed">
-                    {pillar.description}
-                  </p>
-                </div>
+                </motion.div>
               </Reveal>
-            ))}
-          </div>
-
-          {/* Row 2: 2 Cards Centered */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            {pillarsList.slice(3, 5).map((pillar, idx) => (
-              <Reveal key={idx + 3} delay={0.3 + idx * 0.1}>
-                <div className="group h-full p-7 rounded-2xl bg-[#FCFAF6] dark:bg-[#0E1A18] border border-[#EFE7DA] dark:border-[#1E3530] hover:border-[#7FB5AB] shadow-xs hover:shadow-md transition-all duration-300">
-                  <div className="w-11 h-11 rounded-xl bg-[#F2F8F6] dark:bg-[#142523] border border-[#10201F]/5 dark:border-white/5 flex items-center justify-center mb-5 text-[#3D655F] dark:text-[#7FB5AB] group-hover:bg-[#E3F0EC] dark:group-hover:bg-[#1C3330] transition-colors">
-                    {ICON_MAP[idx + 3]}
-                  </div>
-
-                  <h3 className="font-serif-display text-xl text-[#10201F] dark:text-white font-medium mb-3 group-hover:text-[#3D655F] dark:group-hover:text-[#7FB5AB] transition-colors">
-                    {pillar.title}
-                  </h3>
-
-                  <p className="font-sans-body text-sm text-[#4A605E] dark:text-[#B3CFC8] leading-relaxed">
-                    {pillar.description}
-                  </p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
+            );
+          })}
         </div>
       </div>
     </section>

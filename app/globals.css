@@ -31,10 +31,19 @@
     background-color: var(--ivory);
     color: var(--navy-700);
     font-family: var(--font-sans);
-    overflow-x: hidden;
+    overflow-x: clip;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     transition: background-color 0.4s ease, color 0.4s ease;
+  }
+
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
   }
 
   /* Arabic typography with Google Font El Messiri */
@@ -122,12 +131,55 @@
   }
 }
 
+@keyframes gentle-float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(2deg);
+  }
+}
+
+@keyframes leaf-fall {
+  0% {
+    transform: translateY(-20px) translateX(0px) rotate(0deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.7;
+  }
+  85% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(105vh) translateX(var(--dx, 40px)) rotate(320deg);
+    opacity: 0;
+  }
+}
+
 .animate-orb {
   animation: orb-float 24s ease-in-out infinite;
 }
 
 .animate-halo {
   animation: pulse-halo 3.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.animate-gentle-float {
+  animation: gentle-float 8s ease-in-out infinite;
+}
+
+.animate-leaf-fall {
+  animation: leaf-fall linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-orb,
+  .animate-halo,
+  .animate-gentle-float,
+  .animate-leaf-fall {
+    animation: none !important;
+  }
 }
 
 /* Subtle architectural divider line */
